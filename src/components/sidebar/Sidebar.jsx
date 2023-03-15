@@ -69,7 +69,7 @@ export default function Sidebar({ children }) {
       <div className="flex min-h-[88vh]">
         <div
           className={`flex flex-col gap-1 p-3 fixed md:relative min-h-[88vh] bg-white h-auto text-primary ${
-            isOpenMenu ? "w-72" : "w-28"
+            isOpenMenu ? "w-72" : "w-20"
           } ${
             showMenu ? "translate-x-0" : "-translate-x-96 md:translate-x-0"
           } transition-all ease-in-out duration-300 border-r`}

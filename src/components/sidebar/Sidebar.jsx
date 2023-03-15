@@ -5,9 +5,9 @@ import {
   UserCircleIcon,
   ShoppingBagIcon,
   ArrowRightCircleIcon,
-  TableCellsIcon,
   InboxIcon,
   MagnifyingGlassIcon,
+  MagnifyingGlassCircleIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 import icon from "../../assets/icon_color_alter.svg";
@@ -30,7 +30,7 @@ export default function Sidebar({ children }) {
     <div>
       {/* navbar */}
       <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-gray-800 p-5">
-        <div className="md:col-span-2 flex gap-5">
+        <div className="md:col-span-2 flex gap-4">
           <span>
             <Bars3Icon
               className={`text-white h-10 w-10 cursor-pointer ${
@@ -39,8 +39,8 @@ export default function Sidebar({ children }) {
               onClick={() => detectTypeOfView()}
             />
           </span>
-          <span className="bg-white p-2 rounded-full md:hidden flex items-center justify-center">
-            <MagnifyingGlassIcon className="w-6 h-6 text-primary" />
+          <span className="bg-gray-600 cursor-pointer p-2 rounded-full md:hidden flex items-center justify-center">
+            <MagnifyingGlassIcon className="w-6 h-6 text-white" />
           </span>
         </div>
         <div className="hidden md:flex md:col-span-5 items-center pl-2 bg-white rounded-full">

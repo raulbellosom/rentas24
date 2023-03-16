@@ -1,19 +1,20 @@
+import { Link } from "react-router-dom";
+
 function Cards() {
   return items.map((item, index) => (
     <div className="max-w-sm rounded-lg bg-white" key={index}>
-      <div className="grid grid-rows-2 justify-items-center">
-        <div className="w-fit col-span-1 h-52">
-          <img src={item.imgSrc} className="object-cover h-full rounded-t-lg" />
-        </div>
-        <div className="p-4 col-span-1">
+      <div className="flex flex-col justify-items-center">
+        <img src={item.imgSrc} className="object-cover rounded-t-lg h-52" />
+        <div className="p-4">
           <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
             {item.title}
           </h5>
           <p className="font-normal text-gray-700 dark:text-gray-400">
-            {item.description?.substring(0, 100).concat("...")}{" "}
-            <a className="text-primary" href="#">
+            {item.description?.substring(0, 100).concat("...")}
+
+            <Link to="/article" className="text-primary">
               Ver más
-            </a>
+            </Link>
           </p>
         </div>
       </div>
@@ -42,7 +43,7 @@ const items = [
     title: "Encantadora casa estilo colonial con hermoso jardín",
     description:
       "Esta casa recién remodelada cuenta con 3 habitaciones, 2 baños y amplios espacios comunes. Está ubicada en una zona segura y tranquila, a solo unos minutos de los principales atractivos de la ciudad.",
-    imgSrc: "https://flowbite.com/docs/images/blog/image-3.jpg",
+    imgSrc: "https://flowbite.com/docs/images/blog/image-4.jpg",
     imgAlt:
       "Esta hermosa casa de estilo colonial cuenta con un amplio jardín que es perfecto para disfrutar del aire libre y pasar tiempo en familia. La casa está ubicada en una zona tranquila y cuenta con amplios espacios interiores que ofrecen un ambiente acogedor y cálido.",
   },

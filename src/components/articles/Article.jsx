@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 function Article() {
   return (
-    <div>
+    <div className="p-2">
       <div className="md:grid md:grid-cols-2 w-full bg-white rounded-lg p-4">
         <img
           className="object-cover h-full rounded-t-lg"

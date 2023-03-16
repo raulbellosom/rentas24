@@ -6,13 +6,18 @@ function Cards() {
       <div className="flex flex-col justify-items-center">
         <img src={item.imgSrc} className="object-cover rounded-t-lg h-52" />
         <div className="p-4">
-          <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-            {item.title}
-          </h5>
+          <Link to="/article">
+            <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white hover:text-primary delay-100 ease-in-out">
+              {item.title}
+            </h5>
+          </Link>
           <p className="font-normal text-gray-700 dark:text-gray-400">
             {item.description?.substring(0, 100).concat("...")}
 
-            <Link to="/article" className="text-primary">
+            <Link
+              to="/article"
+              className="text-secondary hover:text-primary delay-100 ease-in-out"
+            >
               Ver más
             </Link>
           </p>

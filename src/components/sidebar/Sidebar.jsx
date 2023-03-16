@@ -7,10 +7,11 @@ import {
   ArrowRightCircleIcon,
   InboxIcon,
   MagnifyingGlassIcon,
-  MagnifyingGlassCircleIcon,
+  HomeIcon,
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 import icon from "../../assets/icon_color_alter.svg";
+import { Link } from "react-router-dom";
 
 export default function Sidebar({ children }) {
   const [isOpenMenu, setIsOpenMenu] = useState(true);
@@ -75,6 +76,11 @@ export default function Sidebar({ children }) {
           } transition-all ease-in-out duration-300 border-r`}
         >
           <CardMenu
+            icon={<HomeIcon className="w-6 h-6" />}
+            title="Inicio"
+            isOpenMenu={isOpenMenu}
+          />
+          <CardMenu
             icon={<ChartPieIcon className="w-6 h-6" />}
             title="Dashboard"
             isOpenMenu={isOpenMenu}
@@ -113,30 +119,32 @@ export default function Sidebar({ children }) {
 // create card menu component
 const CardMenu = ({ title, icon, notification, isOpenMenu }) => {
   return (
-    <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-gray-200">
-      <div className="flex justify-center items-center gap-3">
-        <span className="flex">
-          {icon}
-          {!isOpenMenu && notification && (
-            <div className="bg-red-500 rounded-full w-4 h-4 flex items-center justify-center">
-              <p className="text-white text-xs">{notification}</p>
-            </div>
-          )}
-        </span>
-        <h1
-          id="title"
-          className={`text-primary whitespace-nowrap ${
-            !isOpenMenu && "scale-0"
-          } delay-50 duration-100 origin-left`}
-        >
-          {title}
-        </h1>
-      </div>
-      {notification && isOpenMenu && (
-        <div className="bg-red-500 rounded-full w-4 h-4 flex items-center justify-center delay-50 duration-100 origin-lefts">
-          <p className="text-white text-xs">{notification}</p>
+    <Link to="/">
+      <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-gray-200">
+        <div className="flex justify-center items-center gap-3">
+          <span className="flex">
+            {icon}
+            {!isOpenMenu && notification && (
+              <div className="bg-red-500 rounded-full w-4 h-4 flex items-center justify-center">
+                <p className="text-white text-xs">{notification}</p>
+              </div>
+            )}
+          </span>
+          <h1
+            id="title"
+            className={`text-primary whitespace-nowrap ${
+              !isOpenMenu && "scale-0"
+            } delay-50 duration-100 origin-left`}
+          >
+            {title}
+          </h1>
         </div>
-      )}
-    </div>
+        {notification && isOpenMenu && (
+          <div className="bg-red-500 rounded-full w-4 h-4 flex items-center justify-center delay-50 duration-100 origin-lefts">
+            <p className="text-white text-xs">{notification}</p>
+          </div>
+        )}
+      </div>
+    </Link>
   );
 };

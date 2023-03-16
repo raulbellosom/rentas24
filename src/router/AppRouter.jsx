@@ -5,14 +5,14 @@ import Sidebar from "../components/sidebar/Sidebar";
 
 const AppRouter = () => {
   return (
-    <Sidebar>
-      <Router>
+    <Router>
+      <Sidebar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/article" element={<Article />} />
         </Routes>
-      </Router>
-    </Sidebar>
+      </Sidebar>
+    </Router>
   );
 };
 

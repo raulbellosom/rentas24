@@ -29,7 +29,6 @@ export default function Sidebar({ children }) {
 
   return (
     <div>
-      {/* navbar */}
       <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-gray-800 p-5">
         <div className="md:col-span-2 flex gap-4">
           <span>
@@ -64,12 +63,14 @@ export default function Sidebar({ children }) {
             src={icon}
             alt="rentas24_icon"
           />
-          <h1 className="text-white font-bold text-2xl">rentas24</h1>
+          <h1 className="text-white font-bold text-2xl cursor-pointer">
+            rentas24
+          </h1>
         </div>
       </div>
       <div className="flex min-h-[88vh]">
         <div
-          className={`flex flex-col gap-1 p-3 fixed md:relative min-h-[88vh] bg-white h-auto text-primary ${
+          className={`flex flex-col gap-2 p-3 fixed md:relative min-h-[88vh] bg-white h-auto text-primary ${
             isOpenMenu ? "w-72" : "w-20"
           } ${
             showMenu ? "translate-x-0" : "-translate-x-96 md:translate-x-0"

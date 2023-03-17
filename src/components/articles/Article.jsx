@@ -9,7 +9,7 @@ function Article({ item }) {
   return (
     <div className="p-2">
       <div className="md:grid md:grid-cols-2 w-full bg-white rounded-lg p-4">
-        <div className="h-72">
+        <div className="h-72 md:h-auto">
           <Carousel images={images} />
         </div>
         <div className=" p-5 flex flex-col gap-3">

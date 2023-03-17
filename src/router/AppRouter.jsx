@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Article from "../components/articles/Article";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
@@ -9,8 +9,8 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
+        <Route path="*" element={<AppRoutes />} />
         <Route path="*" element={<AuthRoutes />} />
-        <Route path="/" element={<AppRoutes />} />
       </Routes>
     </Router>
   );
@@ -29,8 +29,8 @@ const AppRoutes = () => {
   return (
     <Sidebar>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/article" element={<Article />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </Sidebar>
   );

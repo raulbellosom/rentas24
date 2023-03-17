@@ -107,6 +107,7 @@ export default function Sidebar({ children }) {
             icon={<UserCircleIcon className="w-6 h-6" />}
             title="Sign In"
             isOpenMenu={isOpenMenu}
+            redirectTo="/login"
           />
         </div>
         <div className="w-full bg-slate-100 max-h-[88vh] overflow-auto">
@@ -118,9 +119,9 @@ export default function Sidebar({ children }) {
 }
 
 // create card menu component
-const CardMenu = ({ title, icon, notification, isOpenMenu }) => {
+const CardMenu = ({ title, icon, notification, isOpenMenu, redirectTo }) => {
   return (
-    <Link to="/">
+    <Link to={redirectTo ?? "/"}>
       <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-gray-200">
         <div className="flex justify-center items-center gap-3">
           <span className="flex">

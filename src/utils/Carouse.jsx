@@ -30,7 +30,10 @@ const Carousel = ({ images }) => {
               }
             }}
           >
-            <MdChevronLeft size={24} className="p-1 bg-white rounded-full" />
+            <MdChevronLeft
+              size={24}
+              className="p-1 bg-white/40 transition ease-in-out delay-100 duration-200 hover:bg-white rounded-full"
+            />
           </button>
           <button
             onClick={() => {
@@ -41,7 +44,10 @@ const Carousel = ({ images }) => {
               }
             }}
           >
-            <MdChevronRight size={24} className="p-1 bg-white rounded-full" />
+            <MdChevronRight
+              size={24}
+              className="p-1 bg-white/40 transition ease-in-out delay-100 duration-200 hover:bg-white rounded-full"
+            />
           </button>
         </div>
       </div>

@@ -9,19 +9,11 @@ const AppRouter = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<AppRoutes />} />
-        <Route path="*" element={<AuthRoutes />} />
       </Routes>
     </Router>
-  );
-};
-
-const AuthRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
   );
 };
 
@@ -29,8 +21,8 @@ const AppRoutes = () => {
   return (
     <Sidebar>
       <Routes>
-        <Route path="/article" element={<Article />} />
         <Route path="/" element={<Home />} />
+        <Route path="/article" element={<Article />} />
       </Routes>
     </Sidebar>
   );

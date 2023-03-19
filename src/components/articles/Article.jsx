@@ -2,18 +2,16 @@ import React from "react";
 import { MdBed } from "react-icons/md";
 import { BsFillPersonFill } from "react-icons/bs";
 import { FaBath } from "react-icons/fa";
-import { RxDimensions } from "react-icons/Rx";
 import { Link } from "react-router-dom";
+import Carousel from "../../utils/Carouse";
 
-function Article() {
+function Article({ item }) {
   return (
     <div className="p-2">
       <div className="md:grid md:grid-cols-2 w-full bg-white rounded-lg p-4">
-        <img
-          className="object-cover h-full rounded-t-lg"
-          src="https://flowbite.com/docs/images/blog/image-1.jpg"
-          alt="article image"
-        />
+        <div className="h-72 md:h-auto">
+          <Carousel images={images} />
+        </div>
         <div className=" p-5 flex flex-col gap-3">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
             Acogedora casa de 3 habitaciones en el corazón de la ciudad
@@ -131,3 +129,9 @@ function Article() {
 }
 
 export default Article;
+
+const images = [
+  "https://flowbite.com/docs/images/blog/image-2.jpg",
+  "https://flowbite.com/docs/images/blog/image-1.jpg",
+  "https://flowbite.com/docs/images/blog/image-3.jpg",
+];

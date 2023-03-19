@@ -1,18 +1,30 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Article from "../components/articles/Article";
+import Login from "../components/auth/Login";
+import Register from "../components/auth/Register";
 import Home from "../components/home/Home";
 import Sidebar from "../components/sidebar/Sidebar";
 
 const AppRouter = () => {
   return (
     <Router>
-      <Sidebar>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/article" element={<Article />} />
-        </Routes>
-      </Sidebar>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<AppRoutes />} />
+      </Routes>
     </Router>
+  );
+};
+
+const AppRoutes = () => {
+  return (
+    <Sidebar>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/article" element={<Article />} />
+      </Routes>
+    </Sidebar>
   );
 };
 

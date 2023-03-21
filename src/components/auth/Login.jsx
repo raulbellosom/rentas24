@@ -1,14 +1,43 @@
 import React, { useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/icon.svg";
+import { useDispatch } from "react-redux";
+import { getSignIn } from "../../features/auth/authSlice";
+import { handleSignIn } from "../../app/api";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     email: "",
     password: "",
     remember: false,
   });
+
+  const notifyError = (text) => toast.error(text);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await handleSignIn(data);
+
+    if (res?.status === 400 || res?.status === 401 || res?.status === 404) {
+      notifyError(res.data.message);
+    }
+
+    if (res?.status > 404) {
+      notifyError("Ocurrió un error, intente nuevamente");
+    }
+
+    if (res?.status === 200) {
+      localStorage.setItem("user", JSON.stringify(res.data));
+      dispatch(getSignIn(res));
+      navigate("/");
+    }
+  };
 
   return (
     <div>
@@ -26,7 +55,12 @@ const Login = () => {
               Accede a miles de anuncios de alquileres de todo el país.
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 space-y-6"
+            action="#"
+            method="POST"
+          >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>

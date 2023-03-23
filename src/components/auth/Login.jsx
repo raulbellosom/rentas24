@@ -61,11 +61,10 @@ const Login = () => {
             action="#"
             method="POST"
           >
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="rounded-md shadow-sm -space-y-px flex flex-col gap-4">
               <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
+                <label htmlFor="email-address" className="text-sm">
+                  Correo electrónico
                 </label>
                 <input
                   id="email-address"
@@ -73,8 +72,12 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    data.email.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Correo electrónico"
                   value={data.email}
                   onChange={(e) => {
                     setData({ ...data, email: e.target.value });
@@ -82,16 +85,21 @@ const Login = () => {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
+                <label htmlFor="password" className="text-sm">
                   Password
                 </label>
                 <input
                   id="password"
                   name="password"
                   type="password"
+                  minLength={8}
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    data.password.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
                   placeholder="Password"
                   value={data.password}
                   onChange={(e) => {

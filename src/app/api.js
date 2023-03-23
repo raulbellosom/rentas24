@@ -26,3 +26,13 @@ export const handleSignIn = async (data) => {
     return error.response;
   }
 };
+
+export const handleProfile = async (token) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.get(`${urlEnv}auth/profile`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};

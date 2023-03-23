@@ -68,11 +68,10 @@ const Register = () => {
             className="mt-8 space-y-6"
             method="POST"
           >
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="rounded-md shadow-sm -space-y-px flex flex-col gap-2">
               <div>
-                <label htmlFor="firstName" className="sr-only">
-                  First Name
+                <label htmlFor="firstName" className="text-sm">
+                  Nombre
                 </label>
                 <input
                   id="firstName"
@@ -80,8 +79,13 @@ const Register = () => {
                   type="text"
                   autoComplete="firstName"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="First Name"
+                  minLength={3}
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    user.firstName.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Nombre (s)"
                   value={user.firstName}
                   onChange={(e) =>
                     setUser({ ...user, firstName: e.target.value })
@@ -89,17 +93,22 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label htmlFor="lastName" className="sr-only">
-                  Last Name
+                <label htmlFor="lastName" className="text-sm">
+                  Apellido (s)
                 </label>
                 <input
                   id="lastName"
                   name="lastName"
                   type="text"
                   autoComplete="lastName"
+                  minLength={3}
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Last Name"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    user.lastName.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Apellido (s)"
                   value={user.lastName}
                   onChange={(e) =>
                     setUser({ ...user, lastName: e.target.value })
@@ -107,24 +116,30 @@ const Register = () => {
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="sr-only">
-                  Phone
+                <label htmlFor="phone" className="text-sm">
+                  Teléfono
                 </label>
                 <input
                   id="phone"
                   name="phone"
                   type="tel"
                   autoComplete="phone"
+                  minLength={10}
+                  pattern="[0-9]{10}"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Phone"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    user.phone.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Teléfono"
                   value={user.phone}
                   onChange={(e) => setUser({ ...user, phone: e.target.value })}
                 />
               </div>
               <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
+                <label htmlFor="email-address" className="text-sm">
+                  Correo electrónico
                 </label>
                 <input
                   id="email-address"
@@ -132,15 +147,19 @@ const Register = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    user.email.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Correo electrónico"
                   value={user.email}
                   onChange={(e) => setUser({ ...user, email: e.target.value })}
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
+                <label htmlFor="password" className="text-sm">
+                  Contraseña
                 </label>
                 <input
                   id="password"
@@ -148,8 +167,12 @@ const Register = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    user.password.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Contraseña"
                   value={user.password}
                   onChange={(e) =>
                     setUser({ ...user, password: e.target.value })
@@ -164,9 +187,9 @@ const Register = () => {
                   name="remember-me"
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  value={user.rememberMe}
+                  value={user.remember}
                   onChange={(e) =>
-                    setUser({ ...user, rememberMe: e.target.checked })
+                    setUser({ ...user, remember: e.target.checked })
                   }
                 />
                 <label
@@ -181,8 +204,34 @@ const Register = () => {
                   href="#"
                   className="font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Forgot your password?
+                  ¿Olvidaste tu contraseña?
                 </a>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="terms"
+                  name="terms"
+                  type="checkbox"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  value={user.terms}
+                  onChange={(e) =>
+                    setUser({ ...user, terms: e.target.checked })
+                  }
+                />
+                <label
+                  htmlFor="terms"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Acepto los{" "}
+                  <a
+                    href="#"
+                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                  >
+                    términos y condiciones
+                  </a>
+                </label>
               </div>
             </div>
             <div>
@@ -196,7 +245,7 @@ const Register = () => {
                     className="text-indigo-500 group-hover:text-indigo-400"
                   />
                 </span>
-                Sign in
+                Registrarse
               </button>
             </div>
           </form>

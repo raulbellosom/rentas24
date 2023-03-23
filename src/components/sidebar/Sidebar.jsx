@@ -40,8 +40,8 @@ export default function Sidebar({ children, user = {} }) {
   };
 
   return (
-    <div>
-      <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-gray-800 p-5">
+    <div className="min-h-screen h-screen overflow-hidden">
+      <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-gray-800 px-5 py-3">
         <div className="md:col-span-2 flex gap-4">
           <span>
             <Bars3Icon
@@ -80,16 +80,16 @@ export default function Sidebar({ children, user = {} }) {
           </h1>
         </div>
       </div>
-      <div className="flex min-h-[88vh]">
+      <div className="flex h-full">
         <div
-          className={`flex flex-col gap-2 p-3 fixed md:relative min-h-[89vh] bg-white h-auto text-primary drop-shadow-lg ${
+          className={`flex flex-col gap-2 p-3 fixed md:relative min-h-full bg-gray-800 text-slate-300 ${
             isOpenMenu ? "w-72" : "w-20"
           } ${
             showMenu ? "translate-x-0" : "-translate-x-96 md:translate-x-0"
-          } transition-all ease-in-out duration-300 border-r`}
+          } transition ease-in-out delay-75 duration-200`}
         >
           {user?.firstName && (
-            <div className="flex items-center gap-2 p-2 border-b rounded-md hover:bg-slate-200">
+            <div className="flex items-center gap-2 p-2 pb-3 border-b hover:rounded-md cursor-pointer hover:bg-white/90 hover:text-primary">
               <span>
                 <UserCircleIcon className="w-8 h-8" />
               </span>
@@ -99,7 +99,12 @@ export default function Sidebar({ children, user = {} }) {
                 } delay-50 duration-100 origin-lef`}
               >
                 <span className="text-sm font-bold">
-                  {user.firstName + " " + user.lastName}
+                  {/* concat firstName and lastName and get a substring 20 */}
+                  {`${user.firstName} ${user.lastName}`.length > 25
+                    ? `${user.firstName} ${user.lastName}`
+                        .substring(0, 25)
+                        .concat("...")
+                    : `${user.firstName} ${user.lastName}`}
                 </span>
                 <span className="text-xs flex gap-2 items-center">
                   <p>Editar perfil</p>{" "}
@@ -112,28 +117,33 @@ export default function Sidebar({ children, user = {} }) {
             icon={<HomeIcon className="w-6 h-6" />}
             title="Inicio"
             isOpenMenu={isOpenMenu}
+            handleClick={() => setShowMenu(false)}
           />
           <CardMenu
             icon={<ChartPieIcon className="w-6 h-6" />}
             title="Dashboard"
             isOpenMenu={isOpenMenu}
             notification={2}
+            handleClick={() => setShowMenu(false)}
           />
           <CardMenu
             icon={<ViewColumnsIcon className="w-6 h-6" />}
             title="Kanban"
             isOpenMenu={isOpenMenu}
+            handleClick={() => setShowMenu(false)}
           />
           <CardMenu
             icon={<InboxIcon className="w-6 h-6" />}
             title="Inbox"
             isOpenMenu={isOpenMenu}
             notification={10}
+            handleClick={() => setShowMenu(false)}
           />
           <CardMenu
             icon={<ShoppingBagIcon className="w-6 h-6" />}
             title="Products"
             isOpenMenu={isOpenMenu}
+            handleClick={() => setShowMenu(false)}
           />
           {user?.firstName ? (
             <CardMenu
@@ -148,10 +158,11 @@ export default function Sidebar({ children, user = {} }) {
               title="Sign In"
               isOpenMenu={isOpenMenu}
               redirectTo="/login"
+              handleClick={() => setShowMenu(false)}
             />
           )}
         </div>
-        <div className="w-full bg-slate-100 max-h-[88vh] overflow-auto">
+        <div className="w-full bg-slate-100 max-h-[92vh] overflow-auto">
           {children}
         </div>
       </div>
@@ -170,7 +181,7 @@ const CardMenu = ({
   return (
     <div onClick={handleClick}>
       <Link to={redirectTo ?? "/"}>
-        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-gray-200">
+        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-white/90 hover:text-primary">
           <div className="flex justify-center items-center gap-3">
             <span className="flex">
               {icon}

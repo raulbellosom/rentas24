@@ -3,7 +3,7 @@ import Cards from "../cards/Cards";
 
 function Home() {
   return (
-    <div>
+    <div className="p-2">
       <div>
         <h1 className="px-5 md:px-3 text-xl font-bold pt-4 text-primary">
           Bienvenido

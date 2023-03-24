@@ -1,14 +1,43 @@
 import React, { useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/icon.svg";
+import { useDispatch } from "react-redux";
+import { getSignIn } from "../../features/auth/authSlice";
+import { handleSignIn } from "../../app/api";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [data, setData] = useState({
     email: "",
     password: "",
     remember: false,
   });
+
+  const notifyError = (text) => toast.error(text);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await handleSignIn(data);
+
+    if (res?.status === 400 || res?.status === 401 || res?.status === 404) {
+      notifyError(res.data.message);
+    }
+
+    if (res?.status > 404) {
+      notifyError("Ocurrió un error, intente nuevamente");
+    }
+
+    if (res?.status === 200) {
+      localStorage.setItem("user", JSON.stringify(res.data));
+      dispatch(getSignIn(res));
+      navigate("/");
+    }
+  };
 
   return (
     <div>
@@ -26,12 +55,16 @@ const Login = () => {
               Accede a miles de anuncios de alquileres de todo el país.
             </p>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-8 space-y-6"
+            action="#"
+            method="POST"
+          >
+            <div className="rounded-md shadow-sm -space-y-px flex flex-col gap-4">
               <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
+                <label htmlFor="email-address" className="text-sm">
+                  Correo electrónico
                 </label>
                 <input
                   id="email-address"
@@ -39,8 +72,12 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    data.email.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
+                  placeholder="Correo electrónico"
                   value={data.email}
                   onChange={(e) => {
                     setData({ ...data, email: e.target.value });
@@ -48,16 +85,21 @@ const Login = () => {
                 />
               </div>
               <div>
-                <label htmlFor="password" className="sr-only">
+                <label htmlFor="password" className="text-sm">
                   Password
                 </label>
                 <input
                   id="password"
                   name="password"
                   type="password"
+                  minLength={8}
                   autoComplete="current-password"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                    data.password.length >= 1
+                      ? "invalid:border-red-500 invalid:border-2"
+                      : "invalid:border-gray-300"
+                  }`}
                   placeholder="Password"
                   value={data.password}
                   onChange={(e) => {

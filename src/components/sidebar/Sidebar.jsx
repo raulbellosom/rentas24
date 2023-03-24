@@ -145,20 +145,6 @@ export default function Sidebar({ children, user = {} }) {
             isOpenMenu={isOpenMenu}
             handleClick={() => setShowMenu(false)}
           />
-<<<<<<< HEAD
-          <CardMenu
-            icon={<UserCircleIcon className="w-6 h-6" />}
-            title="Users"
-            isOpenMenu={isOpenMenu}
-            redirectTo="/add-user"
-          />
-          <CardMenu
-            icon={<UserCircleIcon className="w-6 h-6" />}
-            title="Sign In"
-            isOpenMenu={isOpenMenu}
-            redirectTo="/login"
-          />
-=======
           {user?.firstName ? (
             <CardMenu
               icon={<TbDoorExit className="w-6 h-6" />}
@@ -175,7 +161,6 @@ export default function Sidebar({ children, user = {} }) {
               handleClick={() => setShowMenu(false)}
             />
           )}
->>>>>>> 6064c7c9ee42f0ce144d53edde0a4092219b9aaa
         </div>
         <div className="w-full bg-slate-100 max-h-[92vh] overflow-auto">
           {children}

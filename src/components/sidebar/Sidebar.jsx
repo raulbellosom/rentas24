@@ -105,6 +105,12 @@ export default function Sidebar({ children }) {
           />
           <CardMenu
             icon={<UserCircleIcon className="w-6 h-6" />}
+            title="Users"
+            isOpenMenu={isOpenMenu}
+            redirectTo="/add-user"
+          />
+          <CardMenu
+            icon={<UserCircleIcon className="w-6 h-6" />}
             title="Sign In"
             isOpenMenu={isOpenMenu}
             redirectTo="/login"

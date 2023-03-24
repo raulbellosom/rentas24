@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Article from "../components/articles/Article";
 import Login from "../components/auth/Login";
-import Register from "../components/auth/Register";
+// import Register from "../components/auth/Register.jsx";
+import Register   from "../components/users/Register.jsx";
 import Home from "../components/home/Home";
 import Sidebar from "../components/sidebar/Sidebar";
 
@@ -22,6 +23,7 @@ const AppRoutes = () => {
     <Sidebar>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/add-user" element={<Register />} />
         <Route path="/article" element={<Article />} />
       </Routes>
     </Sidebar>

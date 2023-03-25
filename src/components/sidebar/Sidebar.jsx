@@ -90,9 +90,17 @@ export default function Sidebar({ children, user = {} }) {
         >
           {user?.firstName && (
             <div className="flex items-center gap-2 p-2 pb-3 border-b hover:rounded-md cursor-pointer hover:bg-white/90 hover:text-primary">
-              <span>
-                <UserCircleIcon className="w-8 h-8" />
-              </span>
+              {user?.photo ? (
+                <img
+                  className="w-8 h-8 rounded-full"
+                  src={user.photo}
+                  alt="user_photo"
+                />
+              ) : (
+                <span>
+                  <UserCircleIcon className="w-8 h-8" />
+                </span>
+              )}
               <div
                 className={`flex flex-col justify-center whitespace-nowrap ${
                   !isOpenMenu && "scale-0"

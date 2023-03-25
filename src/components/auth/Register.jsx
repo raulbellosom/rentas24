@@ -18,6 +18,7 @@ const Register = () => {
     password: "",
     phone: "",
     remember: false,
+    terms: false,
   });
 
   const notifyError = (text) => toast.error(text);
@@ -29,6 +30,9 @@ const Register = () => {
     }
     if (user.password.length < 8) {
       return notifyError("La contraseña debe tener al menos 8 caracteres");
+    }
+    if (!user.terms) {
+      return notifyError("Debes aceptar los términos y condiciones");
     }
 
     const res = await handleSignUp(user);

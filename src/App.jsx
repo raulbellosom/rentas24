@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import "./App.css";
 import { handleProfile } from "./app/api";
-import { getSignIn, getSignOut } from "./features/auth/authSlice";
+import { getProfile, getSignOut } from "./features/auth/authSlice";
 import AppRouter from "./router/AppRouter";
 
 function App() {
@@ -20,8 +20,11 @@ function App() {
       const res = await handleProfile(data.token);
 
       if (res.status === 200) {
-        return dispatch(getSignIn({ data }));
+        const user = { token: data.token, user: res.data };
+        localStorage.setItem("user", JSON.stringify(user));
+        return dispatch(getProfile(user));
       }
+
       return dispatch(getSignOut());
     }
   };

@@ -18,6 +18,7 @@ export const handleSignUp = async (data) => {
   }
 };
 
+
 export const handleSignIn = async (data) => {
   try {
     const res = await axios.post(`${urlEnv}auth/signin`, data, config);
@@ -31,6 +32,16 @@ export const handleProfile = async (token) => {
   config.headers["x-access-token"] = token;
   try {
     const res = await axios.get(`${urlEnv}auth/profile`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const updateUser = async (data) => {
+  // config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(`${urlEnv}auth/profile/${data.id}`, data, config);
     return res;
   } catch (error) {
     return error.response;

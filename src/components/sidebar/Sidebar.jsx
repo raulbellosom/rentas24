@@ -89,7 +89,7 @@ export default function Sidebar({ children, user = {} }) {
           } transition ease-in-out delay-75 duration-200`}
         >
           {user?.firstName && (
-            <div className="flex items-center gap-2 p-2 pb-3 border-b hover:rounded-md cursor-pointer hover:bg-white/90 hover:text-primary">
+            <div className="flex items-center gap-2 p-2 pb-3 border-b border-slate-700 hover:rounded-md cursor-pointer hover:bg-slate-700 hover:text-white">
               {user?.photo ? (
                 <img
                   className="w-8 h-8 rounded-full"
@@ -189,7 +189,7 @@ const CardMenu = ({
   return (
     <div onClick={handleClick}>
       <Link to={redirectTo ?? "/"}>
-        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-white/90 hover:text-primary">
+        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-slate-700 hover:text-white">
           <div className="flex justify-center items-center gap-3">
             <span className="flex">
               {icon}

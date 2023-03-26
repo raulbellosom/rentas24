@@ -38,8 +38,9 @@ export const handleProfile = async (token) => {
   }
 };
 
-export const updateUser = async (data) => {
-  // config.headers["x-access-token"] = token;
+export const updateUser = async (token, data) => {
+  console.log(token);
+  config.headers["x-access-token"] = token;
   try {
     const res = await axios.patch(`${urlEnv}auth/profile/${data.id}`, data, config);
     return res;

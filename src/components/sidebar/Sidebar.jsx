@@ -89,39 +89,39 @@ export default function Sidebar({ children, user = {} }) {
           } transition ease-in-out delay-75 duration-200`}
         >
           {user?.firstName && (
-            <div className="flex items-center gap-2 p-2 pb-3 border-b border-slate-700 hover:rounded-md cursor-pointer hover:bg-slate-700 hover:text-white">
-              {user?.photo ? (
-                <img
-                  className="w-8 h-8 rounded-full"
-                  src={user.photo}
-                  alt="user_photo"
-                />
-              ) : (
-                <span>
-                  <UserCircleIcon className="w-8 h-8" />
-                </span>
-              )}
-              <div
-                className={`flex flex-col justify-center whitespace-nowrap ${
-                  !isOpenMenu && "scale-0"
-                } delay-50 duration-100 origin-lef`}
-              >
-                <span className="text-sm font-bold">
-                  {/* concat firstName and lastName and get a substring 20 */}
-                  {`${user.firstName} ${user.lastName}`.length > 25
-                    ? `${user.firstName} ${user.lastName}`
-                        .substring(0, 25)
-                        .concat("...")
-                    : `${user.firstName} ${user.lastName}`}
-                </span>
-                <span className="text-xs flex gap-2 items-center" >
-                  <Link to="/edit-user">
-                  <p>Editar perfil</p>{" "}
-                  <ArrowLongRightIcon className="h-3 w-3" />
-                  </Link>
-                </span>
+            <Link to="/edit-user">
+              <div className="flex items-center gap-2 p-2 pb-3 border-b border-slate-700 hover:rounded-md cursor-pointer hover:bg-slate-700 hover:text-white">
+                {user?.photo ? (
+                  <img
+                    className="w-8 h-8 rounded-full"
+                    src={user.photo}
+                    alt="user_photo"
+                  />
+                ) : (
+                  <span>
+                    <UserCircleIcon className="w-8 h-8" />
+                  </span>
+                )}
+                <div
+                  className={`flex flex-col justify-center whitespace-nowrap ${
+                    !isOpenMenu && "scale-0"
+                  } delay-50 duration-100 origin-lef`}
+                >
+                  <span className="text-sm font-bold">
+                    {/* concat firstName and lastName and get a substring 20 */}
+                    {`${user.firstName} ${user.lastName}`.length > 25
+                      ? `${user.firstName} ${user.lastName}`
+                          .substring(0, 25)
+                          .concat("...")
+                      : `${user.firstName} ${user.lastName}`}
+                  </span>
+                  <span className="text-xs flex gap-2 items-center">
+                    <p>Editar perfil</p>{" "}
+                    <ArrowLongRightIcon className="h-3 w-3" />
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           )}
           <CardMenu
             icon={<HomeIcon className="w-6 h-6" />}

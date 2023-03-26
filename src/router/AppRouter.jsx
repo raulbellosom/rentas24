@@ -4,13 +4,12 @@ import { useSelector } from "react-redux";
 
 import Article from "../components/articles/Article";
 import Login from "../components/auth/Login";
-import Register from "../components/auth/Register.jsx";
-import EditUser   from "../components/users/EditUser.jsx";
+import Register from "../components/auth/Register";
 import Home from "../components/home/Home";
 import Loading from "../utils/Loading";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
-
+const EditUser = lazy(() => import("../components/users/EditUser"))
 const AppRouter = () => {
   const { token, user } = useSelector((state) => state.auth);
 

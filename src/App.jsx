@@ -18,7 +18,6 @@ function App() {
     if (user) {
       const data = JSON.parse(user);
       const res = await handleProfile(data.token);
-
       if (res.status === 200) {
         const user = { token: data.token, user: res.data };
         localStorage.setItem("user", JSON.stringify(user));

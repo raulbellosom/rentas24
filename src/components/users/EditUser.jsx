@@ -10,9 +10,13 @@ import { MdAccountCircle } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { updateUser } from "../../app/api";
 import { useSelector } from "react-redux";
+import { getUpdateProfile } from "../../features/auth/authSlice"
+import { useDispatch } from "react-redux";
 
 const EditUser = () => {
+  const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
+
   const [users, setUser] = useState({
     id: user.id,
     firstName: user.firstName,
@@ -26,13 +30,15 @@ const EditUser = () => {
     password: user.password,
   });
   const notifyError = (text) => toast.error(text);
+  const notifySuccess = (text) => toast.success(text);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!users.firstName || !users.lastName || !users.email || !users.phone) {
       return notifyError("Todos los campos son obligatorios");
     }
-    const res = await updateUser(users);
-
+    const res = await updateUser(token, users);
+    console.log(res);
     if (res?.status === 400 || res?.status === 401 || res?.status === 404) {
       notifyError(res.data.message);
     }
@@ -41,7 +47,9 @@ const EditUser = () => {
       notifyError("Ocurrió un error, intente nuevamente");
     }
     if (res?.status === 200) {
-      localStorage.setItem("users", JSON.stringify(res.data));
+      notifySuccess('Usuario actualizado')
+      localStorage.setItem("user", JSON.stringify(res.data));
+      dispatch(getUpdateProfile(res));
     }
   };
 

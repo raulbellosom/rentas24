@@ -30,6 +30,7 @@ export const authSlice = createSlice({
     getProfile: (state, action) => {
       try {
         const data = action.payload;
+        state.token = data.token;
         state.user = data.user;
       } catch (error) {
         console.log(error);
@@ -47,6 +48,7 @@ export const authSlice = createSlice({
     getUpdateProfile: (state, action) => {
       try {
         const { data } = action.payload;
+        state.token = data.token;
         state.user = data.user;
       } catch (error) {
         console.log(error);

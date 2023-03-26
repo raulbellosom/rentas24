@@ -114,9 +114,11 @@ export default function Sidebar({ children, user = {} }) {
                         .concat("...")
                     : `${user.firstName} ${user.lastName}`}
                 </span>
-                <span className="text-xs flex gap-2 items-center">
+                <span className="text-xs flex gap-2 items-center" >
+                  <Link to="/edit-user">
                   <p>Editar perfil</p>{" "}
                   <ArrowLongRightIcon className="h-3 w-3" />
+                  </Link>
                 </span>
               </div>
             </div>

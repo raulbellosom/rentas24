@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 
 import Article from "../components/articles/Article";
 import Login from "../components/auth/Login";
-// import Register from "../components/auth/Register.jsx";
-import Register   from "../components/users/Register.jsx";
+import Register from "../components/auth/Register.jsx";
+import EditUser   from "../components/users/EditUser.jsx";
 import Home from "../components/home/Home";
 import Loading from "../utils/Loading";
 
@@ -39,6 +39,7 @@ const AppRoutes = ({ isAuth, user }) => {
     <Sidebar user={user}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/edit-user" element={<EditUser />} />
         {!isAuth && (
           <>
             <Route path="*" element={<Login />} />

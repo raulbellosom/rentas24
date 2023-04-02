@@ -1,16 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Tabs,
-  Button,
-  Label,
-  TextInput,
-  Select,
-} from "flowbite-react";
+import { Tabs, Button, Label, TextInput, Select } from "flowbite-react";
 import { MdAccountCircle } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { updateUser } from "../../app/api";
 import { useSelector } from "react-redux";
-import { getUpdateProfile } from "../../features/auth/authSlice"
+import { getUpdateProfile } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
 const EditUser = () => {
@@ -47,63 +41,42 @@ const EditUser = () => {
       notifyError("Ocurrió un error, intente nuevamente");
     }
     if (res?.status === 200) {
-      notifySuccess('Usuario actualizado')
+      notifySuccess("Usuario actualizado");
       localStorage.setItem("user", JSON.stringify(res.data));
       dispatch(getUpdateProfile(res));
     }
   };
 
   return (
-    <div>
-      <div className="flex flex-col h-[88vh] mx-auto  bg-gray-50">
-        <div className="w-full bg-teal-400 h-60"></div>
-        <div className="w-full h-full grid grid-cols-12 gap-4 p-5">
-          <div className="bg-white col-span-2 rounded-2xl border-2 ml-5">
-            <div className="flex flex-col items-center ">
-              <MdAccountCircle size={100} className="text-slate-300" />
-              <p className="text-sm font-bold">Edgar Meneses</p>
-            </div>
-            <div className="py-6">
-              <div className="flex py-4 px-2 border-t justify-between items-center hover:bg-slate-200 transition delay-75 duration-200 ease-in-out">
-                <p className="text-xs text-center">Opportunities applied</p>
-                <span className="text-xs p-1 rounded-full bg-blue-300 text-white font-bold">
-                  23
-                </span>
-              </div>
-              <div className="flex py-4 px-2 border-t justify-between items-center hover:bg-slate-200 transition delay-75 duration-200 ease-in-out">
-                <p className="text-xs text-center">Opportunities applied</p>
-                <span className="text-xs p-1 rounded-full bg-blue-300 text-white font-bold">
-                  23
-                </span>
-              </div>
-              <div className="flex py-4 px-2 border-t justify-between items-center hover:bg-slate-200 transition delay-75 duration-200 ease-in-out">
-                <p className="text-xs text-center">Opportunities applied</p>
-                <span className="text-xs p-1 rounded-full bg-blue-300 text-white font-bold">
-                  23
-                </span>
-              </div>
-              <div className="flex flex-col gap-4 py-4 px-2 border-t justify-center items-center ">
-                <div className="border w-full text-center hover:bg-slate-200 transition delay-75 duration-200 ease-in-out">
-                  <p className="text-xs py-2 px-6">View Public Profile</p>
-                </div>
-                <div className="border  w-full text-center hover:bg-blue-600 transition delay-75 duration-200 ease-in-out">
-                  <p className="text-xs text-blue-600 py-2 px-6 hover:text-white">
-                    https://facebook.com
-                  </p>
-                </div>
-              </div>
+    <div className="">
+      <div className="flex flex-col h-[88vh] mx-auto  ">
+        <div className="w-full bg-teal-400 h-60 relative">
+          <img
+            src="https://flowbite.com/docs/images/blog/image-3.jpg"
+            alt="portada"
+            className="w-full h-full object-cover object-center "
+          />
+          <div className="flex flex-col items-center absolute inset-x-0 -bottom-16">
+            <div className="bg-primary-600 rounded-full ">
+              <MdAccountCircle size={150} className="text-white" />
             </div>
           </div>
-          <div className="md:col-span-9 col-span-12 rounded-2xl border-2 ">
-            <Tabs.Group aria-label="Tabs with underline" style="underline">
+        </div>
+        <div className="w-full h-full grid grid-cols-12 gap-4 p-5 pt-20 bg-gray-50 ">
+          <div className="col-span-12 rounded-xl border-2 py-10">
+            <Tabs.Group
+              aria-label="Tabs with underline"
+              style="underline"
+              className="w-full"
+            >
               <Tabs.Item title="Account Settings" active={true}>
                 <div>
                   <form
-                    className="grid grid-cols-12 gap-y-2 gap-x-10 mx-5"
+                    className="flex flex-col md:grid md:grid-cols-12 gap-y-2 gap-x-10 mx-5"
                     onSubmit={handleSubmit}
                     method="PUT"
                   >
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="firstName" value="Nombre (s)" />
                       </div>
@@ -118,7 +91,7 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="lastName" value="Apellido (s)" />
                       </div>
@@ -133,7 +106,7 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="phone" value="Teléfono" />
                       </div>
@@ -148,7 +121,7 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="email" value="Correo electrónico" />
                       </div>
@@ -163,14 +136,17 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="state" value="Estado" />
                       </div>
-                      <Select id="state" required={true} value={users.state}
-                      onChange={(e) =>
-                        setUser({ ...users, state: e.target.value })
-                      }
+                      <Select
+                        id="state"
+                        required={true}
+                        value={users.state}
+                        onChange={(e) =>
+                          setUser({ ...users, state: e.target.value })
+                        }
                       >
                         <option>Jalisco</option>
                         <option>Chihuahua</option>
@@ -178,7 +154,7 @@ const EditUser = () => {
                         <option>Putas</option>
                       </Select>
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="city" value="Ciudad" />
                       </div>
@@ -192,7 +168,7 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="zipCode" value="Codigo Postal" />
                       </div>
@@ -206,7 +182,7 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="col-span-6">
+                    <div className="col-span-12 md:col-span-6">
                       <div className="mb-2 block">
                         <Label htmlFor="street" value="Dirección" />
                       </div>
@@ -220,8 +196,13 @@ const EditUser = () => {
                         }
                       />
                     </div>
-                    <div className="flex justify-end col-span-12 mt-2">
-                      <Button type="submit">Actualizar</Button>
+                    <div className="flex justify-center md:justify-end col-span-12 py-4">
+                      <button
+                        className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                        type="submit"
+                      >
+                        Actualizar
+                      </button>
                     </div>
                   </form>
                 </div>

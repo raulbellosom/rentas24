@@ -1,16 +1,19 @@
 import React from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
-import Cards from "../cards/Cards";
+import { Link } from "react-router-dom";
+import Cards from "../../components/cards/Cards";
 import Megafono from "../../resources/img/announce_megafono.png";
 function Home() {
   return (
     <div className="p-2">
       <div className="flex flex-col-reverse xl:flex-row gap-4 md:gap-10">
         <div className="flex flex-col justify-center px-5 md:px-3">
-          <h2 className="text-xl font-bold pt-4 text-primary">Bienvenido</h2>
+          <h2 className="text-xl font-bold pt-4 text-primary-600">
+            Bienvenido
+          </h2>
           <h2 className="whitespace-nowrap">Todos los articulos</h2>
         </div>
-        <div className="flex flex-col md:flex-row items-center p-5 gap-2 md:gap-20 text-white bg-gradient-to-r from-cyan-500 to-blue-500 min-h-full w-full rounded-lg">
+        <div className="flex flex-col md:flex-row items-center p-5 gap-2 md:gap-20 text-white bg-gradient-to-r from-primary-400 to-primary-600 min-h-full w-full rounded-lg">
           <img
             src={Megafono}
             alt="megafono"
@@ -27,16 +30,18 @@ function Home() {
                 para crear tu anuncio en un minuto.
               </p>
             </div>
-            <div className="w-full flex items-center justify-center hover:scale-110 transition ease-in-out duration-200">
-              <button className="flex items-center gap-2 bg-white text-primary p-2 rounded-full">
-                <span>
-                  <BsPlusCircleFill className="w-6 h-6" />
-                </span>
-                <span className="font-bold whitespace-nowrap">
-                  Crear anuncio
-                </span>
-              </button>
-            </div>
+            <Link to="/anuncios">
+              <div className="w-full flex items-center justify-center text-primary-500">
+                <button className="flex items-center gap-2 bg-white p-2 rounded-full hover:scale-110 transition ease-in-out duration-200">
+                  <span>
+                    <BsPlusCircleFill className="w-6 h-6" />
+                  </span>
+                  <span className="font-bold whitespace-nowrap">
+                    Crear anuncio
+                  </span>
+                </button>
+              </div>
+            </Link>
           </div>
         </div>
       </div>

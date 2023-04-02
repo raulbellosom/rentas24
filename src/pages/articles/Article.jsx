@@ -28,13 +28,13 @@ function Article({ item }) {
             </h2>
             <ul className="py-2 flex flex-col md:flex-row md:flex-wrap md:items-center gap-6">
               <li className="flex items-center gap-3">
-                <MdBed size={32} className="text-primary" /> 3 habitaciones
+                <MdBed size={32} className="text-blue-600" /> 3 habitaciones
               </li>
               <li className="flex items-center gap-3">
-                <FaBath size={32} className="text-primary" />2 baños
+                <FaBath size={32} className="text-blue-600" />2 baños
               </li>
               <li className="flex items-center gap-3">
-                <BsFillPersonFill size={32} className="text-primary" /> 200
+                <BsFillPersonFill size={32} className="text-blue-600" /> 200
                 metros cuadrados
               </li>
             </ul>
@@ -68,7 +68,7 @@ function Article({ item }) {
                 <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
                   Acogedora casa de 3 habitaciones en el corazón de la ciudad
                 </h5>
-                <Link to="/article" className="text-primary">
+                <Link to="/article" className="text-blue-600">
                   Ver más
                 </Link>
               </div>
@@ -84,7 +84,7 @@ function Article({ item }) {
                 <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
                   Acogedora casa de 3 habitaciones en el corazón de la ciudad
                 </h5>
-                <Link to="/article" className="text-primary">
+                <Link to="/article" className="text-blue-600">
                   Ver más
                 </Link>
               </div>
@@ -100,7 +100,7 @@ function Article({ item }) {
                 <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
                   Acogedora casa de 3 habitaciones en el corazón de la ciudad
                 </h5>
-                <Link to="/article" className="text-primary">
+                <Link to="/article" className="text-blue-600">
                   Ver más
                 </Link>
               </div>
@@ -116,7 +116,7 @@ function Article({ item }) {
                 <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
                   Acogedora casa de 3 habitaciones en el corazón de la ciudad
                 </h5>
-                <Link to="/article" className="text-primary">
+                <Link to="/article" className="text-blue-600">
                   Ver más
                 </Link>
               </div>

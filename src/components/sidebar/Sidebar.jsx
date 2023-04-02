@@ -16,6 +16,7 @@ import icon from "../../assets/icon_color_alter.svg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getSignOut } from "../../features/auth/authSlice";
+import { BsFillMegaphoneFill } from "react-icons/bs";
 
 export default function Sidebar({ children, user = {} }) {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ export default function Sidebar({ children, user = {} }) {
 
   return (
     <div className="min-h-screen h-screen overflow-hidden">
-      <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-gray-800 px-5 py-3">
+      <div className="flex md:grid md:grid-cols-12 justify-between items-center bg-primary-700 px-5 py-3">
         <div className="md:col-span-2 flex gap-4">
           <span>
             <Bars3Icon
@@ -51,13 +52,13 @@ export default function Sidebar({ children, user = {} }) {
               onClick={() => detectTypeOfView()}
             />
           </span>
-          <span className="bg-gray-600 cursor-pointer p-2 rounded-full md:hidden flex items-center justify-center">
+          <span className="bg-primary-600 cursor-pointer p-2 rounded-full md:hidden flex items-center justify-center">
             <MagnifyingGlassIcon className="w-6 h-6 text-white" />
           </span>
         </div>
         <div className="hidden md:flex md:col-span-5 items-center pl-2 bg-white rounded-full">
           <span>
-            <MagnifyingGlassIcon className="w-6 h-6 text-primary" />
+            <MagnifyingGlassIcon className="w-6 h-6 text-primary-600" />
           </span>
           <input
             className="bg-transparent border-none w-full"
@@ -65,7 +66,7 @@ export default function Sidebar({ children, user = {} }) {
             placeholder="Search"
           />
           <span>
-            <ArrowRightCircleIcon className="text-primary w-10 h-10" />
+            <ArrowRightCircleIcon className="text-primary-500 w-10 h-10" />
           </span>
         </div>
 
@@ -80,99 +81,113 @@ export default function Sidebar({ children, user = {} }) {
           </h1>
         </div>
       </div>
-      <div className="flex h-full">
+      <div className="flex h-full relative">
         <div
-          className={`flex flex-col gap-2 p-3 fixed md:relative min-h-full bg-gray-800 text-slate-300 ${
-            isOpenMenu ? "w-72" : "w-20"
-          } ${
-            showMenu ? "translate-x-0" : "-translate-x-96 md:translate-x-0"
-          } transition ease-in-out delay-75 duration-200`}
+          className={`${
+            showMenu ? "bg-black/30 fixed z-40 w-full h-full " : "relative"
+          }`}
+          onClick={() => setShowMenu(false)}
         >
-          {user?.firstName && (
-            <Link to="/edit-user">
-              <div className="flex items-center gap-2 p-2 pb-3 border-b border-slate-700 hover:rounded-md cursor-pointer hover:bg-slate-700 hover:text-white">
-                {user?.photo ? (
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src={user.photo}
-                    alt="user_photo"
-                  />
-                ) : (
-                  <span>
-                    <UserCircleIcon className="w-8 h-8" />
-                  </span>
-                )}
-                <div
-                  className={`flex flex-col justify-center whitespace-nowrap ${
-                    !isOpenMenu && "scale-0"
-                  } delay-50 duration-100 origin-lef`}
-                >
-                  <span className="text-sm font-bold">
-                    {/* concat firstName and lastName and get a substring 20 */}
-                    {`${user.firstName} ${user.lastName}`.length > 25
-                      ? `${user.firstName} ${user.lastName}`
-                          .substring(0, 25)
-                          .concat("...")
-                      : `${user.firstName} ${user.lastName}`}
-                  </span>
-                  <span className="text-xs flex gap-2 items-center">
-                    <p>Editar perfil</p>{" "}
-                    <ArrowLongRightIcon className="h-3 w-3" />
-                  </span>
+          <div
+            className={`flex flex-col gap-2 p-3 fixed z-50 md:relative min-h-full bg-gradient-to-b from-primary-700 to-primary-600 text-slate-100 ${
+              isOpenMenu ? "w-72" : "w-20"
+            } ${
+              showMenu ? "translate-x-0" : "-translate-x-96 md:translate-x-0"
+            } transition ease-in-out delay-75 duration-200`}
+          >
+            {user?.firstName && (
+              <Link to="/edit-user">
+                <div className="flex items-center gap-2 p-2 pb-3 border-b border-primary-300 hover:rounded-md cursor-pointer hover:border-primary-600 hover:bg-primary-600/75 hover:text-white">
+                  {user?.photo ? (
+                    <img
+                      className="w-8 h-8 rounded-full"
+                      src={user.photo}
+                      alt="user_photo"
+                    />
+                  ) : (
+                    <span>
+                      <UserCircleIcon className="w-8 h-8" />
+                    </span>
+                  )}
+                  <div
+                    className={`flex flex-col justify-center whitespace-nowrap ${
+                      !isOpenMenu && "scale-0"
+                    } delay-50 duration-100 origin-lef`}
+                  >
+                    <span className="text-sm font-bold">
+                      {/* concat firstName and lastName and get a substring 20 */}
+                      {`${user.firstName} ${user.lastName}`.length > 25
+                        ? `${user.firstName} ${user.lastName}`
+                            .substring(0, 25)
+                            .concat("...")
+                        : `${user.firstName} ${user.lastName}`}
+                    </span>
+                    <span className="text-xs flex gap-2 items-center">
+                      <p>Editar perfil</p>{" "}
+                      <ArrowLongRightIcon className="h-3 w-3" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          )}
-          <CardMenu
-            icon={<HomeIcon className="w-6 h-6" />}
-            title="Inicio"
-            isOpenMenu={isOpenMenu}
-            handleClick={() => setShowMenu(false)}
-          />
-          <CardMenu
-            icon={<ChartPieIcon className="w-6 h-6" />}
-            title="Dashboard"
-            isOpenMenu={isOpenMenu}
-            notification={2}
-            handleClick={() => setShowMenu(false)}
-          />
-          <CardMenu
-            icon={<ViewColumnsIcon className="w-6 h-6" />}
-            title="Kanban"
-            isOpenMenu={isOpenMenu}
-            handleClick={() => setShowMenu(false)}
-          />
-          <CardMenu
-            icon={<InboxIcon className="w-6 h-6" />}
-            title="Inbox"
-            isOpenMenu={isOpenMenu}
-            notification={10}
-            handleClick={() => setShowMenu(false)}
-          />
-          <CardMenu
-            icon={<ShoppingBagIcon className="w-6 h-6" />}
-            title="Products"
-            isOpenMenu={isOpenMenu}
-            handleClick={() => setShowMenu(false)}
-          />
-          {user?.firstName ? (
+              </Link>
+            )}
             <CardMenu
-              icon={<TbDoorExit className="w-6 h-6" />}
-              title="Cerrar sesión"
+              icon={<HomeIcon className="w-6 h-6" />}
+              title="Inicio"
               isOpenMenu={isOpenMenu}
-              handleClick={handleSignout}
-            />
-          ) : (
-            <CardMenu
-              icon={<TbDoorEnter className="w-6 h-6" />}
-              title="Sign In"
-              isOpenMenu={isOpenMenu}
-              redirectTo="/login"
               handleClick={() => setShowMenu(false)}
             />
-          )}
+            <CardMenu
+              icon={<BsFillMegaphoneFill className="w-6 h-6" />}
+              title="Mis Anuncios"
+              isOpenMenu={isOpenMenu}
+              handleClick={() => setShowMenu(false)}
+              redirectTo="/anuncios"
+            />
+            <CardMenu
+              icon={<ChartPieIcon className="w-6 h-6" />}
+              title="Dashboard"
+              isOpenMenu={isOpenMenu}
+              notification={2}
+              handleClick={() => setShowMenu(false)}
+            />
+            <CardMenu
+              icon={<ViewColumnsIcon className="w-6 h-6" />}
+              title="Kanban"
+              isOpenMenu={isOpenMenu}
+              handleClick={() => setShowMenu(false)}
+            />
+            <CardMenu
+              icon={<InboxIcon className="w-6 h-6" />}
+              title="Inbox"
+              isOpenMenu={isOpenMenu}
+              notification={10}
+              handleClick={() => setShowMenu(false)}
+            />
+            <CardMenu
+              icon={<ShoppingBagIcon className="w-6 h-6" />}
+              title="Products"
+              isOpenMenu={isOpenMenu}
+              handleClick={() => setShowMenu(false)}
+            />
+            {user?.firstName ? (
+              <CardMenu
+                icon={<TbDoorExit className="w-6 h-6" />}
+                title="Cerrar sesión"
+                isOpenMenu={isOpenMenu}
+                handleClick={handleSignout}
+              />
+            ) : (
+              <CardMenu
+                icon={<TbDoorEnter className="w-6 h-6" />}
+                title="Sign In"
+                isOpenMenu={isOpenMenu}
+                redirectTo="/login"
+                handleClick={() => setShowMenu(false)}
+              />
+            )}
+          </div>
         </div>
-        <div className="w-full bg-slate-100 max-h-[92vh] overflow-auto">
+        <div className="w-full bg-slate-100 max-h-[92vh] overflow-auto relative">
           {children}
         </div>
       </div>
@@ -191,7 +206,7 @@ const CardMenu = ({
   return (
     <div onClick={handleClick}>
       <Link to={redirectTo ?? "/"}>
-        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-slate-700 hover:text-white">
+        <div className="flex justify-between gap-2 cursor-pointer p-3 rounded-md items-center hover:bg-primary-600 hover:text-white">
           <div className="flex justify-center items-center gap-3">
             <span className="flex">
               {icon}

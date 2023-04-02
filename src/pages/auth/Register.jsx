@@ -36,13 +36,19 @@ const Register = () => {
     }
 
     const res = await handleSignUp(user);
-
-    if (res?.status === 400 || res?.status === 401 || res?.status === 404) {
-      notifyError(res.data.message);
+    console.log(res);
+    if (
+      res?.response.status === 400 ||
+      res?.response.status === 401 ||
+      res?.response.status === 404
+    ) {
+      notifyError(res.response.data.message);
     }
 
-    if (res?.status > 404) {
-      notifyError("Ocurrió un error, intente nuevamente");
+    if (res?.response.status > 404) {
+      notifyError(
+        "Ocurrió un error, intente nuevamente. Si el problema persiste, contacte al administrador."
+      );
     }
 
     if (res?.status === 200) {
@@ -54,13 +60,13 @@ const Register = () => {
 
   return (
     <div>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex items-center justify-center bg-primary-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <Link to="/">
               <img className="mx-auto h-14 w-auto" src={Logo} alt="Workflow" />
             </Link>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-primary-700">
               Regístrate
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
@@ -84,7 +90,7 @@ const Register = () => {
                   autoComplete="firstName"
                   required
                   minLength={3}
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
                     user.firstName.length >= 1
                       ? "invalid:border-red-500 invalid:border-2"
                       : "invalid:border-gray-300"
@@ -107,7 +113,7 @@ const Register = () => {
                   autoComplete="lastName"
                   minLength={3}
                   required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
                     user.lastName.length >= 1
                       ? "invalid:border-red-500 invalid:border-2"
                       : "invalid:border-gray-300"
@@ -131,7 +137,7 @@ const Register = () => {
                   minLength={10}
                   pattern="[0-9]{10}"
                   required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
                     user.phone.length >= 1
                       ? "invalid:border-red-500 invalid:border-2"
                       : "invalid:border-gray-300"
@@ -151,7 +157,7 @@ const Register = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
                     user.email.length >= 1
                       ? "invalid:border-red-500 invalid:border-2"
                       : "invalid:border-gray-300"
@@ -171,7 +177,7 @@ const Register = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-indigo-500 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
                     user.password.length >= 1
                       ? "invalid:border-red-500 invalid:border-2"
                       : "invalid:border-gray-300"
@@ -190,7 +196,7 @@ const Register = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                   value={user.remember}
                   onChange={(e) =>
                     setUser({ ...user, remember: e.target.checked })
@@ -206,7 +212,7 @@ const Register = () => {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-primary-600 hover:text-primary-500"
                 >
                   ¿Olvidaste tu contraseña?
                 </a>
@@ -218,7 +224,7 @@ const Register = () => {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
                   value={user.terms}
                   onChange={(e) =>
                     setUser({ ...user, terms: e.target.checked })
@@ -231,7 +237,7 @@ const Register = () => {
                   Acepto los{" "}
                   <a
                     href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                    className="font-medium text-primary-600 hover:text-primary-500"
                   >
                     términos y condiciones
                   </a>
@@ -241,12 +247,12 @@ const Register = () => {
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <MdOutlineArrowCircleRight
                     size={24}
-                    className="text-indigo-500 group-hover:text-indigo-400"
+                    className="text-primary-500 group-hover:text-primary-400"
                   />
                 </span>
                 Registrarse
@@ -257,7 +263,7 @@ const Register = () => {
             <p className="text-sm text-gray-600">¿Ya tienes una cuenta?</p>
             <Link
               to="/login"
-              className="ml-2 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+              className="ml-2 text-sm font-medium text-primary-600 hover:text-primary-500"
             >
               Inicia sesión
             </Link>

@@ -11,7 +11,7 @@ function Cards({ cards = [] }) {
         </div>
         <div className="p-4">
           <Link to="/article">
-            <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white hover:text-primary delay-100 ease-in-out">
+            <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-500 delay-100 ease-in-out">
               {item.title}
             </h5>
           </Link>
@@ -20,7 +20,7 @@ function Cards({ cards = [] }) {
 
             <Link
               to="/article"
-              className="text-secondary hover:text-primary delay-100 ease-in-out"
+              className="text-secondary hover:text-blue-600 delay-100 ease-in-out"
             >
               Ver más
             </Link>

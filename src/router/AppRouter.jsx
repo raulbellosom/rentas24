@@ -9,7 +9,7 @@ import Home from "../pages/home/Home";
 import Loading from "../utils/Loading";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
-const EditUser = lazy(() => import("../pages/users/EditUser"));
+const Users = lazy(() => import("../pages/users/Users"));
 const Ads = lazy(() => import("../pages/ads/Ads"));
 const AppRouter = () => {
   const { token, user } = useSelector((state) => state.auth);
@@ -39,7 +39,7 @@ const AppRoutes = ({ isAuth, user }) => {
     <Sidebar user={user}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/edit-user" element={<EditUser />} />
+        <Route path="/perfil" element={<Users />} />
         <Route path="/anuncios" element={<Ads />} />
         {!isAuth && (
           <>

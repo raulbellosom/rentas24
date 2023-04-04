@@ -6,10 +6,12 @@ import { handleSignUp } from "../../app/api";
 import { useDispatch } from "react-redux";
 import { getSignIn } from "../../features/auth/authSlice";
 import { toast } from "react-hot-toast";
+import { Spinner } from "flowbite-react";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -25,6 +27,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!user.firstName || !user.lastName || !user.email || !user.password) {
       return notifyError("Todos los campos son obligatorios");
     }
@@ -34,39 +37,42 @@ const Register = () => {
     if (!user.terms) {
       return notifyError("Debes aceptar los términos y condiciones");
     }
-
+    setIsLoading(true);
     const res = await handleSignUp(user);
-    console.log(res);
+
     if (
-      res?.response.status === 400 ||
-      res?.response.status === 401 ||
-      res?.response.status === 404
+      res?.response?.status === 400 ||
+      res?.response?.status === 401 ||
+      res?.response?.status === 404
     ) {
       notifyError(res.response.data.message);
+      setIsLoading(false);
     }
 
-    if (res?.response.status > 404) {
+    if (res?.response?.status > 404) {
       notifyError(
         "Ocurrió un error, intente nuevamente. Si el problema persiste, contacte al administrador."
       );
+      setIsLoading(false);
     }
 
     if (res?.status === 200) {
       localStorage.setItem("user", JSON.stringify(res.data));
       dispatch(getSignIn(res));
+      setIsLoading(false);
       navigate("/");
     }
   };
 
   return (
     <div>
-      <div className="min-h-screen flex items-center justify-center bg-primary-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="min-h-screen flex items-center justify-center bg-primary-100 py-10 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-2">
           <div>
             <Link to="/">
               <img className="mx-auto h-14 w-auto" src={Logo} alt="Workflow" />
             </Link>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-primary-700">
+            <h2 className="mt-3 text-center text-3xl font-extrabold text-primary-700">
               Regístrate
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
@@ -245,18 +251,28 @@ const Register = () => {
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-              >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <MdOutlineArrowCircleRight
-                    size={24}
-                    className="text-primary-500 group-hover:text-primary-400"
+              {!isLoading ? (
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
+                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <MdOutlineArrowCircleRight
+                      size={24}
+                      className="text-primary-500 group-hover:text-primary-400"
+                    />
+                  </span>
+                  Registrarse
+                </button>
+              ) : (
+                <div className="flex justify-center">
+                  <Spinner
+                    aria-label="Extra large spinner example"
+                    color={"info"}
+                    size="xl"
                   />
-                </span>
-                Registrarse
-              </button>
+                </div>
+              )}
             </div>
           </form>
           <div className="flex items-center justify-center">

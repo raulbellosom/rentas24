@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getSignIn } from "../../features/auth/authSlice";
 import { handleSignIn } from "../../app/api";
 import toast, { Toaster } from "react-hot-toast";
+import { Spinner } from "flowbite-react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,24 +18,30 @@ const Login = () => {
     remember: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const notifyError = (text) => toast.error(text);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     const res = await handleSignIn(data);
 
     if (res?.status === 400 || res?.status === 401 || res?.status === 404) {
       notifyError(res.data.message);
+      setIsLoading(false);
     }
 
     if (res?.status > 404) {
       notifyError("Ocurrió un error, intente nuevamente");
+      setIsLoading(false);
     }
 
     if (res?.status === 200) {
       localStorage.setItem("user", JSON.stringify(res.data));
       dispatch(getSignIn(res));
+      setIsLoading(false);
       navigate("/");
     }
   };
@@ -123,7 +130,7 @@ const Login = () => {
                   htmlFor="remember-me"
                   className="ml-2 block text-sm text-gray-900"
                 >
-                  Remember me
+                  Recordarme
                 </label>
               </div>
               <div className="text-sm">
@@ -131,24 +138,34 @@ const Login = () => {
                   href="#"
                   className="font-medium text-primary-600 hover:text-primary-500"
                 >
-                  Forgot your password?
+                  ¿Olvidaste tu contraseña?
                 </a>
               </div>
             </div>
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-              >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <MdAccountCircle
-                    size={24}
-                    className=" text-primary-500 group-hover:text-primary-400"
-                    aria-hidden="true"
+              {!isLoading ? (
+                <button
+                  type="submit"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+                >
+                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <MdAccountCircle
+                      size={24}
+                      className=" text-primary-500 group-hover:text-primary-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                  Inicar sesión
+                </button>
+              ) : (
+                <div className="flex justify-center">
+                  <Spinner
+                    aria-label="Extra large spinner example"
+                    color={"info"}
+                    size="xl"
                   />
-                </span>
-                Sign in
-              </button>
+                </div>
+              )}
             </div>
           </form>
           <div className="flex items-center justify-center">

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const urlEnv = import.meta.env.VITE_APP_API_URL;
 
-const config = {
+let config = {
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
@@ -17,7 +17,6 @@ export const handleSignUp = async (data) => {
     return error;
   }
 };
-
 
 export const handleSignIn = async (data) => {
   try {
@@ -42,7 +41,25 @@ export const updateUser = async (token, data) => {
   console.log(token);
   config.headers["x-access-token"] = token;
   try {
-    const res = await axios.patch(`${urlEnv}auth/profile/${data.id}`, data, config);
+    const res = await axios.patch(
+      `${urlEnv}auth/profile/${data.id}`,
+      data,
+      config
+    );
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const updatePhotoProfile = async (token, body, id) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(
+      `${urlEnv}auth/updatePhotoProfile/${id}`,
+      body,
+      config
+    );
     return res;
   } catch (error) {
     return error.response;

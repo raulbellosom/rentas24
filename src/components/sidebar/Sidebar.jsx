@@ -96,7 +96,7 @@ export default function Sidebar({ children, user = {} }) {
             } transition ease-in-out delay-75 duration-200`}
           >
             {user?.firstName && (
-              <Link to="/edit-user">
+              <Link to="/perfil">
                 <div className="flex items-center gap-2 p-2 pb-3 border-b border-primary-300 hover:rounded-md cursor-pointer hover:border-primary-600 hover:bg-primary-600/75 hover:text-white">
                   {user?.photo ? (
                     <img

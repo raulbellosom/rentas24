@@ -7,10 +7,10 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Home from "../pages/home/Home";
 import Loading from "../utils/Loading";
+import Ads from "../pages/ads/Ads";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Users = lazy(() => import("../pages/users/Users"));
-const Ads = lazy(() => import("../pages/ads/Ads"));
 const AppRouter = () => {
   const { token, user } = useSelector((state) => state.auth);
 

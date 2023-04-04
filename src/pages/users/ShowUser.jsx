@@ -3,9 +3,9 @@ import { MdModeEdit } from "react-icons/md";
 
 const ShowUser = ({ user, setIsEditUser }) => {
   return (
-    <div className="bg-primary-50">
-      <div className="flex items-center justify-between pb-4">
-        <h2 className="font-semibold text-xl">Mi perfil</h2>
+    <div>
+      <div className="flex items-center justify-end">
+        {/* <h2 className="font-semibold text-xl">Información de contacto</h2> */}
 
         <button
           className=" hover:text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300"

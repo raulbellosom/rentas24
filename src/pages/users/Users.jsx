@@ -10,8 +10,13 @@ import { updatePhotoProfile } from "../../app/api";
 import EditUser from "./EditUser";
 import { toast } from "react-hot-toast";
 import Modal from "../../components/modal/Modal";
-import { uploadPortada, uploadProfile } from "../../utils/firebase";
+import {
+  deleteProfileImage,
+  uploadPortada,
+  uploadProfile,
+} from "../../utils/firebase";
 import ShowUser from "./ShowUser";
+import AccountSettings from "./AccountSettings";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -55,9 +60,11 @@ const Users = () => {
     }
 
     if (res?.status === 200) {
+      await deleteProfileImage(user.photo);
       notifySuccess("Usuario actualizado");
       localStorage.setItem("user", JSON.stringify(res.data));
       dispatch(getUpdateProfile(res));
+      setActive(false);
     }
     setIsLoading(false);
     setPhoto(null);
@@ -69,7 +76,7 @@ const Users = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className="flex flex-col h-[88vh] mx-auto  ">
         <div className="w-full bg-teal-400 h-60 relative">
           <div
@@ -115,30 +122,34 @@ const Users = () => {
             )}
           </div>
         </div>
-        <div className="w-full h-full grid grid-cols-12 gap-4 py-24 bg-gray-50 ">
-          <div className="col-span-12 rounded-xl pb-10">
+        <div className="w-full h-full grid grid-cols-12 gap-4 pt-24 bg-gray-50 ">
+          <div className="col-span-12 rounded-xl">
             <Tabs.Group
               aria-label="Tabs with underline"
               style="underline"
-              className="w-full whitespace-nowrap flex-nowrap overflow-auto scrollbar-hide"
+              className="w-full whitespace-nowrap flex-nowrap overflow-auto m-0"
             >
-              <Tabs.Item title="Account Settings" active={true}>
-                {isEditUser ? (
-                  <EditUser
-                    user={user}
-                    token={token}
-                    setIsEditUser={setIsEditUser}
-                  />
-                ) : (
-                  <ShowUser user={user} setIsEditUser={setIsEditUser} />
-                )}
+              <Tabs.Item title="Información de contacto" active={true}>
+                <div className="pb-10">
+                  {isEditUser ? (
+                    <EditUser
+                      user={user}
+                      token={token}
+                      setIsEditUser={setIsEditUser}
+                    />
+                  ) : (
+                    <ShowUser user={user} setIsEditUser={setIsEditUser} />
+                  )}
+                </div>
               </Tabs.Item>
-              <Tabs.Item active={true} title="Company Settings">
-                Company Settings
+              <Tabs.Item active={true} title="Configuración de la cuenta">
+                <div className="pb-10 md:px-6 bg-gray-50">
+                  <AccountSettings user={user} />
+                </div>
               </Tabs.Item>
-              <Tabs.Item title="Documents">Documents</Tabs.Item>
-              <Tabs.Item title="Billing">Billing</Tabs.Item>
-              <Tabs.Item title="Notifications">Notifications</Tabs.Item>
+              <Tabs.Item title="Documentos">Documentos</Tabs.Item>
+              <Tabs.Item title="Metodos de pago">Metodos de pago</Tabs.Item>
+              {/* <Tabs.Item title="Notifications">Notifications</Tabs.Item> */}
             </Tabs.Group>
           </div>
         </div>

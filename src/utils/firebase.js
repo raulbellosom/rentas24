@@ -43,14 +43,21 @@ export async function uploadPortada(file) {
   return url;
 }
 
-export function deleteProfileImage(file) {
-  const desertRef = ref(storage, `user_profile/${file}`);
+export async function deleteProfileImage(file) {
+  try {
+    const desertRef = ref(storage, `${file}`);
 
-  deleteObject(desertRef)
-    .then((data) => {
-      console.log("objeto eliminado: ", data);
-    })
-    .catch((err) => {
-      console.log("err", err);
-    });
+    const res = deleteObject(desertRef)
+      .then((data) => {
+        console.log("objeto eliminado: ", data);
+        return true;
+      })
+      .catch((err) => {
+        console.log("err", err);
+        return false;
+      });
+    return res;
+  } catch (error) {
+    return false;
+  }
 }

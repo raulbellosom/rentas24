@@ -9,13 +9,13 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDdHyB0c08IlsNapfHE55g4qI2HPz1okIg",
-  authDomain: "rentas24-606a9.firebaseapp.com",
-  projectId: "rentas24-606a9",
-  storageBucket: "rentas24-606a9.appspot.com",
-  messagingSenderId: "235599254503",
-  appId: "1:235599254503:web:4271da7a19f6cd7bc0e342",
-  measurementId: "G-90J0SGHZYH",
+  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_APP_ID,
+  measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

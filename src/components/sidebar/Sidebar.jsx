@@ -190,7 +190,7 @@ export default function Sidebar({ children, user = {} }) {
         </div>
         <div className="w-full bg-slate-100 h-auto max-h-[92vh] overflow-auto relative flex flex-col justify-between">
           <div>{children}</div>
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getSignOut } from "../../features/auth/authSlice";
 import { BsFillMegaphoneFill } from "react-icons/bs";
+import Footer from "../Footer/Footer";
 
 export default function Sidebar({ children, user = {} }) {
   const dispatch = useDispatch();
@@ -187,8 +188,9 @@ export default function Sidebar({ children, user = {} }) {
             )}
           </div>
         </div>
-        <div className="w-full bg-slate-100 max-h-[92vh] overflow-auto relative">
-          {children}
+        <div className="w-full bg-slate-100 h-auto max-h-[92vh] overflow-auto relative flex flex-col justify-between">
+          <div>{children}</div>
+          <Footer />
         </div>
       </div>
     </div>

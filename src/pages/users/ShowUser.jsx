@@ -5,8 +5,6 @@ const ShowUser = ({ user, setIsEditUser }) => {
   return (
     <div>
       <div className="flex items-center justify-end">
-        {/* <h2 className="font-semibold text-xl">Información de contacto</h2> */}
-
         <button
           className=" hover:text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300"
           onClick={() => setIsEditUser(true)}

@@ -17,6 +17,7 @@ import {
 } from "../../utils/firebase";
 import ShowUser from "./ShowUser";
 import AccountSettings from "./AccountSettings";
+import UserDocuments from "./UserDocuments";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -77,8 +78,8 @@ const Users = () => {
 
   return (
     <div>
-      <div className="flex flex-col h-[88vh] mx-auto  ">
-        <div className="w-full bg-teal-400 h-60 relative">
+      <div className="flex flex-col min-h-[88vh] mx-auto bg-gray-50 ">
+        <div className="w-full bg-primary-200 h-64 relative">
           <div
             onClick={() => openModal("portada")}
             className="absolute h-full w-full cursor-pointer bg-black/0 opacity-0 hover:opacity-100 hover:bg-black/50 transition-all ease-in-out duration-200"
@@ -122,36 +123,36 @@ const Users = () => {
             )}
           </div>
         </div>
-        <div className="w-full h-full grid grid-cols-12 gap-4 pt-24 bg-gray-50 ">
-          <div className="col-span-12 rounded-xl">
-            <Tabs.Group
-              aria-label="Tabs with underline"
-              style="underline"
-              className="w-full whitespace-nowrap flex-nowrap overflow-auto m-0"
+        <div className="w-full h-full gap-4 mt-20 pb-10">
+          <Tabs.Group
+            aria-label="Tabs with underline"
+            style="underline"
+            className="w-full whitespace-nowrap flex-nowrap overflow-auto"
+          >
+            <Tabs.Item
+              title="Información de contacto"
+              active={true}
+              className="p-10"
             >
-              <Tabs.Item title="Información de contacto" active={true}>
-                <div className="pb-10">
-                  {isEditUser ? (
-                    <EditUser
-                      user={user}
-                      token={token}
-                      setIsEditUser={setIsEditUser}
-                    />
-                  ) : (
-                    <ShowUser user={user} setIsEditUser={setIsEditUser} />
-                  )}
-                </div>
-              </Tabs.Item>
-              <Tabs.Item active={true} title="Configuración de la cuenta">
-                <div className="pb-10 md:px-6 bg-gray-50">
-                  <AccountSettings user={user} />
-                </div>
-              </Tabs.Item>
-              <Tabs.Item title="Documentos">Documentos</Tabs.Item>
-              <Tabs.Item title="Metodos de pago">Metodos de pago</Tabs.Item>
-              {/* <Tabs.Item title="Notifications">Notifications</Tabs.Item> */}
-            </Tabs.Group>
-          </div>
+              {isEditUser ? (
+                <EditUser
+                  user={user}
+                  token={token}
+                  setIsEditUser={setIsEditUser}
+                />
+              ) : (
+                <ShowUser user={user} setIsEditUser={setIsEditUser} />
+              )}
+            </Tabs.Item>
+            <Tabs.Item active={true} title="Configuración de la cuenta">
+              <AccountSettings user={user} />
+            </Tabs.Item>
+            <Tabs.Item title="Mis documentos">
+              <UserDocuments />
+            </Tabs.Item>
+            <Tabs.Item title="Metodos de pago">Metodos de pago</Tabs.Item>
+            {/* <Tabs.Item title="Notifications">Notifications</Tabs.Item> */}
+          </Tabs.Group>
         </div>
       </div>
       {/* input file hidden */}
@@ -167,7 +168,7 @@ const Users = () => {
                 <img
                   src={URL.createObjectURL(photo)}
                   alt="profile"
-                  className="w-auto max-w-[72vw] h-72 object-cover object-center"
+                  className="w-auto max-w-[80vw] h-96 object-cover object-center"
                 />
               </div>
             ) : (
@@ -175,7 +176,7 @@ const Users = () => {
                 <img
                   src={typePhoto === "photo" ? user.photo : user.portada}
                   alt="profile"
-                  className="w-auto max-w-[72vw] h-72 object-cover object-center"
+                  className="w-auto max-w-[80vw] h-96 object-cover object-center"
                 />
               </div>
             )
@@ -185,13 +186,15 @@ const Users = () => {
             </div>
           )}
 
-          <input
-            type="file"
-            onChange={(e) => setPhoto(e.target.files[0])}
-            accept="image/*"
-          />
+          {!isLoading && (
+            <input
+              type="file"
+              onChange={(e) => setPhoto(e.target.files[0])}
+              accept="image/*"
+            />
+          )}
 
-          {photo && (
+          {photo && !isLoading && (
             <div className="flex justify-center items-center py-2">
               <button
                 onClick={(e) => onUpdatePhoto(e)}

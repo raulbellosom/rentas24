@@ -8,47 +8,62 @@ import Register from "../pages/auth/Register";
 import Home from "../pages/home/Home";
 import Loading from "../utils/Loading";
 import Ads from "../pages/ads/Ads";
+import { AlreadyLoginRoute, PrivateRoute } from "./RoutesSettings";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Users = lazy(() => import("../pages/users/Users"));
 const AppRouter = () => {
   const { token, user } = useSelector((state) => state.auth);
-
+  let status = token ? true : false;
   return (
     <Suspense fallback={<Loading />}>
       <Router>
-        <Routes>
-          {!token && (
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </>
-          )}
-          <Route
-            path="*"
-            element={<AppRoutes isAuth={token ? true : false} user={user} />}
-          />
-        </Routes>
+        <Sidebar user={user}>
+          <Routes>
+            {!token ? (
+              <Route
+                path="*"
+                element={
+                  <AlreadyLoginRoute status={status}>
+                    <AuthRoutes />
+                  </AlreadyLoginRoute>
+                }
+              />
+            ) : (
+              <Route
+                path="*"
+                element={
+                  <PrivateRoute status={status}>
+                    <AppAuthRoutes />
+                  </PrivateRoute>
+                }
+              />
+            )}
+            <Route path="/" element={<Home />} />
+            <Route path="/article" element={<Article />} />
+          </Routes>
+        </Sidebar>
       </Router>
     </Suspense>
   );
 };
 
-const AppRoutes = ({ isAuth, user }) => {
+const AppAuthRoutes = ({ user }) => {
   return (
-    <Sidebar user={user}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/perfil" element={<Users />} />
-        <Route path="/anuncios" element={<Ads />} />
-        {!isAuth && (
-          <>
-            <Route path="*" element={<Login />} />
-          </>
-        )}
-        {isAuth && <Route path="/article" element={<Article />} />}
-      </Routes>
-    </Sidebar>
+    <Routes>
+      <Route path="/perfil" element={<Users />} />
+      <Route path="/anuncios" element={<Ads />} />
+    </Routes>
+  );
+};
+
+const AuthRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="*" element={<Login />} />
+    </Routes>
   );
 };
 

@@ -97,11 +97,11 @@ export default function Sidebar({ children, user = {} }) {
             } transition ease-in-out delay-75 duration-200`}
           >
             {user?.firstName && (
-              <Link to="/perfil">
-                <div className="flex items-center gap-2 p-2 pb-3 border-b border-primary-300 hover:rounded-md cursor-pointer hover:border-primary-600 hover:bg-primary-600/75 hover:text-white">
+              <Link className="border-b pb-2 border-primary-300" to="/perfil">
+                <div className="flex items-center gap-2 p-2 hover:rounded-md cursor-pointer hover:bg-primary-600/75 hover:text-white">
                   {user?.photo ? (
                     <img
-                      className="w-8 h-8 rounded-full"
+                      className="w-8 h-8 rounded-full object-cover object-center"
                       src={user.photo}
                       alt="user_photo"
                     />
@@ -116,7 +116,6 @@ export default function Sidebar({ children, user = {} }) {
                     } delay-50 duration-100 origin-lef`}
                   >
                     <span className="text-sm font-bold">
-                      {/* concat firstName and lastName and get a substring 20 */}
                       {`${user.firstName} ${user.lastName}`.length > 25
                         ? `${user.firstName} ${user.lastName}`
                             .substring(0, 25)
@@ -190,7 +189,7 @@ export default function Sidebar({ children, user = {} }) {
         </div>
         <div className="w-full bg-slate-100 h-auto max-h-[92vh] overflow-auto relative flex flex-col justify-between">
           <div>{children}</div>
-          {/* <Footer /> */}
+          <Footer />
         </div>
       </div>
     </div>
@@ -221,7 +220,7 @@ const CardMenu = ({
             <h2
               id="title"
               className={`whitespace-nowrap ${
-                !isOpenMenu && "scale-0"
+                !isOpenMenu && "-translate-x-24 hidden"
               } delay-50 duration-100 origin-left`}
             >
               {title}

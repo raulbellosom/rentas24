@@ -99,10 +99,10 @@ export default function Sidebar({ children, user = {} }) {
             {user?.firstName && (
               <Link className="border-b pb-2 border-primary-300" to="/perfil">
                 <div className="flex items-center gap-2 p-2 hover:rounded-md cursor-pointer hover:bg-primary-600/75 hover:text-white">
-                  {user?.photo ? (
+                  {user?.photos?.profile ? (
                     <img
                       className="w-8 h-8 rounded-full object-cover object-center"
-                      src={user.photo}
+                      src={user.photos.profile}
                       alt="user_photo"
                     />
                   ) : (

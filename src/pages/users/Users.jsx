@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { MdAccountCircle } from "react-icons/md";
 import { RiImageAddFill } from "react-icons/ri";
@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 import Modal from "../../components/modal/Modal";
 import {
   deleteProfileImage,
-  uploadPortada,
+  uploadCover,
   uploadProfile,
 } from "../../utils/firebase";
 import ShowUser from "./ShowUser";
@@ -29,19 +29,30 @@ const Users = () => {
   const [isEditUser, setIsEditUser] = useState(false);
   const toggle = () => {
     setActive(!active);
+    setPhoto(null);
   };
 
   const notifyError = (text) => toast.error(text);
   const notifySuccess = (text) => toast.success(text);
 
+  useEffect(() => {
+    if (photo?.size > 5242880) {
+      notifyError(
+        "La imagen no debe pesar más de 5MB, selecciona otra imagen."
+      );
+      setPhoto(null);
+    }
+  }, [photo]);
+
   const onUpdatePhoto = async (e) => {
     e?.preventDefault();
     setIsLoading(true);
+
     let url = "";
-    if (typePhoto === "photo") {
+    if (typePhoto === "profile") {
       url = await uploadProfile(photo);
     } else {
-      url = await uploadPortada(photo);
+      url = await uploadCover(photo);
     }
 
     const body = { photo: url, type: typePhoto };
@@ -61,7 +72,12 @@ const Users = () => {
     }
 
     if (res?.status === 200) {
-      await deleteProfileImage(user.photo);
+      if (user.photos?.cover && typePhoto === "cover") {
+        await deleteProfileImage(user.photos.cover);
+      }
+      if (user.photos?.profile && typePhoto === "profile") {
+        await deleteProfileImage(user.photos.profile);
+      }
       notifySuccess("Usuario actualizado");
       localStorage.setItem("user", JSON.stringify(res.data));
       dispatch(getUpdateProfile(res));
@@ -81,7 +97,7 @@ const Users = () => {
       <div className="flex flex-col min-h-[88vh] mx-auto bg-gray-50 ">
         <div className="w-full bg-primary-200 h-64 relative">
           <div
-            onClick={() => openModal("portada")}
+            onClick={() => openModal("cover")}
             className="absolute h-full w-full cursor-pointer bg-black/0 opacity-0 hover:opacity-100 hover:bg-black/50 transition-all ease-in-out duration-200"
           >
             <div className="flex flex-col justify-center items-center h-full w-full">
@@ -92,13 +108,13 @@ const Users = () => {
             </div>
           </div>
           <img
-            src={user?.portada || "https://picsum.photos/id/10/1280/720/"}
-            alt="portada"
+            src={user?.photos?.cover || "https://picsum.photos/id/10/1280/720/"}
+            alt="cover"
             className="w-full h-full object-cover object-center "
           />
           <div className="flex flex-col items-center absolute inset-x-0 -bottom-16">
             <div
-              onClick={() => openModal("photo")}
+              onClick={() => openModal("profile")}
               className="absolute h-40 w-40 rounded-full cursor-pointer bg-black/0 opacity-0 hover:opacity-100 hover:bg-black/50 transition-all ease-in-out duration-200"
             >
               <div className="flex flex-col justify-center items-center h-full w-full">
@@ -108,17 +124,17 @@ const Users = () => {
                 </p>
               </div>
             </div>
-            {user?.photo ? (
+            {user?.photos?.profile ? (
               <div className="bg-white rounded-full">
                 <img
-                  src={user.photo}
+                  src={user.photos.profile}
                   alt="profile"
                   className="w-40 h-40 rounded-full object-cover object-center"
                 />
               </div>
             ) : (
               <div className="bg-white rounded-full">
-                <MdAccountCircle className="text-primary-300 h-40 w-40" />
+                <MdAccountCircle className="text-primary-400 h-40 w-40" />
               </div>
             )}
           </div>
@@ -156,65 +172,73 @@ const Users = () => {
         </div>
       </div>
       {/* input file hidden */}
-      <Modal active={active} toggle={toggle}>
-        <form
-          onSubmit={onUpdatePhoto}
-          method="patch"
-          encType="multipart/form-data"
-        >
-          {user?.photo ? (
-            photo ? (
-              <div className="bg-white rounded-full flex justify-center items-center py-2">
-                <img
-                  src={URL.createObjectURL(photo)}
-                  alt="profile"
-                  className="w-auto max-w-[80vw] h-96 object-cover object-center"
-                />
-              </div>
+      {active && (
+        <Modal active={active} toggle={toggle}>
+          <form
+            onSubmit={onUpdatePhoto}
+            method="patch"
+            encType="multipart/form-data"
+          >
+            {user?.photos[typePhoto] || photo ? (
+              photo ? (
+                <div className="bg-white rounded-full flex justify-center items-center py-2">
+                  <img
+                    src={URL.createObjectURL(photo)}
+                    alt="upload_photo"
+                    className="w-auto max-w-[80vw] h-96 object-cover object-center"
+                  />
+                </div>
+              ) : (
+                <div className="bg-white rounded-full flex justify-center items-center py-2">
+                  <img
+                    src={
+                      typePhoto === "profile"
+                        ? user.photos.profile
+                        : user.photos.cover
+                    }
+                    alt="upload_photo"
+                    className="w-auto max-w-[80vw] h-96 object-cover object-center"
+                  />
+                </div>
+              )
             ) : (
-              <div className="bg-white rounded-full flex justify-center items-center py-2">
-                <img
-                  src={typePhoto === "photo" ? user.photo : user.portada}
-                  alt="profile"
-                  className="w-auto max-w-[80vw] h-96 object-cover object-center"
+              <div className="flex justify-center items-center bg-white rounded-full">
+                <MdAccountCircle className="text-primary-400 h-40 w-40" />
+              </div>
+            )}
+
+            {!isLoading && (
+              <input
+                type="file"
+                onChange={(e) => setPhoto(e.target.files[0])}
+                accept="image/*"
+                max="5242880"
+                size={5242880}
+              />
+            )}
+
+            {photo && !isLoading && (
+              <div className="flex justify-center items-center py-2">
+                <button
+                  onClick={(e) => onUpdatePhoto(e)}
+                  className="bg-primary-600 text-white rounded-md px-4 py-2 mt-4"
+                >
+                  Cambiar foto
+                </button>
+              </div>
+            )}
+            {isLoading && (
+              <div className="flex justify-center">
+                <Spinner
+                  aria-label="Extra large spinner example"
+                  color={"info"}
+                  size="xl"
                 />
               </div>
-            )
-          ) : (
-            <div className="flex justify-center items-center bg-white rounded-full">
-              <MdAccountCircle className="text-primary-300 h-40 w-40" />
-            </div>
-          )}
-
-          {!isLoading && (
-            <input
-              type="file"
-              onChange={(e) => setPhoto(e.target.files[0])}
-              accept="image/*"
-            />
-          )}
-
-          {photo && !isLoading && (
-            <div className="flex justify-center items-center py-2">
-              <button
-                onClick={(e) => onUpdatePhoto(e)}
-                className="bg-primary-600 text-white rounded-md px-4 py-2 mt-4"
-              >
-                Cambiar foto
-              </button>
-            </div>
-          )}
-          {isLoading && (
-            <div className="flex justify-center">
-              <Spinner
-                aria-label="Extra large spinner example"
-                color={"info"}
-                size="xl"
-              />
-            </div>
-          )}
-        </form>
-      </Modal>
+            )}
+          </form>
+        </Modal>
+      )}
     </div>
   );
 };

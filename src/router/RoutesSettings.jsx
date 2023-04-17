@@ -1,9 +1,11 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-export const PrivateRoute = ({ status, children }) => {
-  return status ? children : <Navigate to="/" />;
+export const PrivateRoute = ({ user, children, redirectTo = "/login" }) => {
+  if (!user) return <Navigate to={redirectTo} />;
+  return <Outlet />;
 };
 
-export const AlreadyLoginRoute = ({ status, children }) => {
-  return status ? <Navigate to="/login" /> : children;
-};
+// export const PublicRoute = ({ user, children, redirectTo = "/" }) => {
+//   if (user) return <Navigate to={redirectTo} />;
+//   return <Outlet />;
+// };

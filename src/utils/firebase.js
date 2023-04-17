@@ -33,10 +33,10 @@ export async function uploadProfile(file) {
   return url;
 }
 
-export async function uploadPortada(file) {
+export async function uploadCover(file) {
   const name = uuidv4();
 
-  const storageRef = ref(storage, `user_portada/${name}`);
+  const storageRef = ref(storage, `user_cover/${name}`);
 
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);
@@ -49,7 +49,6 @@ export async function deleteProfileImage(file) {
 
     const res = deleteObject(desertRef)
       .then((data) => {
-        console.log("objeto eliminado: ", data);
         return true;
       })
       .catch((err) => {

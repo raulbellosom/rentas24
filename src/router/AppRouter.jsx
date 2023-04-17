@@ -8,63 +8,65 @@ import Register from "../pages/auth/Register";
 import Home from "../pages/home/Home";
 import Loading from "../utils/Loading";
 import Ads from "../pages/ads/Ads";
-import { AlreadyLoginRoute, PrivateRoute } from "./RoutesSettings";
+import { PrivateRoute } from "./RoutesSettings";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Users = lazy(() => import("../pages/users/Users"));
 const AppRouter = () => {
-  const { token, user } = useSelector((state) => state.auth);
-  let status = token ? true : false;
+  const { user } = useSelector((state) => state.auth);
+
+  let status = Object.keys(user).length > 0 ? true : false;
   return (
     <Suspense fallback={<Loading />}>
       <Router>
-        <Sidebar user={user}>
-          <Routes>
-            {!token ? (
-              <Route
-                path="*"
-                element={
-                  <AlreadyLoginRoute status={status}>
-                    <AuthRoutes />
-                  </AlreadyLoginRoute>
-                }
-              />
-            ) : (
-              <Route
-                path="*"
-                element={
-                  <PrivateRoute status={status}>
-                    <AppAuthRoutes />
-                  </PrivateRoute>
-                }
-              />
-            )}
-            <Route path="/" element={<Home />} />
-            <Route path="/article" element={<Article />} />
-          </Routes>
-        </Sidebar>
+        <Routes>
+          {status ? (
+            <Route element={<PrivateRoute user={status} />}>
+              <Route path="*" element={<SignedRoutes user={user} />} />
+            </Route>
+          ) : (
+            <>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </>
+          )}
+          <Route path="*" element={<UnsignedRoutes />} />
+        </Routes>
       </Router>
     </Suspense>
   );
 };
 
-const AppAuthRoutes = ({ user }) => {
+const SignedRoutes = ({ user }) => {
   return (
-    <Routes>
-      <Route path="/perfil" element={<Users />} />
-      <Route path="/anuncios" element={<Ads />} />
-    </Routes>
+    <Sidebar user={user}>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/article/:id" element={<Article />} />
+        <Route path="/anuncios" element={<Ads />} />
+        <Route path="/perfil" element={<Users />} />
+      </Routes>
+    </Sidebar>
   );
 };
 
-const AuthRoutes = () => {
+const UnsignedRoutes = () => {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<Login />} />
-    </Routes>
+    <Sidebar>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/article/:id" element={<Article />} />
+      </Routes>
+    </Sidebar>
   );
 };
+
+// const AuthenticateRoutes = () => {
+//   return (
+//     <Routes>
+
+//     </Routes>
+//   );
+// };
 
 export default AppRouter;

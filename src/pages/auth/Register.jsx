@@ -7,17 +7,21 @@ import { useDispatch } from "react-redux";
 import { getSignIn } from "../../features/auth/authSlice";
 import { toast } from "react-hot-toast";
 import { Spinner } from "flowbite-react";
+import SelectCountryInput from "../../components/inputs/SelectCountryInput";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [selectedCountry, setSelectedCountry] = useState([]);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    phone_code: "",
     phone: "",
     remember: false,
     terms: false,
@@ -37,6 +41,7 @@ const Register = () => {
     if (!user.terms) {
       return notifyError("Debes aceptar los términos y condiciones");
     }
+    console.log(user);
     setIsLoading(true);
     const res = await handleSignUp(user);
 
@@ -62,6 +67,11 @@ const Register = () => {
       setIsLoading(false);
       navigate("/");
     }
+  };
+
+  const getPhoneCode = (country) => {
+    setSelectedCountry(country);
+    setUser({ ...user, phone_code: "+" + country.phone_code });
   };
 
   return (
@@ -131,28 +141,42 @@ const Register = () => {
                   }
                 />
               </div>
-              <div>
-                <label htmlFor="phone" className="text-sm">
-                  Teléfono
-                </label>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  autoComplete="phone"
-                  minLength={10}
-                  pattern="[0-9]{10}"
-                  required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
-                    user.phone.length >= 1
-                      ? "invalid:border-red-500 invalid:border-2"
-                      : "invalid:border-gray-300"
-                  }`}
-                  placeholder="Teléfono"
-                  value={user.phone}
-                  onChange={(e) => setUser({ ...user, phone: e.target.value })}
-                />
+              <div className="grid grid-cols-5 gap-4">
+                <div className="col-span-2">
+                  <label htmlFor="phone_code" className="text-sm">
+                    Código de país
+                  </label>
+                  <SelectCountryInput
+                    getPhoneCode={getPhoneCode}
+                    selectedCountry={selectedCountry}
+                  />
+                </div>
+                <div className="col-span-3">
+                  <label htmlFor="phone" className="text-sm">
+                    Teléfono
+                  </label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autoComplete="phone"
+                    minLength={10}
+                    pattern="[0-9]{10}"
+                    required
+                    className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:text-primary-500 focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm ${
+                      user.phone.length >= 1
+                        ? "invalid:border-red-500 invalid:border-2"
+                        : "invalid:border-gray-300"
+                    }`}
+                    placeholder="Teléfono"
+                    value={user.phone}
+                    onChange={(e) =>
+                      setUser({ ...user, phone: e.target.value })
+                    }
+                  />
+                </div>
               </div>
+
               <div>
                 <label htmlFor="email-address" className="text-sm">
                   Correo electrónico

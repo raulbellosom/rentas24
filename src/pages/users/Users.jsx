@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUpdateProfile } from "../../features/auth/authSlice";
 import { Spinner } from "flowbite-react";
 
-import { updatePhotoProfile } from "../../app/api";
+import { handleUpdatePhotoProfile } from "../../app/api";
 import EditUser from "./EditUser";
 import { toast } from "react-hot-toast";
 import Modal from "../../components/modal/Modal";
@@ -57,7 +57,7 @@ const Users = () => {
 
     const body = { photo: url, type: typePhoto };
 
-    const res = await updatePhotoProfile(token, body, user.id);
+    const res = await handleUpdatePhotoProfile(token, body, user.id);
 
     if (
       res?.response?.status === 400 ||
@@ -161,7 +161,7 @@ const Users = () => {
               )}
             </Tabs.Item>
             <Tabs.Item active={true} title="Configuración de la cuenta">
-              <AccountSettings user={user} />
+              <AccountSettings user={user} token={token} />
             </Tabs.Item>
             <Tabs.Item title="Mis documentos">
               <UserDocuments />

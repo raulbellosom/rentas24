@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { getUpdateProfile } from "../../features/auth/authSlice";
-import { updateUser } from "../../app/api";
+import { handleUpdateUser } from "../../app/api";
 import { Label, TextInput, Select } from "flowbite-react";
 
 const EditUser = ({ token, user, setIsEditUser }) => {
@@ -29,7 +29,7 @@ const EditUser = ({ token, user, setIsEditUser }) => {
     if (!users.firstName || !users.lastName || !users.email || !users.phone) {
       return notifyError("Todos los campos son obligatorios");
     }
-    const res = await updateUser(token, users);
+    const res = await handleUpdateUser(token, users);
 
     if (
       res?.response.status === 400 ||

@@ -54,12 +54,12 @@ export default function Sidebar({ children, user = {} }) {
             />
           </span>
           <span className="bg-primary-600 cursor-pointer p-2 rounded-full md:hidden flex items-center justify-center">
-            <MagnifyingGlassIcon className="w-6 h-6 text-white" />
+            <MagnifyingGlassIcon className="w-6 h-6 text-white cursor-pointer" />
           </span>
         </div>
         <div className="hidden md:flex md:col-span-5 items-center pl-2 bg-white rounded-full">
           <span>
-            <MagnifyingGlassIcon className="w-6 h-6 text-primary-600" />
+            <MagnifyingGlassIcon className="w-6 h-6 text-primary-600 cursor-pointer" />
           </span>
           <input
             className="bg-transparent border-none w-full"
@@ -67,7 +67,7 @@ export default function Sidebar({ children, user = {} }) {
             placeholder="Search"
           />
           <span>
-            <ArrowRightCircleIcon className="text-primary-500 w-10 h-10" />
+            <ArrowRightCircleIcon className="text-primary-500 w-10 h-10 cursor-pointer" />
           </span>
         </div>
 

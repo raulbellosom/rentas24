@@ -37,8 +37,7 @@ export const handleProfile = async (token) => {
   }
 };
 
-export const updateUser = async (token, data) => {
-  console.log(token);
+export const handleUpdateUser = async (token, data) => {
   config.headers["x-access-token"] = token;
   try {
     const res = await axios.patch(
@@ -52,11 +51,39 @@ export const updateUser = async (token, data) => {
   }
 };
 
-export const updatePhotoProfile = async (token, body, id) => {
+export const handleUpdatePassword = async (token, data) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(
+      `${urlEnv}auth/updatePassword/${data.id}`,
+      data,
+      config
+    );
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleUpdatePhotoProfile = async (token, body, id) => {
   config.headers["x-access-token"] = token;
   try {
     const res = await axios.patch(
       `${urlEnv}auth/updatePhotoProfile/${id}`,
+      body,
+      config
+    );
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleDisableUser = async (token, id, body) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(
+      `${urlEnv}auth/disableUser/${id}`,
       body,
       config
     );

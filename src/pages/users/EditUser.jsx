@@ -159,16 +159,16 @@ const EditUser = ({ token, user, setIsEditUser }) => {
           onChange={(e) => setUser({ ...users, street: e.target.value })}
         />
       </div>
-      <div className="flex justify-center md:justify-end col-span-12 py-4">
+      <div className="flex justify-center md:justify-end gap-4 col-span-12 py-4">
         <button
-          className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 mr-2 transition ease-in-out duration-200"
+          className="flex items-center justify-center gap-3 bg-white hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-gray-500 dark:hover:bg-gray-700 dark:focus:gray-red-800 hover:scale-110 transition ease-in-out duration-200 cursor-pointer border border-gray-300"
           type="button"
           onClick={() => setIsEditUser(false)}
         >
           Cancelar
         </button>
         <button
-          className="group relative flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+          className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-110 transition ease-in-out duration-200"
           type="submit"
         >
           Actualizar

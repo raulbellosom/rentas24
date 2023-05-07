@@ -18,7 +18,7 @@ const Carousel = ({ images }) => {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
-        className={`h-full w-full rounded-t-lg`}
+        className={`h-full w-full rounded-lg`}
       >
         <div className="h-full flex justify-between items-center px-2">
           <button

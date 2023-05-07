@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { getSignOut } from "../../features/auth/authSlice";
 import { BsFillMegaphoneFill } from "react-icons/bs";
 import Footer from "../Footer/Footer";
+import { FaStore } from "react-icons/fa";
 
 export default function Sidebar({ children, user = {} }) {
   const dispatch = useDispatch();
@@ -142,6 +143,13 @@ export default function Sidebar({ children, user = {} }) {
               isOpenMenu={isOpenMenu}
               handleClick={() => setShowMenu(false)}
               redirectTo="/anuncios"
+            />
+            <CardMenu
+              icon={<FaStore className="w-6 h-6" />}
+              title="Mis Artitulos"
+              isOpenMenu={isOpenMenu}
+              handleClick={() => setShowMenu(false)}
+              redirectTo="/articulos"
             />
             <CardMenu
               icon={<ChartPieIcon className="w-6 h-6" />}

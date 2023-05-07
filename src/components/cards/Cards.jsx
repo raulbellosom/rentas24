@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Carousel from "../../utils/Carouse";
+import Carousel from "../../utils/Carousel";
 
 function Cards({ cards = [] }) {
   return items.map((item, index) => (

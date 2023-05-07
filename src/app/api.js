@@ -92,3 +92,101 @@ export const handleDisableUser = async (token, id, body) => {
     return error.response;
   }
 };
+
+// Article Types
+
+export const handleGetTypes = async () => {
+  try {
+    const res = await axios.get(`${urlEnv}types`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetType = async (id) => {
+  try {
+    const res = await axios.get(`${urlEnv}types/${id}`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+// Articles
+
+export const handleGetArticles = async () => {
+  try {
+    const res = await axios.get(`${urlEnv}articles`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetArticle = async (id) => {
+  try {
+    const res = await axios.get(`${urlEnv}articles/${id}`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleCreateArticle = async (token, data) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.post(`${urlEnv}articles`, data, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleUpdateArticle = async (token, id, data) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(`${urlEnv}articles/${id}`, data, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleDeleteArticle = async (token, id) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.delete(`${urlEnv}articles/${id}`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetArticlesByType = async (id) => {
+  try {
+    const res = await axios.get(`${urlEnv}articles/type/${id}`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetArticlesByUserId = async (token, id) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.get(`${urlEnv}articles/user/${id}`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const handleGetArticleById = async (token, id) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.get(`${urlEnv}articles/article/${id}`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};

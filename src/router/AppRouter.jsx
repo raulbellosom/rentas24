@@ -1,6 +1,6 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Article from "../pages/articles/Article";
 import Login from "../pages/auth/Login";
@@ -9,11 +9,30 @@ import Home from "../pages/home/Home";
 import Loading from "../utils/Loading";
 import Ads from "../pages/ads/Ads";
 import { PrivateRoute } from "./RoutesSettings";
+import { getTypes } from "../features/articleTypes/typesSlice";
+import { handleGetTypes } from "../app/api";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
+const Articles = lazy(() => import("../pages/articles/Articles"));
+const ShowArticles = lazy(() => import("../pages/articles/ShowArticles"));
+const CreateArticle = lazy(() => import("../pages/articles/CreateArticle"));
 const Users = lazy(() => import("../pages/users/Users"));
+
 const AppRouter = () => {
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const types = articleTypes();
+    types.then((res) => {
+      dispatch(getTypes(res));
+    });
+  }, []);
+
+  const articleTypes = async () => {
+    const response = await handleGetTypes();
+    return response;
+  };
 
   let status = Object.keys(user).length > 0 ? true : false;
   return (
@@ -42,6 +61,10 @@ const SignedRoutes = ({ user }) => {
     <Sidebar user={user}>
       <Routes>
         <Route index element={<Home />} />
+        <Route path="/articulos" element={<Articles />} />
+        <Route path="/crear-articulo" element={<CreateArticle />} />
+        <Route path="/editar-articulo/:id" element={<CreateArticle />} />
+        <Route path="/ver-articulo/:id" element={<ShowArticles />} />
         <Route path="/article/:id" element={<Article />} />
         <Route path="/anuncios" element={<Ads />} />
         <Route path="/perfil" element={<Users />} />

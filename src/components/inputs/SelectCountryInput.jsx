@@ -8,37 +8,45 @@ const SelectCountryInput = ({ selectedCountry = {}, getPhoneCode }) => {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [filterCountry, setFilterCountry] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get("https://restcountries.com/v2/all")
-      .then((res) => {
-        setIsLoading(false);
-        res.data = res.data.map((country) => {
-          return {
-            name: country.name,
-            flag: country.flags["png"],
-            phone_code: country.callingCodes[0],
-            id: uuidv4(),
-          };
+    if (filterCountry.length > 0) {
+      const filteredCountries = countries.filter((country) =>
+        country.name.toLowerCase().includes(filterCountry.toLowerCase())
+      );
+      setCountries(filteredCountries);
+    } else {
+      setIsLoading(true);
+      axios
+        .get("https://restcountries.com/v2/all")
+        .then((res) => {
+          setIsLoading(false);
+          res.data = res.data.map((country) => {
+            return {
+              name: country.name,
+              flag: country.flags["png"],
+              phone_code: country.callingCodes[0],
+              id: uuidv4(),
+            };
+          });
+          res.data.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          });
+          setCountries(res.data);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log(err);
         });
-        res.data.sort((a, b) => {
-          if (a.name < b.name) {
-            return -1;
-          }
-          if (a.name > b.name) {
-            return 1;
-          }
-          return 0;
-        });
-        setCountries(res.data);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        console.log(err);
-      });
-  }, []);
+    }
+  }, [filterCountry]);
 
   const handleValueChange = (country) => {
     getPhoneCode(country);
@@ -62,7 +70,7 @@ const SelectCountryInput = ({ selectedCountry = {}, getPhoneCode }) => {
             {Object.keys(selectedCountry).length > 0 ? (
               <div className="flex items-center gap-4 px-2">
                 <img
-                  className="w-6 h-6"
+                  className="h-4"
                   src={selectedCountry.flag}
                   alt={selectedCountry.name}
                 />
@@ -78,6 +86,12 @@ const SelectCountryInput = ({ selectedCountry = {}, getPhoneCode }) => {
             <div className="absolute z-10 top-11 left-0 w-[90vw] max-w-[450px] h-[30vh]">
               <div className="w-full h-full overflow-y-auto">
                 <div className="bg-white">
+                  <input
+                    className="w-full px-5 py-2"
+                    type="text"
+                    value={filterCountry}
+                    onChange={(e) => setFilterCountry(e.target.value)}
+                  />
                   {countries.map((country) => (
                     <div
                       key={country.id}

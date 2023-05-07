@@ -79,8 +79,7 @@ const data = [
 const Ads = () => {
   return (
     <div className="p-5 w-full">
-      {/* cabecera */}
-      <div className="flex justify-between items-center bg-white p-5 rounded-lg">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
         <h2 className="text-2xl font-bold text-blue-500">Mis anuncios</h2>
         <div className="text-blue-500 flex gap-3">
           <div className="flex justify-end text-blue-500">
@@ -109,8 +108,6 @@ const Ads = () => {
           </div>
         </div>
       </div>
-
-      {/* tabla */}
       <div className="bg-white my-5 p-5 rounded-lg">
         <Table headers={headers} content={data} actions={true} />
       </div>

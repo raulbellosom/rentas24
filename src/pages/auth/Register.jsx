@@ -41,7 +41,7 @@ const Register = () => {
     if (!user.terms) {
       return notifyError("Debes aceptar los términos y condiciones");
     }
-    console.log(user);
+
     setIsLoading(true);
     const res = await handleSignUp(user);
 

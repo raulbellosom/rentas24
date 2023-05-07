@@ -27,7 +27,7 @@ const Table = ({ headers, content, onEdit, onDelete, onShow }) => {
                     <img
                       src={item[header.selector]}
                       alt={"article_image"}
-                      className="w-20 h-20"
+                      className="w-20 h-20 min-w-[75px] min-h-[75px] object-cover rounded-lg"
                     />
                   </td>
                 ) : header.selector === "name" ? (
@@ -83,79 +83,6 @@ const Table = ({ headers, content, onEdit, onDelete, onShow }) => {
         </tbody>
       </table>
     </div>
-
-    // <table className="hidden lg:flex lg:flex-col whitespace-nowrap w-full">
-    //   <thead className="py-2 px-4 rounded-lg bg-blue-500 w-full">
-    //     <tr className="font-bold text-white w-full">
-    //       {headers.map((header, index) => (
-    //         <th key={index} className="whitespace-nowrap">
-    //           <p className="flex gap-1 items-center">
-    //             {header.name}
-    //             {header.sortable && (
-    //               <span>
-    //                 <ArrowLongDownIcon className="h-3 w-3" />
-    //               </span>
-    //             )}
-    //           </p>
-    //         </th>
-    //       ))}
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     {content.map((item, index) => (
-    //       <tr key={index} className="py-2 text-sm border-b border-gray-200">
-    //         <td>
-    //           {item.image && (
-    //             <img src={item.image} alt={item.name} className="w-20 h-20" />
-    //           )}
-    //           {!item.image && (
-    //             <img
-    //               src="https://via.placeholder.com/150"
-    //               alt={item.name}
-    //               className="w-20 h-20"
-    //             />
-    //           )}
-    //         </td>
-    //         <td>{item.name}</td>
-    //         <td>{item.price}</td>
-    //         <td>{item.category}</td>
-    //         <td>{item.status}</td>
-    //         <td>{item.createdAt}</td>
-    //         {headers?.find((item) => item.selector == "actions") && (
-    //           <td>
-    //             <div className="flex gap-2">
-    //               <button
-    //                 onClick={() => onShow(item.id)}
-    //                 className="flex items-center gap-2 text-gray-500 hover:text-white hover:bg-blue-500 p-2 rounded-lg hover:scale-110 transition ease-in-out duration-200"
-    //               >
-    //                 <span>
-    //                   <BsEye className="w-4 h-4" />
-    //                 </span>
-    //               </button>
-    //               <button
-    //                 onClick={() => onEdit(item.id)}
-    //                 className="flex items-center gap-2 text-gray-500 hover:text-white hover:bg-green-500 p-2 rounded-lg hover:scale-110 transition ease-in-out duration-200"
-    //               >
-    //                 <span>
-    //                   <BsPencilSquare className="w-4 h-4" />
-    //                 </span>
-    //               </button>
-
-    //               <button
-    //                 onClick={() => onDelete(item.id)}
-    //                 className="flex items-center gap-2 text-gray-500 hover:text-white hover:bg-red-500 p-2 rounded-lg hover:scale-110 transition ease-in-out duration-200"
-    //               >
-    //                 <span>
-    //                   <BsTrash className="w-4 h-4 " />
-    //                 </span>
-    //               </button>
-    //             </div>
-    //           </td>
-    //         )}
-    //       </tr>
-    //     ))}
-    //   </tbody>
-    // </table>
   );
 };
 

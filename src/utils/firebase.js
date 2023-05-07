@@ -60,3 +60,17 @@ export async function deleteProfileImage(file) {
     return false;
   }
 }
+
+export async function uploadArticleImages(file, user_id, idArticle) {
+  const name = uuidv4();
+
+  const storageRef = ref(
+    storage,
+    `articles_photos/${user_id}/articles/${idArticle}/${name}`
+  );
+
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+
+  return url;
+}

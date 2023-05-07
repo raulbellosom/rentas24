@@ -41,6 +41,10 @@ const AccountSettings = ({ user, token }) => {
       );
     }
 
+    if (pass.newPassword.length < 8) {
+      return notifyError("La contraseña debe tener al menos 8 caracteres.");
+    }
+
     if (pass.newPassword !== pass.repeatPassword) {
       return notifyError("La contraseña nueva no coinciden");
     }

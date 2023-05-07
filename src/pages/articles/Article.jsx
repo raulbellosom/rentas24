@@ -3,7 +3,7 @@ import { MdBed } from "react-icons/md";
 import { BsFillPersonFill } from "react-icons/bs";
 import { FaBath } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Carousel from "../../utils/Carouse";
+import Carousel from "../../utils/Carousel";
 
 function Article({ item }) {
   return (

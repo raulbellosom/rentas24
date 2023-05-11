@@ -1,84 +1,136 @@
 import React, { useEffect, useState } from "react";
-import { BsPlusCircleFill, BsTrash } from "react-icons/bs";
+import {
+  BsCheck,
+  BsPlug,
+  BsPlus,
+  BsPlusCircle,
+  BsPlusCircleFill,
+} from "react-icons/bs";
 import { MdOutlineRemoveCircleOutline, MdRemoveCircle } from "react-icons/md";
 
-let options = [
-  { label: "Wi-Fi", value: "wifi" },
-  { label: "Televisión por cable", value: "tv" },
-  { label: "Aire Acondicionado", value: "aac" },
-  { label: "Agua potable", value: "water" },
-  { label: "Luz", value: "light" },
-  { label: "Gas", value: "gas" },
-  { label: "Calefacción", value: "heating" },
-  { label: "Cocina", value: "kitchen" },
-  { label: "Estacionamiento", value: "parking" },
-  { label: "Piscina", value: "pool" },
-  { label: "Gimnasio", value: "gym" },
-  { label: "Mascotas", value: "pets" },
-  { label: "Amueblado", value: "furnished" },
-  { label: "Lavadora", value: "washer" },
-  { label: "Secadora", value: "dryer" },
-  { label: "Ascensor", value: "elevator" },
-  { label: "Fraccionamiento Privado", value: "private" },
-  { label: "Portero", value: "doorman" },
-];
-
-const House = ({ characteristics, setCharacteristics }) => {
-  const [services, setServices] = useState([]);
+const House = ({
+  characteristics = {
+    rooms: "",
+    bathrooms: "",
+    maxPeople: 1,
+    services: [],
+  },
+  setCharacteristics,
+  options = [],
+}) => {
   const [search, setSearch] = useState("");
   const [showMenu, setShowMenu] = useState(false);
 
   const handleSelectOption = (value) => {
     if (options.some((option) => option.label === value.label)) {
-      if (services.includes(value)) {
-        setServices(services.filter((service) => service !== value));
+      if (characteristics.services.find((item) => item.label === value.label)) {
+        setCharacteristics({
+          ...characteristics,
+          services: characteristics.services.filter(
+            (service) => service.label !== value.label
+          ),
+        });
         return;
       }
-      setServices([...services, value]);
+      setCharacteristics({
+        ...characteristics,
+        services: [...characteristics.services, value],
+      });
     } else {
       options.push(value);
-      setServices([...services, value]);
+      setCharacteristics({
+        ...characteristics,
+        services: [...characteristics.services, value],
+      });
     }
   };
-
-  useEffect(() => {
-    setCharacteristics({ ...characteristics, services });
-  }, [services]);
 
   const handleCloseMenu = () => {
     setShowMenu(false);
     setSearch("");
   };
 
+  options = options.sort((a, b) => {
+    if (a.label > b.label) {
+      return 1;
+    }
+    if (a.label < b.label) {
+      return -1;
+    }
+    return 0;
+  });
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-col w-full">
-          <label className="font-bold" htmlFor="rooms">
-            Numero de habitaciones
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="flex flex-col w-full justify-between">
+          <label className="font-bold" htmlFor="type">
+            Habitantes permitidos
           </label>
           <input
             className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
             type="number"
+            name="maxPeople"
+            id="maxPeople"
+            value={characteristics.maxPeople}
+            onChange={(e) =>
+              setCharacteristics({
+                ...characteristics,
+                maxPeople: e.target.value,
+              })
+            }
+          />
+        </div>
+        <div className="flex flex-col w-full justify-between">
+          <label className="font-bold" htmlFor="rooms">
+            Numero de habitaciones
+          </label>
+          <select
+            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
             name="rooms"
             id="rooms"
-            placeholder="Numero de habitaciones"
             value={characteristics.rooms}
             onChange={(e) =>
               setCharacteristics({ ...characteristics, rooms: e.target.value })
             }
-          />
+          >
+            <option disabled value="">
+              Selecciona número de habitaciones
+            </option>
+            <option value="1">1</option>
+            <option value="1 1/2">1 1/2</option>
+            <option value="2">2</option>
+            <option value="2 1/2">2 1/2</option>
+            <option value="3">3</option>
+            <option value="3 1/2">3 1/2</option>
+            <option value="4">4</option>
+            <option value="4 1/2">4 1/2</option>
+            <option value="5">5</option>
+            <option value="5 1/2">5 1/2</option>
+            <option value="6">6</option>
+            <option value="6 1/2">6 1/2</option>
+            <option value="7">7</option>
+            <option value="7 1/2">7 1/2</option>
+            <option value="8">8</option>
+            <option value="8 1/2">8 1/2</option>
+            <option value="9">9</option>
+            <option value="9 1/2">9 1/2</option>
+            <option value="10">10</option>
+            <option value="10 1/2">10 1/2</option>
+            <option value="11">11</option>
+            <option value="11 1/2">11 1/2</option>
+            <option value="12">12</option>
+            <option value="12 1/2">12 1/2</option>
+          </select>
         </div>
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full justify-between">
           <label className="font-bold" htmlFor="bathrooms">
             Numero de baños
           </label>
-          <input
+          <select
             className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-            type="number"
             name="bathrooms"
             id="bathrooms"
-            placeholder="Numero de baños"
             value={characteristics.bathrooms}
             onChange={(e) =>
               setCharacteristics({
@@ -86,74 +138,34 @@ const House = ({ characteristics, setCharacteristics }) => {
                 bathrooms: e.target.value,
               })
             }
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-bold" htmlFor="yard">
-            Patio
-          </label>
-          <select
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-            name="yard"
-            id="yard"
-            value={characteristics.yard}
-            onChange={(e) =>
-              setCharacteristics({ ...characteristics, yard: e.target.value })
-            }
           >
             <option disabled value="">
-              Selecciona un estado
+              Selecciona número de habitaciones
             </option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-          </select>
-        </div>
-      </div>
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="flex flex-col w-full">
-          <label className="font-bold" htmlFor="terrace">
-            Terraza
-          </label>
-          <select
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-            name="terrace"
-            id="terrace"
-            value={characteristics.terrace}
-            onChange={(e) =>
-              setCharacteristics({
-                ...characteristics,
-                terrace: e.target.value,
-              })
-            }
-          >
-            <option disabled value="">
-              Selecciona un estado
-            </option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
-          </select>
-        </div>
-        <div className="flex flex-col w-full">
-          <label className="font-bold" htmlFor="washingArea">
-            Area de lavado
-          </label>
-          <select
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-            name="washingArea"
-            id="washingArea"
-            value={characteristics.washingArea}
-            onChange={(e) =>
-              setCharacteristics({
-                ...characteristics,
-                washingArea: e.target.value,
-              })
-            }
-          >
-            <option disabled value="">
-              Selecciona un estado
-            </option>
-            <option value="0">No</option>
-            <option value="1">Si</option>
+            <option value="1">1</option>
+            <option value="1 1/2">1 1/2</option>
+            <option value="2">2</option>
+            <option value="2 1/2">2 1/2</option>
+            <option value="3">3</option>
+            <option value="3 1/2">3 1/2</option>
+            <option value="4">4</option>
+            <option value="4 1/2">4 1/2</option>
+            <option value="5">5</option>
+            <option value="5 1/2">5 1/2</option>
+            <option value="6">6</option>
+            <option value="6 1/2">6 1/2</option>
+            <option value="7">7</option>
+            <option value="7 1/2">7 1/2</option>
+            <option value="8">8</option>
+            <option value="8 1/2">8 1/2</option>
+            <option value="9">9</option>
+            <option value="9 1/2">9 1/2</option>
+            <option value="10">10</option>
+            <option value="10 1/2">10 1/2</option>
+            <option value="11">11</option>
+            <option value="11 1/2">11 1/2</option>
+            <option value="12">12</option>
+            <option value="12 1/2">12 1/2</option>
           </select>
         </div>
       </div>
@@ -181,7 +193,7 @@ const House = ({ characteristics, setCharacteristics }) => {
               className="relative w-full md:max-w-[350px]"
             >
               {showMenu && (
-                <div className="w-full flex flex-col gap-2 absolute md:-top-20 bg-white h-60 overflow-auto p-4 shadow-lg z-40">
+                <div className="w-full flex flex-col gap-2 absolute md:-top-20 bg-white h-72 overflow-auto p-4 shadow-lg z-40">
                   <div className="flex justify-between gap-2">
                     <p className="font-bold">Resultados</p>
                     <span className="cursor-pointer ">
@@ -201,21 +213,26 @@ const House = ({ characteristics, setCharacteristics }) => {
                         <div
                           key={option.value}
                           onClick={() => handleSelectOption(option)}
-                          className={`md:w-72 flex items-center justify-between gap-2 py-2 px-4 cursor-pointer transition ease-in-out duration-200 hover:scale-105 ${
-                            services.includes(option)
-                              ? "bg-primary-500 text-white "
-                              : "bg-primary-200 "
-                          } ${window.innerWidth < 768 ? "w-full" : ""} `}
+                          className={`w-full font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer 
+                          ${
+                            characteristics.services.find(
+                              (item) => item.label === option.label
+                            )
+                              ? "bg-gradient-to-r from-white to-primary-100"
+                              : "bg-white"
+                          }`}
                         >
                           <p className="text-sm whitespace-nowrap">
                             {option.label}
                           </p>
-                          <div className="w-6 h-6">
-                            {services.includes(option) ? (
-                              <MdOutlineRemoveCircleOutline className="w-full h-full text-primary-200" />
+                          <div>
+                            {characteristics.services.find(
+                              (item) => item.label === option.label
+                            ) ? (
+                              <BsCheck className="text-lg font-light bg-green-400 rounded-full text-white" />
                             ) : (
-                              <span className="w-6 h-6">
-                                <BsPlusCircleFill className="w-full h-full text-primary-500" />
+                              <span>
+                                <BsPlus className="text-lg font-light bg-primary-400 rounded-full text-white" />
                               </span>
                             )}
                           </div>
@@ -236,14 +253,18 @@ const House = ({ characteristics, setCharacteristics }) => {
                             handleSelectOption({ label: search, value: search })
                           }
                           className={`flex items-center justify-between gap-2 py-2 px-4 cursor-pointer transition ease-in-out duration-200 hover:scale-105 ${
-                            services.includes(search)
+                            characteristics.services.find(
+                              (item) => item.label === option.label
+                            )
                               ? "bg-primary-500 text-white "
-                              : "bg-primary-200 "
-                          } ${window.innerWidth < 768 ? "w-full" : ""} `}
+                              : "bg-white border-b border-gray-300"
+                          }`}
                         >
                           <p className="text-sm whitespace-nowrap">{search}</p>
                           <div className="w-6 h-6">
-                            {services.includes(search) ? (
+                            {characteristics.services.find(
+                              (item) => item.label === option.label
+                            ) ? (
                               <MdOutlineRemoveCircleOutline className="w-full h-full text-primary-200" />
                             ) : (
                               <span className="w-6 h-6">
@@ -258,20 +279,18 @@ const House = ({ characteristics, setCharacteristics }) => {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {services.map((service) => (
-              <div
-                key={service.value}
-                className="flex items-center justify-between gap-2 py-2 px-4 cursor-pointer transition ease-in-out duration-200 hover:scale-105 bg-primary-500 text-white"
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            {characteristics.services.map((service, i) => (
+              <p
+                key={i}
+                onClick={() => handleSelectOption(service)}
+                className="font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer bg-gradient-to-r from-white to-primary-100"
               >
-                <p className="text-sm whitespace-nowrap">{service.label}</p>
-                <div className="w-6 h-6">
-                  <MdOutlineRemoveCircleOutline
-                    className="w-full h-full text-primary-200"
-                    onClick={() => handleSelectOption(service)}
-                  />
-                </div>
-              </div>
+                {service.label}
+                <span className="text-md font-light bg-green-400 rounded-full text-white">
+                  <BsCheck />
+                </span>
+              </p>
             ))}
           </div>
         </div>

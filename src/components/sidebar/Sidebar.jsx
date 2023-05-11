@@ -26,7 +26,7 @@ export default function Sidebar({ children, user = {} }) {
   const [showMenu, setShowMenu] = useState(false);
 
   function detectTypeOfView() {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth < 768) {
       setIsOpenMenu(true);
       setShowMenu(!showMenu);
     } else {
@@ -137,47 +137,57 @@ export default function Sidebar({ children, user = {} }) {
               isOpenMenu={isOpenMenu}
               handleClick={() => setShowMenu(false)}
             />
-            <CardMenu
-              icon={<BsFillMegaphoneFill className="w-6 h-6" />}
-              title="Mis Anuncios"
-              isOpenMenu={isOpenMenu}
-              handleClick={() => setShowMenu(false)}
-              redirectTo="/anuncios"
-            />
-            <CardMenu
-              icon={<FaStore className="w-6 h-6" />}
-              title="Mis Artitulos"
-              isOpenMenu={isOpenMenu}
-              handleClick={() => setShowMenu(false)}
-              redirectTo="/articulos"
-            />
-            <CardMenu
-              icon={<ChartPieIcon className="w-6 h-6" />}
-              title="Dashboard"
-              isOpenMenu={isOpenMenu}
-              notification={2}
-              handleClick={() => setShowMenu(false)}
-            />
-            <CardMenu
-              icon={<ViewColumnsIcon className="w-6 h-6" />}
-              title="Kanban"
-              isOpenMenu={isOpenMenu}
-              handleClick={() => setShowMenu(false)}
-            />
-            <CardMenu
-              icon={<InboxIcon className="w-6 h-6" />}
-              title="Inbox"
-              isOpenMenu={isOpenMenu}
-              notification={10}
-              handleClick={() => setShowMenu(false)}
-            />
+            {Object.keys(user).length > 0 && (
+              <CardMenu
+                icon={<BsFillMegaphoneFill className="w-6 h-6" />}
+                title="Mis Anuncios"
+                isOpenMenu={isOpenMenu}
+                handleClick={() => setShowMenu(false)}
+                redirectTo="/anuncios"
+              />
+            )}
+            {Object.keys(user).length > 0 && (
+              <CardMenu
+                icon={<FaStore className="w-6 h-6" />}
+                title="Mis Artitulos"
+                isOpenMenu={isOpenMenu}
+                handleClick={() => setShowMenu(false)}
+                redirectTo="/articulos"
+              />
+            )}
+            {Object.keys(user).length > 0 && (
+              <CardMenu
+                icon={<ChartPieIcon className="w-6 h-6" />}
+                title="Dashboard"
+                isOpenMenu={isOpenMenu}
+                notification={2}
+                handleClick={() => setShowMenu(false)}
+              />
+            )}
+            {Object.keys(user).length > 0 && (
+              <CardMenu
+                icon={<ViewColumnsIcon className="w-6 h-6" />}
+                title="Kanban"
+                isOpenMenu={isOpenMenu}
+                handleClick={() => setShowMenu(false)}
+              />
+            )}
+            {Object.keys(user).length > 0 && (
+              <CardMenu
+                icon={<InboxIcon className="w-6 h-6" />}
+                title="Inbox"
+                isOpenMenu={isOpenMenu}
+                notification={10}
+                handleClick={() => setShowMenu(false)}
+              />
+            )}
             <CardMenu
               icon={<ShoppingBagIcon className="w-6 h-6" />}
-              title="Products"
+              title="Productos"
               isOpenMenu={isOpenMenu}
               handleClick={() => setShowMenu(false)}
             />
-            {user?.firstName ? (
+            {Object.keys(user).length > 0 ? (
               <CardMenu
                 icon={<TbDoorExit className="w-6 h-6" />}
                 title="Cerrar sesión"

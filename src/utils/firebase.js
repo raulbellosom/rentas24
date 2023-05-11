@@ -62,15 +62,25 @@ export async function deleteProfileImage(file) {
 }
 
 export async function uploadArticleImages(file, user_id, idArticle) {
-  const name = uuidv4();
+  try {
+    try {
+      const isUploaded = ref(storage, `${file}`);
+      const res = await getDownloadURL(isUploaded);
+      return res;
+    } catch (error) {
+      const name = uuidv4();
 
-  const storageRef = ref(
-    storage,
-    `articles_photos/${user_id}/articles/${idArticle}/${name}`
-  );
+      const storageRef = ref(
+        storage,
+        `articles_photos/${user_id}/articles/${idArticle}/${name}`
+      );
 
-  await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
 
-  return url;
+      return url;
+    }
+  } catch (error) {
+    return false;
+  }
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { HiArrowLeft, HiArrowRight, HiSave } from "react-icons/hi";
+import { HiSave } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Dropzone from "../../utils/Dropzone";
 import House from "./characteristics/House";
-import { handleCreateArticle, handleGetArticleById } from "../../app/api";
+import { handleGetArticleById, handleUpdateArticle } from "../../app/api";
 import { uploadArticleImages } from "../../utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../utils/Loading";
@@ -11,9 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import ArticleAddress from "./characteristics/ArticleAddress";
 import { options } from "../../utils/Services";
-import { Progress } from "flowbite-react";
 
-const CreateArticle = () => {
+const UpdateArticle = () => {
   const { articleTypes } = useSelector((state) => state.types);
   const { user, token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -105,11 +104,43 @@ const CreateArticle = () => {
     e.preventDefault();
     setLoading(true);
 
-    const idArticle = uuidv4();
-    const arrayImages = await handleUploadImages(files, idArticle);
+    if (files.length === 0) {
+      notifyError("Debes agregar al menos una imagen");
+      setLoading(false);
+      return;
+    }
+    if (article.title === "") {
+      notifyError("Debes agregar un titulo");
+      setLoading(false);
+      return;
+    }
+    if (article.description === "") {
+      notifyError("Debes agregar una descripcion");
+      setLoading(false);
+      return;
+    }
+    if (article.type_id === "") {
+      notifyError("Debes seleccionar una categoria");
+      setLoading(false);
+      return;
+    }
+    if (
+      (address.street_1 || address.number_ext === "" || address.colony === "",
+      address.city === "",
+      address.state === "",
+      address.country === "",
+      address.postal_code === "")
+    ) {
+      notifyError(
+        "Debes agregar una dirección, rellenando por lo menos los campos que contienen un *"
+      );
+      setLoading(false);
+      return;
+    }
+
+    const arrayImages = await handleUploadImages(files, id);
 
     const body = {
-      id: idArticle,
       title: article.title,
       description: article.description,
       address,
@@ -120,8 +151,7 @@ const CreateArticle = () => {
       user_id: user.id,
     };
 
-    const res = await handleCreateArticle(token, body);
-    setLoading(false);
+    const res = await handleUpdateArticle(token, id, body);
 
     if (res.status !== 200) {
       setLoading(false);
@@ -131,7 +161,7 @@ const CreateArticle = () => {
     if (res.status === 200) {
       notify("Articulo creado correctamente");
       setLoading(false);
-      navigate("/ver-articulo/" + idArticle);
+      navigate("/ver-articulo/" + id);
     }
     setLoading(false);
   };
@@ -147,122 +177,40 @@ const CreateArticle = () => {
   };
 
   const handleAddImage = files.map((file, i) => {
-    if (!isUpdate)
-      return (
-        <div key={i}>
-          <Dropzone
-            setFiles={setFiles}
-            files={files}
-            file={file}
-            filetype={["image/jpeg", "image/png", "image/jpg", "image/webp"]}
-          />
-        </div>
-      );
+    return (
+      <div key={i}>
+        <Dropzone
+          setFiles={setFiles}
+          files={files}
+          file={file}
+          isUpdate={isUpdate}
+          filetype={["image/jpeg", "image/png", "image/jpg", "image/webp"]}
+        />
+      </div>
+    );
   });
 
   const [step, setStep] = useState(1);
-  const [fade, setFade] = useState("fade");
 
   const handlePrevious = () => {
-    setFade("fade-reverse");
     setStep((prevStep) => prevStep - 1);
   };
 
   const handleNext = () => {
-    setFade("fade");
     setStep((prevStep) => prevStep + 1);
-  };
-
-  const handleStep = () => {
-    switch (step) {
-      case 1:
-        if (
-          article.title === "" ||
-          article.status === "" ||
-          article.type_id === null
-        ) {
-          notifyError("Debes llenar todos los campos");
-          return;
-        }
-        break;
-      case 2:
-        if (article.description === "") {
-          notifyError("Debes agregar una descripción");
-          return;
-        }
-        break;
-      case 3:
-        if (
-          address.street_1 === "" ||
-          address.number_ext === "" ||
-          address.colony === "" ||
-          address.city === "" ||
-          address.state === "" ||
-          address.country === "" ||
-          address.postal_code === ""
-        ) {
-          notifyError(
-            "Debes agregar una dirección, rellenando por lo menos los campos que contienen un *"
-          );
-          return;
-        }
-        break;
-      case 4:
-        if (files.length === 0) {
-          notifyError("Debes agregar al menos una imagen");
-          return;
-        }
-        break;
-      case 5:
-        if (
-          characteristics.rooms === "" ||
-          characteristics.bathrooms === "" ||
-          characteristics.maxPeople === "" ||
-          characteristics.services.length === 0
-        ) {
-          notifyError("Debes llenar todos los campos");
-          return;
-        }
-        break;
-      default:
-        break;
-    }
-    handleNext();
   };
 
   return (
     <>
       <div className="p-5 w-full">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
-          <h2 className="text-2xl font-bold text-blue-500">Crear articulo</h2>
+          <h2 className="text-2xl font-bold text-blue-500">
+            Actualizar articulo
+          </h2>
         </div>
         <div className="bg-white my-5 p-5 rounded-lg">
-          <div className="pb-4">
-            <Progress
-              progress={step === 1 ? 10 : step * 20}
-              size="lg"
-              color="indigo"
-            />
-          </div>
-          <form
-            onSubmit={onSubmit}
-            className="flex flex-col gap-4 overflow-hidden"
-          >
-            <div
-              className={`flex flex-col gap-4 transition-opacity duration-500 opacity-100 ${fade} ${
-                step === 1 ? "block" : "hidden"
-              }`}
-            >
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold text-gray-700">
-                  Información general
-                </h3>
-                <p className="text-gray-500">
-                  Escribe un nombre atractivo y breve para tu articulo y agrega
-                  una categoria para que los usuarios puedan encontrarlo
-                  facilmente.
-                </p>
-              </div>
+          <form onSubmit={onSubmit} className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity duration-500 opacity-100">
               <div className="flex flex-col w-full">
                 <label className="font-bold" htmlFor="title">
                   Titulo
@@ -319,72 +267,27 @@ const CreateArticle = () => {
                 </select>
               </div>
             </div>
-            <div
-              className={`flex flex-col gap-4 transition-opacity duration-500 opacity-100 ${fade} ${
-                step === 2 ? "block" : "hidden"
-              }`}
-            >
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold text-gray-700">
-                  Descripción del articulo
-                </h3>
-                <p className="text-gray-500">
-                  Describe tu articulo de la mejor manera posible para que los
-                  usuarios puedan conocerlo. Se lo más detallado posible y
-                  agrega los aspectos más importantes de tu articulo.
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <label className="font-bold" htmlFor="description">
-                  Descripcion
-                </label>
-                <textarea
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                  name="description"
-                  id="description"
-                  placeholder="Descripcion del articulo"
-                  value={article.description}
-                  maxLength={2000}
-                  onChange={(e) =>
-                    setArticle({ ...article, description: e.target.value })
-                  }
-                  rows={8}
-                ></textarea>
-              </div>
+            <div className="flex flex-col transition-opacity duration-500 opacity-100">
+              <label className="font-bold" htmlFor="description">
+                Descripcion
+              </label>
+              <textarea
+                className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                name="description"
+                id="description"
+                placeholder="Descripcion del articulo"
+                value={article.description}
+                maxLength={2000}
+                onChange={(e) =>
+                  setArticle({ ...article, description: e.target.value })
+                }
+                rows={8}
+              ></textarea>
             </div>
-            <div
-              className={`flex flex-col transition-opacity duration-500 opacity-100 ${fade} ${
-                step === 3 ? "block" : "hidden"
-              }`}
-            >
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold text-gray-700">
-                  Dirección del articulo
-                </h3>
-                <p className="text-gray-500">
-                  Agrega la dirección para que los usuarios puedan saber donde
-                  se encuentra tu articulo y aparezcas en los resultados de
-                  busqueda por ubicación.
-                </p>
-              </div>
+            <div className="flex flex-col transition-opacity duration-500 opacity-100">
               <ArticleAddress address={address} setAddress={setAddress} />
             </div>
-            <div
-              className={`flex flex-col gap-4 transition-opacity duration-500 opacity-100 ${fade} ${
-                step === 4 ? "block" : "hidden"
-              }`}
-            >
-              <div className="flex flex-col">
-                <h3 className="text-xl font-bold text-gray-700">
-                  Imagenes del articulo
-                </h3>
-                <p className="text-gray-500">
-                  Agrega imagenes de tu articulo para que los usuarios puedan
-                  verlo y sepan como es. Trata de que las imagenes esten en
-                  buena calidad e iluminación para que des una buena imagen.
-                  Hasta un maximo de 5 imagenes.
-                </p>
-              </div>
+            <div className="flex flex-col transition-opacity duration-500 opacity-100">
               <label className="font-bold" htmlFor="image">
                 Imagen
                 <span className="text-xs text-gray-400">
@@ -408,45 +311,18 @@ const CreateArticle = () => {
                 {handleAddImage}
               </div>
             </div>
-            <div
-              className={`flex flex-col transition-opacity duration-500 opacity-100 ${fade} ${
-                step === 5 ? "block" : "hidden"
-              }`}
-            >
+            <div className="flex flex-col transition-opacity duration-500 opacity-100">
               <House
                 characteristics={characteristics}
                 setCharacteristics={setCharacteristics}
                 options={options}
               />
             </div>
-            <div
-              className={`flex ${
-                step === 1 ? "justify-end" : "justify-between"
-              } items-center`}
-            >
-              {step > 1 && (
-                <div
-                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2"
-                  onClick={handlePrevious}
-                >
-                  <HiArrowLeft className="w-6 h-6" />
-                  Anterior
-                </div>
-              )}
-              {step < 5 ? (
-                <div
-                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2"
-                  onClick={handleStep}
-                >
-                  Siguiente
-                  <HiArrowRight className="w-6 h-6" />
-                </div>
-              ) : (
-                <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2">
-                  <HiSave className="w-6 h-6" />
-                  Guardar
-                </button>
-              )}
+            <div className="flex justify-center md:justify-end items-center">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2">
+                <HiSave className="w-6 h-6" />
+                Guardar
+              </button>
             </div>
           </form>
         </div>
@@ -456,4 +332,4 @@ const CreateArticle = () => {
   );
 };
 
-export default CreateArticle;
+export default UpdateArticle;

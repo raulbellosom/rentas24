@@ -16,12 +16,12 @@ const ArticleAddress = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="font-bold py-4" htmlFor="address">
+      <label className="font-bold pt-4" htmlFor="address">
         Dirección
       </label>
       <div className="flex flex-col gap-4">
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="street_1">
               * Calle principal
             </label>
@@ -37,7 +37,7 @@ const ArticleAddress = ({
               }
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="street_2">
               Calle secundaria
             </label>
@@ -47,7 +47,7 @@ const ArticleAddress = ({
               name="street_2"
               id="street_2"
               placeholder="Calle secundaria"
-              value={address.address_2}
+              value={address.street_2}
               onChange={(e) =>
                 setAddress({ ...address, street_2: e.target.value })
               }
@@ -56,7 +56,7 @@ const ArticleAddress = ({
         </div>
         <div className="grid md:grid-cols-2 gap-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-between">
               <label className="text-sm text-gray-500" htmlFor="number_ext">
                 * Numero exterior
               </label>
@@ -72,7 +72,7 @@ const ArticleAddress = ({
                 }
               />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col justify-between">
               <label className="text-sm text-gray-500" htmlFor="number_int">
                 Numero interior
               </label>
@@ -89,7 +89,7 @@ const ArticleAddress = ({
               />
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="colony">
               * Colonia
             </label>
@@ -107,7 +107,7 @@ const ArticleAddress = ({
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="city">
               * Ciudad
             </label>
@@ -121,7 +121,7 @@ const ArticleAddress = ({
               onChange={(e) => setAddress({ ...address, city: e.target.value })}
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="state">
               * Estado
             </label>
@@ -137,7 +137,7 @@ const ArticleAddress = ({
               }
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="country">
               * País
             </label>
@@ -153,7 +153,7 @@ const ArticleAddress = ({
               }
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="postal_code">
               * CP
             </label>

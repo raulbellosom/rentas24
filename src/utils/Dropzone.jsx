@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { RiDeleteBinLine, RiImageAddFill } from "react-icons/ri";
 import { toast } from "react-hot-toast";
-import { HiDownload, HiOutlineDocumentRemove } from "react-icons/hi";
+import { HiDownload } from "react-icons/hi";
 
 const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
   const notifyError = (text) => toast.error(text);
+
+  const [newFile, setNewFile] = useState(null);
 
   const onDrop = (acceptedFiles) => {
     if (!filetype.find((type) => type === acceptedFiles[0].type)) {
@@ -21,6 +23,7 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
     }
 
     if (file) {
+      setNewFile(acceptedFiles[0]);
       setFiles(files.map((f) => (f === file ? acceptedFiles[0] : f)));
     } else {
       setFiles([...files, acceptedFiles[0]]);
@@ -42,7 +45,6 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
         file ? "hover:scale-110 " : ""
       } duration-200 `}
     >
-      {/* button to remove item */}
       {file && (
         <button
           onClick={() => setFiles(files.filter((f) => f !== file))}
@@ -61,7 +63,7 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
       ) : file ? (
         <img
           className="h-full w-full object-cover rounded-md"
-          src={URL.createObjectURL(file)}
+          src={newFile ? URL.createObjectURL(newFile) : file}
           alt="Imagen del articulo"
         />
       ) : (

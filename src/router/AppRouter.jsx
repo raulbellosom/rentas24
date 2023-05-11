@@ -16,6 +16,7 @@ const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Articles = lazy(() => import("../pages/articles/Articles"));
 const ShowArticles = lazy(() => import("../pages/articles/ShowArticles"));
 const CreateArticle = lazy(() => import("../pages/articles/CreateArticle"));
+const UpdateArticle = lazy(() => import("../pages/articles/UpdateArticle"));
 const Users = lazy(() => import("../pages/users/Users"));
 
 const AppRouter = () => {
@@ -63,7 +64,7 @@ const SignedRoutes = ({ user }) => {
         <Route index element={<Home />} />
         <Route path="/articulos" element={<Articles />} />
         <Route path="/crear-articulo" element={<CreateArticle />} />
-        <Route path="/editar-articulo/:id" element={<CreateArticle />} />
+        <Route path="/editar-articulo/:id" element={<UpdateArticle />} />
         <Route path="/ver-articulo/:id" element={<ShowArticles />} />
         <Route path="/article/:id" element={<Article />} />
         <Route path="/anuncios" element={<Ads />} />

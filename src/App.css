@@ -3,3 +3,36 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.fade {
+  animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+    /* translate */
+    transform: translateX(200px);
+  }
+  to {
+    opacity: 1;
+    /* translate */
+    transform: translateX(0px);
+  }
+}
+.fade-reverse {
+  animation: fadeReverseEffect 0.5s;
+}
+
+@keyframes fadeReverseEffect {
+  from {
+    opacity: 0;
+    /* translate */
+    transform: translateX(-200px);
+  }
+  to {
+    opacity: 1;
+    /* translate */
+    transform: translateX(0px);
+  }
+}

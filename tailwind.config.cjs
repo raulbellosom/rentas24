@@ -42,4 +42,12 @@ module.exports = {
     },
   },
   plugins: [require("flowbite/plugin")],
+  variants: {
+    extend: {
+      opacity: ["disabled"],
+    },
+  },
+  animation: {
+    fadeOut: "fadeOut 0.5s ease-in-out",
+  },
 };

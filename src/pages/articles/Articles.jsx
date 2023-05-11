@@ -57,7 +57,8 @@ const Articles = () => {
             ? article.description.substring(0, 99) + "..."
             : article.description,
         image: article.photos[0],
-        category: articleTypes.find((type) => type.id === article.type_id).name,
+        category:
+          articleTypes?.find((type) => type.id === article.type_id).name || "",
         status: article.status ? "Activo" : "Inactivo",
         updatedAt: new Date(article.updatedAt).toLocaleDateString("es-MX", {
           day: "2-digit",
@@ -92,6 +93,10 @@ const Articles = () => {
 
   const onShowArticle = (id) => {
     navigate(`/ver-articulo/${id}`);
+  };
+
+  const onUpdateArticle = (id) => {
+    navigate(`/editar-articulo/${id}`);
   };
 
   return (
@@ -137,6 +142,7 @@ const Articles = () => {
           actions={true}
           onDelete={onDeleteArticle}
           onShow={onShowArticle}
+          onEdit={onUpdateArticle}
         />
       </div>
       {active && (

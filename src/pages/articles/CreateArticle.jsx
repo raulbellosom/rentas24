@@ -370,6 +370,16 @@ const CreateArticle = () => {
                 step === 5 ? "block" : "hidden"
               }`}
             >
+              <div className="flex flex-col">
+                <h3 className="text-xl font-bold text-gray-700">
+                  Caracteristicas del articulo
+                </h3>
+                <p className="text-gray-500">
+                  Agrega las caracteristicas y los servicios de tu articulo para
+                  que los usuarios puedan saber como es y sepan si es lo que
+                  buscan. Se lo más detallado posible.
+                </p>
+              </div>
               <House
                 characteristics={characteristics}
                 setCharacteristics={setCharacteristics}

@@ -9,8 +9,6 @@ import { HiDownload } from "react-icons/hi";
 const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
   const notifyError = (text) => toast.error(text);
 
-  const [newFile, setNewFile] = useState(null);
-
   const onDrop = (acceptedFiles) => {
     if (!filetype.find((type) => type === acceptedFiles[0].type)) {
       notifyError("El formato de la imagen no es valido, selecciona otra.");
@@ -23,7 +21,6 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
     }
 
     if (file) {
-      setNewFile(acceptedFiles[0]);
       setFiles(files.map((f) => (f === file ? acceptedFiles[0] : f)));
     } else {
       setFiles([...files, acceptedFiles[0]]);
@@ -63,7 +60,9 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
       ) : file ? (
         <img
           className="h-full w-full object-cover rounded-md"
-          src={newFile ? URL.createObjectURL(newFile) : file}
+          src={
+            file.toString().startsWith("h") ? file : URL.createObjectURL(file)
+          }
           alt="Imagen del articulo"
         />
       ) : (

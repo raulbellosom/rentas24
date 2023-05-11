@@ -61,8 +61,8 @@ const House = ({
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+    <div className="flex flex-col gap-4 min-h-[40vh]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="flex flex-col w-full justify-between">
           <label className="font-bold" htmlFor="type">
             Habitantes permitidos
@@ -98,29 +98,29 @@ const House = ({
               Selecciona número de habitaciones
             </option>
             <option value="1">1</option>
-            <option value="1 1/2">1 1/2</option>
+            <option value="1 &#189;">1 &#189;</option>
             <option value="2">2</option>
-            <option value="2 1/2">2 1/2</option>
+            <option value="2 &#189;">2 &#189;</option>
             <option value="3">3</option>
-            <option value="3 1/2">3 1/2</option>
+            <option value="3 &#189;">3 &#189;</option>
             <option value="4">4</option>
-            <option value="4 1/2">4 1/2</option>
+            <option value="4 &#189;">4 &#189;</option>
             <option value="5">5</option>
-            <option value="5 1/2">5 1/2</option>
+            <option value="5 &#189;">5 &#189;</option>
             <option value="6">6</option>
-            <option value="6 1/2">6 1/2</option>
+            <option value="6 &#189;">6 &#189;</option>
             <option value="7">7</option>
-            <option value="7 1/2">7 1/2</option>
+            <option value="7 &#189;">7 &#189;</option>
             <option value="8">8</option>
-            <option value="8 1/2">8 1/2</option>
+            <option value="8 &#189;">8 &#189;</option>
             <option value="9">9</option>
-            <option value="9 1/2">9 1/2</option>
+            <option value="9 &#189;">9 &#189;</option>
             <option value="10">10</option>
-            <option value="10 1/2">10 1/2</option>
+            <option value="10 &#189;">10 &#189;</option>
             <option value="11">11</option>
-            <option value="11 1/2">11 1/2</option>
+            <option value="11 &#189;">11 &#189;</option>
             <option value="12">12</option>
-            <option value="12 1/2">12 1/2</option>
+            <option value="12 &#189;">12 &#189;</option>
           </select>
         </div>
         <div className="flex flex-col w-full justify-between">
@@ -143,29 +143,29 @@ const House = ({
               Selecciona número de habitaciones
             </option>
             <option value="1">1</option>
-            <option value="1 1/2">1 1/2</option>
+            <option value="1 &#189;">1 &#189;</option>
             <option value="2">2</option>
-            <option value="2 1/2">2 1/2</option>
+            <option value="2 &#189;">2 &#189;</option>
             <option value="3">3</option>
-            <option value="3 1/2">3 1/2</option>
+            <option value="3 &#189;">3 &#189;</option>
             <option value="4">4</option>
-            <option value="4 1/2">4 1/2</option>
+            <option value="4 &#189;">4 &#189;</option>
             <option value="5">5</option>
-            <option value="5 1/2">5 1/2</option>
+            <option value="5 &#189;">5 &#189;</option>
             <option value="6">6</option>
-            <option value="6 1/2">6 1/2</option>
+            <option value="6 &#189;">6 &#189;</option>
             <option value="7">7</option>
-            <option value="7 1/2">7 1/2</option>
+            <option value="7 &#189;">7 &#189;</option>
             <option value="8">8</option>
-            <option value="8 1/2">8 1/2</option>
+            <option value="8 &#189;">8 &#189;</option>
             <option value="9">9</option>
-            <option value="9 1/2">9 1/2</option>
+            <option value="9 &#189;">9 &#189;</option>
             <option value="10">10</option>
-            <option value="10 1/2">10 1/2</option>
+            <option value="10 &#189;">10 &#189;</option>
             <option value="11">11</option>
-            <option value="11 1/2">11 1/2</option>
+            <option value="11 &#189;">11 &#189;</option>
             <option value="12">12</option>
-            <option value="12 1/2">12 1/2</option>
+            <option value="12 &#189;">12 &#189;</option>
           </select>
         </div>
       </div>
@@ -177,7 +177,7 @@ const House = ({
           <div className="flex flex-col md:flex-row gap-2 items-center pb-3 w-full">
             <input
               onClick={() => setShowMenu(true)}
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1 w-full md:w-1/2 capitalize"
+              className="border border-gray-300 rounded-lg px-3 py-2 mt-1 w-full md:w-&#189; capitalize"
               type="text"
               placeholder="Buscar"
               value={search}

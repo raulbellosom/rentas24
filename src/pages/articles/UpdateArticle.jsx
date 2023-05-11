@@ -22,7 +22,6 @@ const UpdateArticle = () => {
   const notifyError = (message) => toast.error(message);
 
   const [loading, setLoading] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const [files, setFiles] = useState([]);
   const [address, setAddress] = useState({
     street_1: "",
@@ -64,7 +63,6 @@ const UpdateArticle = () => {
         try {
           const response = await handleGetArticleById(token, id);
           if (response.status === 200) {
-            setIsUpdate(true);
             const article = response.data.article;
             setArticle({
               title: article.title,
@@ -183,7 +181,6 @@ const UpdateArticle = () => {
           setFiles={setFiles}
           files={files}
           file={file}
-          isUpdate={isUpdate}
           filetype={["image/jpeg", "image/png", "image/jpg", "image/webp"]}
         />
       </div>

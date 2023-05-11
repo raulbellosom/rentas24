@@ -58,49 +58,6 @@ const CreateArticle = () => {
     );
   });
 
-  useEffect(() => {
-    if (id) {
-      const getArticle = async () => {
-        setLoading(true);
-        try {
-          const response = await handleGetArticleById(token, id);
-          if (response.status === 200) {
-            setIsUpdate(true);
-            const article = response.data.article;
-            setArticle({
-              title: article.title,
-              description: article.description,
-              type_id: article.type_id,
-              status: article.status,
-            });
-            setAddress({
-              street_1: article.address.street_1,
-              street_2: article.address.street_2,
-              number_ext: article.address.number_ext,
-              number_int: article.address.number_int,
-              colony: article.address.colony,
-              city: article.address.city,
-              state: article.address.state,
-              country: article.address.country,
-              postal_code: article.address.postal_code,
-            });
-            setCharacteristics({
-              rooms: article.characteristics.rooms,
-              bathrooms: article.characteristics.bathrooms,
-              maxPeople: article.characteristics.maxPeople,
-              services: article.characteristics.services,
-            });
-            setFiles(article.photos);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-        setLoading(false);
-      };
-      getArticle();
-    }
-  }, [id, token]);
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { BsPlusCircleFill, BsTrash, BsX } from "react-icons/bs";
+import {
+  BsEye,
+  BsPencilSquare,
+  BsPlusCircleFill,
+  BsTrash,
+  BsX,
+} from "react-icons/bs";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/outline";
 import Table from "../../components/tables/Table";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +14,7 @@ import Modal from "../../components/modal/Modal";
 import { toast } from "react-hot-toast";
 import { handleDeleteArticle, handleGetArticlesByUserId } from "../../app/api";
 import Loading from "../../utils/Loading";
+import ArticleCards from "../../components/cards/ArticleCards";
 
 const Articles = () => {
   const navigate = useNavigate();
@@ -18,6 +25,7 @@ const Articles = () => {
   const [active, setActive] = useState(false);
   const [itemSelected, setItemSelected] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [viewType, setViewType] = useState(false);
 
   const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
@@ -99,6 +107,18 @@ const Articles = () => {
     navigate(`/editar-articulo/${id}`);
   };
 
+  const changeViewType = () => {
+    setViewType(!viewType);
+    localStorage.setItem("viewType", !viewType);
+  };
+
+  useEffect(() => {
+    const viewTypeStorage = localStorage.getItem("viewType");
+    if (viewTypeStorage) {
+      setViewType(JSON.parse(viewTypeStorage));
+    }
+  }, []);
+
   return (
     <div className="p-5 w-full">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
@@ -107,7 +127,7 @@ const Articles = () => {
           <div className="flex justify-end text-blue-500">
             <Link
               to={"/crear-articulo"}
-              className="flex items-center gap-2 bg-white p-2 rounded-full hover:scale-110 hover:bg-blue-600 hover:text-white transition ease-in-out duration-200"
+              className="flex items-center gap-2 border border-gray-200 bg-white p-2 rounded-full hover:scale-110 hover:bg-blue-600 hover:text-white transition ease-in-out duration-200"
             >
               <span>
                 <BsPlusCircleFill className="w-6 h-6" />
@@ -117,33 +137,50 @@ const Articles = () => {
               </span>
             </Link>
           </div>
-          <div>
-            <button
-              type="button"
-              className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800  hover:scale-110 transition ease-in-out duration-200"
-            >
-              <Squares2X2Icon className="h-6 w-6" />
-            </button>
-          </div>
-          <div>
-            <button
-              type="button"
-              className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:scale-110 transition ease-in-out duration-200"
-            >
-              <ListBulletIcon className="h-6 w-6" />
-            </button>
-          </div>
+          {viewType ? (
+            <div>
+              <button
+                type="button"
+                className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800  hover:scale-110 transition ease-in-out duration-200"
+              >
+                <ListBulletIcon onClick={changeViewType} className="h-6 w-6" />
+              </button>
+            </div>
+          ) : (
+            <div>
+              <button
+                type="button"
+                className="text-white bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:scale-110 transition ease-in-out duration-200"
+              >
+                <Squares2X2Icon onClick={changeViewType} className="h-6 w-6" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="bg-white my-5 p-5 rounded-lg">
-        <Table
-          headers={headers}
-          content={data}
-          actions={true}
-          onDelete={onDeleteArticle}
-          onShow={onShowArticle}
-          onEdit={onUpdateArticle}
-        />
+        {viewType ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {data.map((article) => (
+              <ArticleCards
+                key={article.id}
+                article={article}
+                onDelete={onDeleteArticle}
+                onShow={onShowArticle}
+                onEdit={onUpdateArticle}
+              />
+            ))}
+          </div>
+        ) : (
+          <Table
+            headers={headers}
+            content={data}
+            actions={true}
+            onDelete={onDeleteArticle}
+            onShow={onShowArticle}
+            onEdit={onUpdateArticle}
+          />
+        )}
       </div>
       {active && (
         <Modal active={active} toggle={toggle}>

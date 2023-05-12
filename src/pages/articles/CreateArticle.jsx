@@ -17,13 +17,11 @@ const CreateArticle = () => {
   const { articleTypes } = useSelector((state) => state.types);
   const { user, token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const { id } = useParams();
 
-  const notify = (message) => toast(message);
+  const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const [loading, setLoading] = useState(false);
-  const [isUpdate, setIsUpdate] = useState(false);
   const [files, setFiles] = useState([]);
   const [address, setAddress] = useState({
     street_1: "",
@@ -104,17 +102,16 @@ const CreateArticle = () => {
   };
 
   const handleAddImage = files.map((file, i) => {
-    if (!isUpdate)
-      return (
-        <div key={i}>
-          <Dropzone
-            setFiles={setFiles}
-            files={files}
-            file={file}
-            filetype={["image/jpeg", "image/png", "image/jpg", "image/webp"]}
-          />
-        </div>
-      );
+    return (
+      <div key={i}>
+        <Dropzone
+          setFiles={setFiles}
+          files={files}
+          file={file}
+          filetype={["image/jpeg", "image/png", "image/jpg", "image/webp"]}
+        />
+      </div>
+    );
   });
 
   const [step, setStep] = useState(1);

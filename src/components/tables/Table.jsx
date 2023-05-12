@@ -1,4 +1,3 @@
-import { ArrowLongDownIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { BsPencilSquare, BsTrash, BsEye } from "react-icons/bs";
 

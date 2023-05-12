@@ -252,18 +252,18 @@ const House = ({
                           onClick={() =>
                             handleSelectOption({ label: search, value: search })
                           }
-                          className={`flex items-center justify-between gap-2 py-2 px-4 cursor-pointer transition ease-in-out duration-200 hover:scale-105 ${
+                          className={`w-full font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer  ${
                             characteristics.services.find(
-                              (item) => item.label === option.label
+                              (item) => item.label === search
                             )
-                              ? "bg-primary-500 text-white "
-                              : "bg-white border-b border-gray-300"
+                              ? " bg-gradient-to-r from-white to-primary-100"
+                              : "bg-white"
                           }`}
                         >
                           <p className="text-sm whitespace-nowrap">{search}</p>
                           <div className="w-6 h-6">
                             {characteristics.services.find(
-                              (item) => item.label === option.label
+                              (item) => item.label === search
                             ) ? (
                               <MdOutlineRemoveCircleOutline className="w-full h-full text-primary-200" />
                             ) : (

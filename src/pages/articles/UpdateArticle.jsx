@@ -18,7 +18,7 @@ const UpdateArticle = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const notify = (message) => toast(message);
+  const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
 
   const [loading, setLoading] = useState(false);
@@ -157,7 +157,7 @@ const UpdateArticle = () => {
       return;
     }
     if (res.status === 200) {
-      notify("Articulo creado correctamente");
+      notify("Articulo actualizado correctamente");
       setLoading(false);
       navigate("/ver-articulo/" + id);
     }
@@ -204,6 +204,14 @@ const UpdateArticle = () => {
           <h2 className="text-2xl font-bold text-blue-500">
             Actualizar articulo
           </h2>
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate("/ver-articulo/" + id)}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
+            >
+              Cancelar
+            </button>
+          </div>
         </div>
         <div className="bg-white my-5 p-5 rounded-lg">
           <form onSubmit={onSubmit} className="flex flex-col gap-4">

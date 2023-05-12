@@ -33,7 +33,9 @@ const ArticleCards = ({
           </p>
         </div>
         <p className="text-sm text-gray-500">{article.description}</p>
-        <p className="text-sm text-right text-gray-500">{article.updatedAt}</p>
+        <p className="text-xs text-right text-gray-500">
+          Actualizado el: {article.updatedAt}
+        </p>
       </div>
       <div className="flex justify-center pt-4 gap-4">
         <button

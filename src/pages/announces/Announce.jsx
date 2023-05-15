@@ -78,7 +78,7 @@ function Article() {
       <div className="flex flex-col items-center justify-between">
         <div className="lg:grid lg:grid-cols-2 gap-4 w-full bg-white rounded-lg p-4">
           <div className="h-72 lg:h-auto">
-            <Carousel images={images} />
+            <Carousel images={article.photos} />
           </div>
           <div className="pt-5 flex flex-col gap-2">
             <div className="flex items-center justify-between flex-col md:flex-row gap-4">

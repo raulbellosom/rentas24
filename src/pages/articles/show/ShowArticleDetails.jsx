@@ -95,7 +95,7 @@ const ShowArticleDetails = ({
               </div>
             </div>
           </div>
-          <p className="font-bold">
+          <p className="font-bold whitespace-normal">
             Descripción: <br />
             <span className="font-normal">
               {article.description.split("\n").map((linea, i) => {

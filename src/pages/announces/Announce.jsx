@@ -77,7 +77,7 @@ function Article() {
     <div className="p-2">
       <div className="flex flex-col items-center justify-between">
         <div className="lg:grid lg:grid-cols-2 gap-4 w-full bg-white rounded-lg p-4">
-          <div className="h-72 lg:h-auto">
+          <div className="h-80 lg:h-auto">
             <Carousel images={article.photos} />
             {/* <FlowCarousel>
               {article.photos.map((photo, i) => (

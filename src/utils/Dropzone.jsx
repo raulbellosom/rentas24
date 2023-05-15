@@ -67,7 +67,9 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
       <input type="file" {...getInputProps()} />
       {isDragActive ? (
         <>
-          <p className="text-primary-400 text-sm">Suelta la(s) imagen(es)</p>
+          <p className="text-primary-400 text-sm whitespace-normal">
+            Suelta la(s) imagen(es)
+          </p>
           <HiDownload className="text-primary-400 text-4xl" />
         </>
       ) : file ? (
@@ -80,7 +82,7 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
         />
       ) : (
         <>
-          <RiImageAddFill className="text-gray-400 text-4xl" />
+          <RiImageAddFill className="text-gray-400 whitespace-normal" />
           <p className="text-gray-400 text-sm">
             Arrastra una o varias imágenes
           </p>

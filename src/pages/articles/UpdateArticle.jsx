@@ -1,19 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { HiSave } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Dropzone from "../../utils/Dropzone";
 import House from "./characteristics/House";
-import { handleGetArticleById, handleUpdateArticle } from "../../app/api";
+import {
+  handleDeleteArticle,
+  handleGetArticleById,
+  handleUpdateArticle,
+} from "../../app/api";
 import { uploadArticleImages } from "../../utils/firebase";
-import { v4 as uuidv4 } from "uuid";
 import Loading from "../../utils/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import ArticleAddress from "./characteristics/ArticleAddress";
 import { options } from "../../utils/Services";
+import {
+  MdArrowBack,
+  MdArticle,
+  MdClose,
+  MdDelete,
+  MdSaveAlt,
+} from "react-icons/md";
+import { Modal, Tabs } from "flowbite-react";
+import Announcement from "./characteristics/Announcement";
+import { BsFillMegaphoneFill } from "react-icons/bs";
 
 const UpdateArticle = () => {
   const { articleTypes } = useSelector((state) => state.types);
+  const { recurrencies } = useSelector((state) => state.recurrencies);
+
   const { user, token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -22,6 +36,7 @@ const UpdateArticle = () => {
   const notifyError = (message) => toast.error(message);
 
   const [loading, setLoading] = useState(false);
+  const [active, setActive] = useState(false);
   const [files, setFiles] = useState([]);
   const [address, setAddress] = useState({
     street_1: "",
@@ -47,6 +62,19 @@ const UpdateArticle = () => {
     maxPeople: 1,
     services: [],
   });
+
+  const [announcement, setAnnouncement] = useState({
+    price: 0,
+    currency: "MXN",
+    is_recurrent: false,
+    recurrency_id: "",
+    isAdvance: false,
+    advanceAmount: 0,
+    start_date: "",
+    end_date: "",
+  });
+
+  const [available, setAvailable] = useState(true);
 
   const categories = articleTypes.map((type) => {
     return (
@@ -88,6 +116,17 @@ const UpdateArticle = () => {
               services: article.characteristics.services,
             });
             setFiles(article.photos);
+            setAvailable(article.status === 1 ? true : false);
+            setAnnouncement({
+              price: article.announcement.price,
+              currency: article.announcement.currency,
+              is_recurrent: article.announcement.is_recurrent,
+              recurrency_id: article.announcement.recurrency_id,
+              isAdvance: article.announcement.isAdvance,
+              advanceAmount: article.announcement.advanceAmount,
+              start_date: article.announcement.start_date,
+              end_date: article.announcement.end_date,
+            });
           }
         } catch (error) {
           console.log(error);
@@ -146,6 +185,8 @@ const UpdateArticle = () => {
       status: article.status,
       characteristics,
       photos: arrayImages,
+      announcement,
+      available,
       user_id: user.id,
     };
 
@@ -187,14 +228,22 @@ const UpdateArticle = () => {
     );
   });
 
-  const [step, setStep] = useState(1);
-
-  const handlePrevious = () => {
-    setStep((prevStep) => prevStep - 1);
+  const deleteArticle = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const response = await handleDeleteArticle(token, id);
+    setLoading(false);
+    if (response.status === 201) {
+      notify("Articulo eliminado con exitó.");
+      navigate("/mis-articulos");
+      setActive(false);
+    } else {
+      notifyError("Error al eliminar el articulo");
+    }
   };
 
-  const handleNext = () => {
-    setStep((prevStep) => prevStep + 1);
+  const toggleModal = () => {
+    setActive(!active);
   };
 
   return (
@@ -206,130 +255,205 @@ const UpdateArticle = () => {
           </h2>
           <div className="flex gap-4">
             <button
-              onClick={() => navigate("/ver-articulo/" + id)}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg"
+              onClick={() => setActive(true)}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
             >
-              Cancelar
+              <MdDelete className="w-6 h-6" />
+              Eliminar articulo
             </button>
+            <Modal show={active} onClose={toggleModal} size="xl">
+              <Modal.Header>
+                ¿Estas seguro de eliminar el articulo?
+              </Modal.Header>
+              <Modal.Body>
+                <div className="flex flex-col gap-4">
+                  <p className="text-gray-500">
+                    Actualmente tienes seleccionado el articulo:{" "}
+                    <span className="font-bold">{article.title}.</span> Si
+                    eliminas este articulo los efectos serán irreversibles y no
+                    podras recuperarlo despues.
+                  </p>
+                  <div className="flex gap-4">
+                    <button
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
+                      onClick={deleteArticle}
+                    >
+                      <MdDelete className="w-6 h-6" />
+                      Eliminar articulo
+                    </button>
+                    <button
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
+                      onClick={() => setActive(false)}
+                    >
+                      <MdClose className="w-6 h-6" />
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
           </div>
         </div>
         <div className="bg-white my-5 p-5 rounded-lg">
-          <form onSubmit={onSubmit} className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity duration-500 opacity-100">
-              <div className="flex flex-col w-full">
-                <label className="font-bold" htmlFor="title">
-                  Titulo
-                </label>
-                <input
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                  type="text"
-                  name="title"
-                  id="title"
-                  placeholder="Titulo del articulo"
-                  value={article.title}
-                  onChange={(e) =>
-                    setArticle({ ...article, title: e.target.value })
-                  }
-                />
-              </div>
-              <div className="flex flex-col w-full">
-                <label className="font-bold" htmlFor="category">
-                  Categoria
-                </label>
-                <select
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                  name="category"
-                  id="category"
-                  value={article.type_id}
-                  onChange={(e) =>
-                    setArticle({ ...article, type_id: e.target.value })
-                  }
-                >
-                  <option disabled value="">
-                    Selecciona una categoria
-                  </option>
-                  {categories}
-                </select>
-              </div>
-              <div className="flex flex-col">
-                <label className="font-bold" htmlFor="status">
-                  Estado
-                </label>
-                <select
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                  name="status"
-                  id="status"
-                  value={article.status}
-                  onChange={(e) =>
-                    setArticle({ ...article, status: e.target.value })
-                  }
-                >
-                  <option disabled value="">
-                    Selecciona un estado
-                  </option>
-                  <option value="1">Activo</option>
-                  <option value="0">Inactivo</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex flex-col transition-opacity duration-500 opacity-100">
-              <label className="font-bold" htmlFor="description">
-                Descripcion
-              </label>
-              <textarea
-                className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
-                name="description"
-                id="description"
-                placeholder="Descripcion del articulo"
-                value={article.description}
-                maxLength={2000}
-                onChange={(e) =>
-                  setArticle({ ...article, description: e.target.value })
-                }
-                rows={8}
-              ></textarea>
-            </div>
-            <div className="flex flex-col transition-opacity duration-500 opacity-100">
-              <ArticleAddress address={address} setAddress={setAddress} />
-            </div>
-            <div className="flex flex-col transition-opacity duration-500 opacity-100">
-              <label className="font-bold" htmlFor="image">
-                Imagen
-                <span className="text-xs text-gray-400">
-                  {" "}
-                  (JPG, PNG, JPEG, WEBP)
-                </span>
-              </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 min-h-max gap-4">
-                {files.length <= 4 && (
-                  <Dropzone
-                    setFiles={setFiles}
-                    files={files}
-                    filetype={[
-                      "image/jpeg",
-                      "image/png",
-                      "image/jpg",
-                      "image/webp",
-                    ]}
+          <Tabs.Group
+            aria-label="Tabs with icons"
+            style="underline"
+            className="whitespace-nowrap overflow-x-auto flex flex-nowrap"
+          >
+            <Tabs.Item
+              active={true}
+              title="Información del artículo"
+              icon={MdArticle}
+            >
+              <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity duration-500 opacity-100">
+                  <div className="flex flex-col w-full">
+                    <label className="font-bold" htmlFor="title">
+                      Titulo
+                    </label>
+                    <input
+                      className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                      type="text"
+                      name="title"
+                      id="title"
+                      placeholder="Titulo del articulo"
+                      value={article.title}
+                      onChange={(e) =>
+                        setArticle({ ...article, title: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="flex flex-col w-full">
+                    <label className="font-bold" htmlFor="category">
+                      Categoria
+                    </label>
+                    <select
+                      className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                      name="category"
+                      id="category"
+                      value={article.type_id}
+                      onChange={(e) =>
+                        setArticle({ ...article, type_id: e.target.value })
+                      }
+                    >
+                      <option disabled value="">
+                        Selecciona una categoria
+                      </option>
+                      {categories}
+                    </select>
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="font-bold" htmlFor="status">
+                      Estado
+                    </label>
+                    <select
+                      className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                      name="status"
+                      id="status"
+                      value={article.status}
+                      onChange={(e) =>
+                        setArticle({ ...article, status: e.target.value })
+                      }
+                    >
+                      <option disabled value="">
+                        Selecciona un estado
+                      </option>
+                      <option value="1">Activo</option>
+                      <option value="0">Inactivo</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex flex-col transition-opacity duration-500 opacity-100">
+                  <label className="font-bold" htmlFor="description">
+                    Descripcion
+                  </label>
+                  <textarea
+                    className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                    name="description"
+                    id="description"
+                    placeholder="Descripcion del articulo"
+                    value={article.description}
+                    maxLength={2000}
+                    onChange={(e) =>
+                      setArticle({ ...article, description: e.target.value })
+                    }
+                    rows={8}
+                  ></textarea>
+                </div>
+                <div className="flex flex-col transition-opacity duration-500 opacity-100">
+                  <ArticleAddress address={address} setAddress={setAddress} />
+                </div>
+                <div className="flex flex-col transition-opacity duration-500 opacity-100">
+                  <label className="font-bold" htmlFor="image">
+                    Imagen
+                    <span className="text-xs text-gray-400">
+                      {" "}
+                      (JPG, PNG, JPEG, WEBP)
+                    </span>
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 min-h-max gap-4">
+                    {files.length <= 4 && (
+                      <Dropzone
+                        setFiles={setFiles}
+                        files={files}
+                        filetype={[
+                          "image/jpeg",
+                          "image/png",
+                          "image/jpg",
+                          "image/webp",
+                        ]}
+                      />
+                    )}
+                    {handleAddImage}
+                  </div>
+                </div>
+                <div className="flex flex-col transition-opacity duration-500 opacity-100">
+                  <House
+                    characteristics={characteristics}
+                    setCharacteristics={setCharacteristics}
+                    options={options}
                   />
-                )}
-                {handleAddImage}
-              </div>
-            </div>
-            <div className="flex flex-col transition-opacity duration-500 opacity-100">
-              <House
-                characteristics={characteristics}
-                setCharacteristics={setCharacteristics}
-                options={options}
-              />
-            </div>
-            <div className="flex justify-center md:justify-end items-center">
-              <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2">
-                <HiSave className="w-6 h-6" />
-                Guardar
-              </button>
-            </div>
-          </form>
+                </div>
+                <div className="flex justify-center items-center md:justify-end gap-4">
+                  <div
+                    onClick={() => navigate("/ver-articulo/" + id)}
+                    className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
+                  >
+                    <MdArrowBack className="w-6 h-6" />
+                    Cancelar
+                  </div>
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out">
+                    <MdSaveAlt className="w-6 h-6" />
+                    Guardar
+                  </button>
+                </div>
+              </form>
+            </Tabs.Item>
+            <Tabs.Item title="Detalles del anuncio" icon={BsFillMegaphoneFill}>
+              <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                <Announcement
+                  setAnnouncement={setAnnouncement}
+                  announcement={announcement}
+                  setAvailable={setAvailable}
+                  available={available}
+                  recurrencies={recurrencies}
+                />
+                <div className="flex justify-center items-center md:justify-end gap-4">
+                  <div
+                    onClick={() => navigate("/ver-articulo/" + id)}
+                    className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
+                  >
+                    <MdArrowBack className="w-6 h-6" />
+                    Cancelar
+                  </div>
+                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out">
+                    <MdSaveAlt className="w-6 h-6" />
+                    Guardar
+                  </button>
+                </div>
+              </form>
+            </Tabs.Item>
+          </Tabs.Group>
         </div>
       </div>
       {loading && <Loading />}

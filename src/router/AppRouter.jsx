@@ -11,6 +11,7 @@ import Ads from "../pages/ads/Ads";
 import { PrivateRoute } from "./RoutesSettings";
 import { getTypes } from "../features/articleTypes/typesSlice";
 import { handleGetTypes } from "../app/api";
+import { getRecurrencies } from "../features/recurrencies/recurrenciesSlice";
 
 const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Articles = lazy(() => import("../pages/articles/Articles"));
@@ -24,13 +25,14 @@ const AppRouter = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const types = articleTypes();
+    const types = articleTypesAndRecurrencies();
     types.then((res) => {
       dispatch(getTypes(res));
+      dispatch(getRecurrencies(res));
     });
   }, []);
 
-  const articleTypes = async () => {
+  const articleTypesAndRecurrencies = async () => {
     const response = await handleGetTypes();
     return response;
   };
@@ -62,7 +64,7 @@ const SignedRoutes = ({ user }) => {
     <Sidebar user={user}>
       <Routes>
         <Route index element={<Home />} />
-        <Route path="/articulos" element={<Articles />} />
+        <Route path="/mis-articulos" element={<Articles />} />
         <Route path="/crear-articulo" element={<CreateArticle />} />
         <Route path="/editar-articulo/:id" element={<UpdateArticle />} />
         <Route path="/ver-articulo/:id" element={<ShowArticles />} />

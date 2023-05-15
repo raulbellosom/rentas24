@@ -12,9 +12,11 @@ import { toast } from "react-hot-toast";
 import ArticleAddress from "./characteristics/ArticleAddress";
 import { options } from "../../utils/Services";
 import { Progress } from "flowbite-react";
+import Announcement from "./characteristics/Announcement";
 
 const CreateArticle = () => {
   const { articleTypes } = useSelector((state) => state.types);
+  const { recurrencies } = useSelector((state) => state.recurrencies);
   const { user, token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -48,13 +50,17 @@ const CreateArticle = () => {
     services: [],
   });
 
-  const categories = articleTypes.map((type) => {
-    return (
-      <option key={type.id} value={type.id}>
-        {type.name}
-      </option>
-    );
+  const [announcement, setAnnouncement] = useState({
+    price: 0,
+    currency: "MXN",
+    is_recurrent: false,
+    recurrency_id: "",
+    isAdvance: false,
+    advanceAmount: 0,
+    start_date: "",
+    end_date: "",
   });
+  const [available, setAvailable] = useState(true);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -71,9 +77,13 @@ const CreateArticle = () => {
       type_id: article.type_id,
       status: article.status,
       characteristics,
+      announcement,
+      available,
       photos: arrayImages,
       user_id: user.id,
     };
+
+    console.log(body);
 
     const res = await handleCreateArticle(token, body);
     setLoading(false);
@@ -133,7 +143,7 @@ const CreateArticle = () => {
         if (
           article.title === "" ||
           article.status === "" ||
-          article.type_id === null
+          article.type_id === ""
         ) {
           notifyError("Debes llenar todos los campos");
           return;
@@ -184,6 +194,14 @@ const CreateArticle = () => {
     handleNext();
   };
 
+  const categories = articleTypes.map((type) => {
+    return (
+      <option key={type.id} value={type.id}>
+        {type.name}
+      </option>
+    );
+  });
+
   return (
     <>
       <div className="p-5 w-full">
@@ -193,7 +211,7 @@ const CreateArticle = () => {
         <div className="bg-white my-5 p-5 rounded-lg">
           <div className="pb-4">
             <Progress
-              progress={step === 1 ? 10 : step * 20}
+              progress={step === 1 ? 10 : step * 15}
               size="lg"
               color="indigo"
             />
@@ -384,6 +402,29 @@ const CreateArticle = () => {
               />
             </div>
             <div
+              className={`flex flex-col transition-opacity duration-500 opacity-100 ${fade} ${
+                step === 6 ? "block" : "hidden"
+              }`}
+            >
+              <div className="flex flex-col">
+                <h3 className="text-xl font-bold text-gray-700">
+                  Datos de la publicación
+                </h3>
+                <p className="text-gray-500">
+                  Establece el precio de tu articulo y la fecha de inicio y
+                  expiración de tu publicación, asi como el tipo de recurrencia
+                  de la misma.
+                </p>
+              </div>
+              <Announcement
+                setAnnouncement={setAnnouncement}
+                announcement={announcement}
+                recurrencies={recurrencies}
+                setAvailable={setAvailable}
+                available={available}
+              />
+            </div>
+            <div
               className={`flex ${
                 step === 1 ? "justify-end" : "justify-between"
               } items-center`}
@@ -397,7 +438,7 @@ const CreateArticle = () => {
                   Anterior
                 </div>
               )}
-              {step < 5 ? (
+              {step < 6 ? (
                 <div
                   className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2"
                   onClick={handleStep}

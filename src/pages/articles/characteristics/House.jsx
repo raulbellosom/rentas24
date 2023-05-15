@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  BsCheck,
-  BsPlug,
-  BsPlus,
-  BsPlusCircle,
-  BsPlusCircleFill,
-} from "react-icons/bs";
+import React, { useState } from "react";
+import { BsCheck, BsPlus, BsPlusCircleFill } from "react-icons/bs";
 import { MdOutlineRemoveCircleOutline, MdRemoveCircle } from "react-icons/md";
 
 const House = ({
@@ -284,7 +278,7 @@ const House = ({
               <p
                 key={i}
                 onClick={() => handleSelectOption(service)}
-                className="font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer bg-gradient-to-r from-white to-primary-100"
+                className="font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer bg-gradient-to-r from-white to-primary-100 hover:from-red-500 hover:to-red-600 hover:text-white"
               >
                 {service.label}
                 <span className="text-md font-light bg-green-400 rounded-full text-white">

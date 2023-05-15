@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  BsEye,
-  BsPencilSquare,
-  BsPlusCircleFill,
-  BsTrash,
-  BsX,
-} from "react-icons/bs";
+import { BsPlusCircleFill, BsTrash, BsX } from "react-icons/bs";
 import { Squares2X2Icon, ListBulletIcon } from "@heroicons/react/24/outline";
 import Table from "../../components/tables/Table";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +9,8 @@ import { toast } from "react-hot-toast";
 import { handleDeleteArticle, handleGetArticlesByUserId } from "../../app/api";
 import Loading from "../../utils/Loading";
 import ArticleCards from "../../components/cards/ArticleCards";
+
+import NotRecords from "../../assets/img/not_data_1.jpg";
 
 const Articles = () => {
   const navigate = useNavigate();
@@ -158,30 +154,48 @@ const Articles = () => {
           )}
         </div>
       </div>
-      <div className="bg-white my-5 p-5 rounded-lg">
-        {viewType ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {data.map((article) => (
-              <ArticleCards
-                key={article.id}
-                article={article}
-                onDelete={onDeleteArticle}
-                onShow={onShowArticle}
-                onEdit={onUpdateArticle}
-              />
-            ))}
-          </div>
-        ) : (
-          <Table
-            headers={headers}
-            content={data}
-            actions={true}
-            onDelete={onDeleteArticle}
-            onShow={onShowArticle}
-            onEdit={onUpdateArticle}
+      {articles.length <= 0 ? (
+        <div className="bg-white my-5 p-5 rounded-lg text-center">
+          <h3 className="text-2xl font-bold text-blue-500">
+            Parece que aun no tienes articulos
+          </h3>
+          <p className="text-lg text-gray-500">
+            ¿Te gustaría percibir ingresos rentando tus propiedades? <br />
+            ¡Empieza ahora! Crear un articulo es muy facil, solo da click en el
+            boton de crear.
+          </p>
+          <img
+            src={NotRecords}
+            alt="articles"
+            className="w-auto text-lg max-h-80 text-center mx-auto"
           />
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="bg-white my-5 p-5 rounded-lg">
+          {viewType ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {data.map((article) => (
+                <ArticleCards
+                  key={article.id}
+                  article={article}
+                  onDelete={onDeleteArticle}
+                  onShow={onShowArticle}
+                  onEdit={onUpdateArticle}
+                />
+              ))}
+            </div>
+          ) : (
+            <Table
+              headers={headers}
+              content={data}
+              actions={true}
+              onDelete={onDeleteArticle}
+              onShow={onShowArticle}
+              onEdit={onUpdateArticle}
+            />
+          )}
+        </div>
+      )}
       {active && (
         <Modal active={active} toggle={toggle}>
           <form

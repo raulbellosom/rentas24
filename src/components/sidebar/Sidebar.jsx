@@ -152,7 +152,7 @@ export default function Sidebar({ children, user = {} }) {
                 title="Mis Artitulos"
                 isOpenMenu={isOpenMenu}
                 handleClick={() => setShowMenu(false)}
-                redirectTo="/articulos"
+                redirectTo="/mis-articulos"
               />
             )}
             {Object.keys(user).length > 0 && (

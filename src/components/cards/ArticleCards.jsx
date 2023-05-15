@@ -26,7 +26,9 @@ const ArticleCards = ({
         />
         <div>
           <h2 className="text-xl text-center font-bold text-blue-500">
-            {article.name}
+            {article.name.length > 40
+              ? article.name?.substring(0, 20) + "..."
+              : article.name}
           </h2>
           <p className="text-sm text-gray-500 text-center">
             {article.category} - {article.status}

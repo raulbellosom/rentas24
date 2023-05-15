@@ -190,3 +190,63 @@ export const handleGetArticleById = async (token, id) => {
     return error.response;
   }
 };
+
+// Promotion
+
+export const handleGetPromotions = async () => {
+  try {
+    const res = await axios.get(`${urlEnv}promotions`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetPromotion = async (id) => {
+  try {
+    const res = await axios.get(`${urlEnv}promotions/${id}`);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleCreatePromotion = async (token, data) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.post(`${urlEnv}promotions`, data, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleUpdatePromotion = async (token, id, data) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.patch(`${urlEnv}promotions/${id}`, data, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleDeletePromotion = async (token, id) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.delete(`${urlEnv}promotions/${id}`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const handleGetPromotionsByUserId = async (token) => {
+  config.headers["x-access-token"] = token;
+  try {
+    const res = await axios.get(`${urlEnv}promotions/user`, config);
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};

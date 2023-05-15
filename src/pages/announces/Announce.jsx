@@ -78,7 +78,8 @@ function Article() {
       <div className="flex flex-col items-center justify-between">
         <div className="lg:grid lg:grid-cols-2 gap-4 w-full bg-white rounded-lg p-4">
           <div className="h-full lg:h-auto">
-            <FlowCarousel>
+            <Carousel images={article.photos} />
+            {/* <FlowCarousel>
               {article.photos.map((photo, i) => (
                 <img
                   key={i}
@@ -87,7 +88,7 @@ function Article() {
                   alt="article"
                 />
               ))}
-            </FlowCarousel>
+            </FlowCarousel> */}
           </div>
           <div className="pt-5 flex flex-col gap-2">
             <div className="flex items-center justify-between flex-col md:flex-row gap-4">
@@ -215,7 +216,7 @@ function Article() {
             </div>
           </div>
         </div>
-        <div className="w-full h-full bg-white rounded-lg p-4">
+        <div className="w-full h-full bg-white rounded-lg p-4 pt-0">
           <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white py-2">
             Servicios
           </h5>

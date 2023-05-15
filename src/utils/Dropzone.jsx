@@ -82,7 +82,7 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
         />
       ) : (
         <>
-          <RiImageAddFill className="text-gray-400 text-2xl" />
+          <RiImageAddFill className="text-gray-400 text-4xl" />
           <p className="text-gray-400 text-sm whitespace-normal">
             Arrastra una o varias imágenes
           </p>

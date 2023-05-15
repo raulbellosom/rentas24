@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   articles: [],
+  ownerArticles: [],
   article: {},
   error: null,
 };
@@ -10,9 +11,17 @@ export const articleSlice = createSlice({
   name: "articles",
   initialState,
   reducers: {
-    getArticles: (state, action) => {
+    getOwnerArticles: (state, action) => {
       try {
         const data = action.payload;
+        state.ownerArticles = data.articles;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getArticles: (state, action) => {
+      try {
+        const { data } = action.payload;
         state.articles = data.articles;
       } catch (error) {
         console.log(error);
@@ -58,8 +67,9 @@ export const articleSlice = createSlice({
 });
 
 export const {
-  getArticles,
+  getOwnerArticles,
   getArticle,
+  getArticles,
   createArticle,
   updateArticle,
   deleteArticle,

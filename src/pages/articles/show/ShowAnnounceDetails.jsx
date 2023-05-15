@@ -27,11 +27,26 @@ const ShowAnounceDetails = ({
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <p className="font-bold">
         Fecha de inicio: <br />
-        <span className="font-normal">{article.announcement.start_date}</span>
+        <span className="font-normal">
+          {new Date(article.announcement.start_date).toLocaleDateString(
+            "es-MX",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            }
+          )}
+        </span>
       </p>
       <p className="font-bold">
         Fecha de fin: <br />
-        <span className="font-normal">{article.announcement.end_date}</span>
+        <span className="font-normal">
+          {new Date(article.announcement.end_date).toLocaleDateString("es-MX", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </span>
       </p>
       <p className="font-bold">
         Precio: <br />
@@ -57,34 +72,38 @@ const ShowAnounceDetails = ({
           {article.announcement.is_recurrent ? "Si" : "No"}
         </span>
       </p>
-      <p className="font-bold">
-        Tipo de recurrencia: <br />
-        <span className="font-normal">
-          {getRecurrency(article.announcement.recurrency_id)}
-        </span>
-      </p>
+      {article.announcement.is_recurrent && (
+        <p className="font-bold">
+          Tipo de recurrencia: <br />
+          <span className="font-normal">
+            {getRecurrency(article.announcement.recurrency_id)}
+          </span>
+        </p>
+      )}
       <p className="font-bold">
         ¿Requiere anticipo? <br />
         <span className="font-normal">
           {article.announcement.isAdvance ? "Si" : "No"}
         </span>
       </p>
-      <p className="font-bold">
-        Monto del anticipo: <br />
-        <span className="font-normal">
-          $
-          {parseFloat(article.announcement.advanceAmount).toFixed(2) ===
-          article.announcement.advanceAmount
-            ? article.announcement.advanceAmount.replace(
-                /\d(?=(\d{3})+\.)/g,
-                "$&,"
-              )
-            : parseFloat(article.announcement.advanceAmount)
-                .toFixed(2)
-                .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-          {article.announcement.currency}
-        </span>
-      </p>
+      {article.announcement.isAdvance && (
+        <p className="font-bold">
+          Monto del anticipo: <br />
+          <span className="font-normal">
+            $
+            {parseFloat(article.announcement.advanceAmount).toFixed(2) ===
+            article.announcement.advanceAmount
+              ? article.announcement.advanceAmount.replace(
+                  /\d(?=(\d{3})+\.)/g,
+                  "$&,"
+                )
+              : parseFloat(article.announcement.advanceAmount)
+                  .toFixed(2)
+                  .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
+            {article.announcement.currency}
+          </span>
+        </p>
+      )}
     </div>
   );
 };

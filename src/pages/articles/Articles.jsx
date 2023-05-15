@@ -155,7 +155,7 @@ const Articles = () => {
         </div>
       </div>
       {articles.length <= 0 ? (
-        <div className="bg-white my-5 p-5 rounded-lg text-center">
+        <div className="bg-white my-5 p-5 rounded-lg text-center flex flex-col items-center gap-2">
           <h3 className="text-2xl font-bold text-blue-500">
             Parece que aun no tienes articulos
           </h3>
@@ -164,6 +164,15 @@ const Articles = () => {
             ¡Empieza ahora! Crear un articulo es muy facil, solo da click en el
             boton de crear.
           </p>
+          <Link
+            to={"/crear-articulo"}
+            className="flex justify-center items-center w-fit gap-2 border text-blue-600 border-gray-200 bg-white p-2 rounded-full hover:scale-110 hover:bg-blue-600 hover:text-white transition ease-in-out duration-200"
+          >
+            <span>
+              <BsPlusCircleFill className="w-6 h-6" />
+            </span>
+            <span className="font-bold whitespace-nowrap">Crear articulo</span>
+          </Link>
           <img
             src={NotRecords}
             alt="articles"

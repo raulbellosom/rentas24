@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Announcement = ({
   available = true,
@@ -16,6 +16,16 @@ const Announcement = ({
   setAnnouncement,
   recurrencies = [],
 }) => {
+  useEffect(() => {
+    if (!announcement.is_recurrent) {
+      setAnnouncement({ ...announcement, recurrency_id: "" });
+    }
+    if (!announcement.isAdvance) {
+      setAnnouncement({ ...announcement, advanceAmount: "" });
+    }
+  }, [announcement.is_recurrent, announcement.isAdvance]);
+
+  console.log("test");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center">
       <div className="flex flex-col w-full justify-between col-span-2">

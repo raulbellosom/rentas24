@@ -16,7 +16,6 @@ import icon from "../../assets/icon_color_alter.svg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getSignOut } from "../../features/auth/authSlice";
-import { BsFillMegaphoneFill } from "react-icons/bs";
 import Footer from "../Footer/Footer";
 import { FaStore } from "react-icons/fa";
 
@@ -139,15 +138,6 @@ export default function Sidebar({ children, user = {} }) {
             />
             {Object.keys(user).length > 0 && (
               <CardMenu
-                icon={<BsFillMegaphoneFill className="w-6 h-6" />}
-                title="Mis Anuncios"
-                isOpenMenu={isOpenMenu}
-                handleClick={() => setShowMenu(false)}
-                redirectTo="/anuncios"
-              />
-            )}
-            {Object.keys(user).length > 0 && (
-              <CardMenu
                 icon={<FaStore className="w-6 h-6" />}
                 title="Mis Artitulos"
                 isOpenMenu={isOpenMenu}
@@ -205,7 +195,7 @@ export default function Sidebar({ children, user = {} }) {
             )}
           </div>
         </div>
-        <div className="w-full bg-slate-100 h-auto max-h-[92vh] overflow-auto relative flex flex-col justify-between">
+        <div className="w-full bg-slate-100 h-auto max-h-[93vh] overflow-auto relative flex flex-col justify-between">
           <div>{children}</div>
           <Footer />
         </div>

@@ -39,7 +39,7 @@ const ShowArticleDetails = ({
   };
   return (
     <>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 whitespace-normal">
         <div className="flex flex-col gap-4">
           {article.address.street_1 && (
             <p className="font-bold">

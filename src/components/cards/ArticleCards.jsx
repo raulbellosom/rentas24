@@ -1,6 +1,5 @@
 import React from "react";
 import { BsEye, BsPencilSquare, BsTrash } from "react-icons/bs";
-import { useSelector } from "react-redux";
 
 const ArticleCards = ({
   article = {

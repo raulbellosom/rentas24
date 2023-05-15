@@ -83,8 +83,6 @@ const CreateArticle = () => {
       user_id: user.id,
     };
 
-    console.log(body);
-
     const res = await handleCreateArticle(token, body);
     setLoading(false);
 

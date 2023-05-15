@@ -75,7 +75,7 @@ const ShowArticles = () => {
   if (loading) return <Loading />;
   return (
     <>
-      <div className="p-5 w-full">
+      <div className="p-2 md:p-5 w-full">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
           <h2 className="text-2xl font-bold text-blue-500 text-center md:text-left">
             {article.title}
@@ -101,16 +101,17 @@ const ShowArticles = () => {
             </Link>
           </div>
         </div>
-        <div className="bg-white my-5 p-5 rounded-lg">
+        <div className="bg-white my-5 md:p-5 rounded-lg">
           <Tabs.Group
             aria-label="Tabs with icons"
             style="underline"
-            className="whitespace-nowrap overflow-x-auto flex flex-nowrap"
+            className="overflow-x-auto flex flex-nowrap whitespace-nowrap"
           >
             <Tabs.Item
               active={true}
               title="Información del artículo"
               icon={MdArticle}
+              className="whitespace-normal"
             >
               <ShowArticleDetails
                 article={article}

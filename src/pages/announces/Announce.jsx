@@ -77,7 +77,7 @@ function Article() {
     <div className="p-2">
       <div className="flex flex-col items-center justify-between">
         <div className="lg:grid lg:grid-cols-2 gap-4 w-full bg-white rounded-lg p-4">
-          <div className="h-72 lg:h-auto">
+          <div className="h-full lg:h-auto">
             <FlowCarousel>
               {article.photos.map((photo, i) => (
                 <img
@@ -149,15 +149,15 @@ function Article() {
               </h2>
               <ul className="py-2 flex flex-col md:flex-row md:flex-wrap md:items-center gap-6">
                 <li className="flex items-center gap-2">
-                  <MdBed size={24} className="text-blue-600" />
+                  <MdBed size={24} className="text-primary-600" />
                   {article.characteristics.rooms} habitaciones
                 </li>
                 <li className="flex items-center gap-2">
-                  <FaBath size={24} className="text-blue-600" />
+                  <FaBath size={24} className="text-primary-600" />
                   {article.characteristics.bathrooms} baños
                 </li>
                 <li className="flex items-center gap-2">
-                  <MdPeopleAlt size={24} className="text-blue-600" />
+                  <MdPeopleAlt size={24} className="text-primary-600" />
                   {article.characteristics.maxPeople} personas
                 </li>
               </ul>

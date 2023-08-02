@@ -147,17 +147,17 @@ const UpdateArticle = () => {
       return;
     }
     if (article.title === "") {
-      notifyError("Debes agregar un titulo");
+      notifyError("Debes agregar un Título");
       setLoading(false);
       return;
     }
     if (article.description === "") {
-      notifyError("Debes agregar una descripcion");
+      notifyError("Debes agregar una descripción");
       setLoading(false);
       return;
     }
     if (article.type_id === "") {
-      notifyError("Debes seleccionar una categoria");
+      notifyError("Debes seleccionar una categoría");
       setLoading(false);
       return;
     }
@@ -309,14 +309,14 @@ const UpdateArticle = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity duration-500 opacity-100">
                   <div className="flex flex-col w-full">
                     <label className="font-bold" htmlFor="title">
-                      Titulo
+                      Título
                     </label>
                     <input
                       className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
                       type="text"
                       name="title"
                       id="title"
-                      placeholder="Titulo del articulo"
+                      placeholder="Título del articulo"
                       value={article.title}
                       onChange={(e) =>
                         setArticle({ ...article, title: e.target.value })
@@ -325,7 +325,7 @@ const UpdateArticle = () => {
                   </div>
                   <div className="flex flex-col w-full">
                     <label className="font-bold" htmlFor="category">
-                      Categoria
+                      Categoría
                     </label>
                     <select
                       className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
@@ -337,7 +337,7 @@ const UpdateArticle = () => {
                       }
                     >
                       <option disabled value="">
-                        Selecciona una categoria
+                        Selecciona una categoría
                       </option>
                       {categories}
                     </select>
@@ -365,13 +365,13 @@ const UpdateArticle = () => {
                 </div>
                 <div className="flex flex-col transition-opacity duration-500 opacity-100">
                   <label className="font-bold" htmlFor="description">
-                    Descripcion
+                    descripción
                   </label>
                   <textarea
                     className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
                     name="description"
                     id="description"
-                    placeholder="Descripcion del articulo"
+                    placeholder="descripción del articulo"
                     value={article.description}
                     maxLength={2000}
                     onChange={(e) =>

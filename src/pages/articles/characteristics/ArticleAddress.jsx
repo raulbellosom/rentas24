@@ -26,7 +26,7 @@ const ArticleAddress = ({
               * Calle principal
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1 w-full"
+              className={`border ${address.street_1 !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="street_1"
               id="street_1"
@@ -61,7 +61,7 @@ const ArticleAddress = ({
                 * Numero exterior
               </label>
               <input
-                className="border border-gray-300 rounded-lg px-3 py-2 mt-1 w-full"
+                className={`border ${address.number_ext !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
                 type="text"
                 name="number_ext"
                 id="number_ext"
@@ -94,7 +94,7 @@ const ArticleAddress = ({
               * Colonia
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+              className={`border ${address.colony !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="colony"
               id="colony"
@@ -112,7 +112,7 @@ const ArticleAddress = ({
               * Ciudad
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+              className={`border ${address.city !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="city"
               id="city"
@@ -126,7 +126,7 @@ const ArticleAddress = ({
               * Estado
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+              className={`border ${address.state !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="state"
               id="state"
@@ -142,7 +142,7 @@ const ArticleAddress = ({
               * País
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+              className={`border ${address.country !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="country"
               id="country"
@@ -158,7 +158,7 @@ const ArticleAddress = ({
               * CP
             </label>
             <input
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+              className={`border ${address.postal_code !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1 w-full`}
               type="text"
               name="postal_code"
               id="postal_code"

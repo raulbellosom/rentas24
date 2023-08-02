@@ -27,12 +27,12 @@ const ShowUser = ({ user, setIsEditUser }) => {
           <p className="text-primary-500">{user.email}</p>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Telefono:</p>
+          <p className="font-medium">Teléfono:</p>
           <p className="text-primary-500">{user.phone}</p>
         </div>
         {/* Pais, Estado, Codigo Postal, Dirección  */}
         <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Pais:</p>
+          <p className="font-medium">País:</p>
           <p className="text-primary-500">México</p>
         </div>
         <div className="col-span-1 flex flex-col gap-1">

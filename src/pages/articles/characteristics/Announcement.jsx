@@ -45,10 +45,10 @@ const Announcement = ({
       </div>
       <div className="flex flex-col w-full justify-between col-span-2 md:col-span-1">
         <label className="font-bold" htmlFor="start_date">
-          ¿Cuandó se comenzara a mostrar?
+          ¿Cuándo se comenzará a mostrar?
         </label>
         <input
-          className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+          className={`border ${announcement.start_date !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
           type="date"
           name="start_date"
           id="start_date"
@@ -63,10 +63,10 @@ const Announcement = ({
       </div>
       <div className="flex flex-col w-full justify-between col-span-2 md:col-span-1">
         <label className="font-bold" htmlFor="end_date">
-          ¿Cuandó se dejara de mostrar?
+          ¿Cuándo se dejará de mostrar?
         </label>
         <input
-          className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+          className={`border ${announcement.end_date !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
           type="date"
           name="end_date"
           id="end_date"
@@ -84,7 +84,7 @@ const Announcement = ({
           Precio
         </label>
         <input
-          className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+          className={`border ${announcement.price !== 0 ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
           type="number"
           name="price"
           id="price"

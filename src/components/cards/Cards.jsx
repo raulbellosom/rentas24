@@ -70,10 +70,10 @@ function Cards({
                 : article.title}
             </h5>
           </Link>
-          <p className="text-sm text-gray-700 dark:text-gray-400">
+          <p className="text-sm text-gray-700 dark:text-gray-400 font-semibold">
             {articleTypes[article.type_id - 1]?.name} - {article.address.city}
           </p>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
+          <p className="font-normal text-gray-700 dark:text-gray-400 text-justify">
             {article.description.length > 99
               ? article.description.substring(0, 99) + "..."
               : article.description}

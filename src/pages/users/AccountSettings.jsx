@@ -5,6 +5,7 @@ import {
   HiLockClosed,
   HiOutlineMail,
   HiLightBulb,
+  HiEyeOff,
 } from "react-icons/hi";
 import React, { useState } from "react";
 import { handleDisableUser, handleUpdatePassword } from "../../app/api";
@@ -130,7 +131,7 @@ const AccountSettings = ({ user, token }) => {
               />
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-end">
             <button className="hover:text-white border text-primary-600 border-primary-600 px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300">
               <HiMail size={16} />
               Enviar correo de verificación
@@ -157,10 +158,12 @@ const AccountSettings = ({ user, token }) => {
                   setPass({ ...pass, currentPassword: e.target.value })
                 }
               />
-              <HiEye
-                onClick={() => setShowPassword(!showPassword)}
-                className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
-              />
+              {!showPassword ? 
+                            <HiEye onClick={() => setShowPassword(!showPassword)}
+                            className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
+                          /> : <HiEyeOff onClick={() => setShowPassword(!showPassword)}
+                          className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"/>
+              }
             </div>
           </div>
           <div>
@@ -177,10 +180,12 @@ const AccountSettings = ({ user, token }) => {
                   setPass({ ...pass, newPassword: e.target.value })
                 }
               />
-              <HiEye
-                onClick={() => setShowPassword(!showPassword)}
-                className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
-              />
+              {!showPassword ? 
+                            <HiEye onClick={() => setShowPassword(!showPassword)}
+                            className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
+                          /> : <HiEyeOff onClick={() => setShowPassword(!showPassword)}
+                          className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"/>
+              }
             </div>
           </div>
           <div>
@@ -197,13 +202,15 @@ const AccountSettings = ({ user, token }) => {
                   setPass({ ...pass, repeatPassword: e.target.value })
                 }
               />
-              <HiEye
-                onClick={() => setShowPassword(!showPassword)}
-                className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
-              />
+              {!showPassword ? 
+                            <HiEye onClick={() => setShowPassword(!showPassword)}
+                            className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
+                          /> : <HiEyeOff onClick={() => setShowPassword(!showPassword)}
+                          className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"/>
+              }
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-end">
             <button className="hover:text-white border text-primary-600 border-primary-600 text-center px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300">
               <HiLockClosed size={16} />
               Actualizar contraseña

@@ -18,6 +18,7 @@ import {
 import ShowUser from "./ShowUser";
 import AccountSettings from "./AccountSettings";
 import UserDocuments from "./UserDocuments";
+import { HiAdjustments, HiClipboardList, HiCreditCard, HiUserCircle } from "react-icons/hi";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -148,6 +149,7 @@ const Users = () => {
             <Tabs.Item
               title="Información de contacto"
               active={true}
+              icon={HiUserCircle}
               className="p-10"
             >
               {isEditUser ? (
@@ -160,13 +162,13 @@ const Users = () => {
                 <ShowUser user={user} setIsEditUser={setIsEditUser} />
               )}
             </Tabs.Item>
-            <Tabs.Item active={true} title="Configuración de la cuenta">
+            <Tabs.Item icon={HiAdjustments} active={true} title="Configuración de la cuenta">
               <AccountSettings user={user} token={token} />
             </Tabs.Item>
-            <Tabs.Item title="Mis documentos">
+            <Tabs.Item icon={HiClipboardList} title="Mis documentos">
               <UserDocuments />
             </Tabs.Item>
-            <Tabs.Item title="Metodos de pago">Metodos de pago</Tabs.Item>
+            <Tabs.Item icon={HiCreditCard} title="Métodos de pago">Métodos de pago</Tabs.Item>
             {/* <Tabs.Item title="Notifications">Notifications</Tabs.Item> */}
           </Tabs.Group>
         </div>

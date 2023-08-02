@@ -118,7 +118,7 @@ const Articles = () => {
   return (
     <div className="p-5 w-full">
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
-        <h2 className="text-2xl font-bold text-blue-500">Mis articulos</h2>
+        <h2 className="text-2xl font-bold text-blue-500">Mis artículos</h2>
         <div className="text-blue-500 flex gap-3">
           <div className="flex justify-end text-blue-500">
             <Link
@@ -157,7 +157,7 @@ const Articles = () => {
       {articles.length <= 0 ? (
         <div className="bg-white my-5 p-5 rounded-lg text-center flex flex-col items-center gap-2">
           <h3 className="text-2xl font-bold text-blue-500">
-            Parece que aun no tienes articulos
+            Parece que aun no tienes artículos
           </h3>
           <p className="text-lg text-gray-500">
             ¿Te gustaría percibir ingresos rentando tus propiedades? <br />
@@ -258,12 +258,12 @@ const headers = [
     sortable: true,
   },
   {
-    name: "Descripcion",
+    name: "Descripción",
     selector: "description",
     sortable: true,
   },
   {
-    name: "Categoria",
+    name: "Categoría",
     selector: "category",
     sortable: true,
   },
@@ -273,7 +273,7 @@ const headers = [
     sortable: true,
   },
   {
-    name: "Ultima actualizacion",
+    name: "Ultima actualización",
     selector: "updatedAt",
     sortable: true,
   },

@@ -7,7 +7,7 @@ const UserDocuments = ({ user }) => {
   };
   return (
     <div>
-      <h2 className="font-semibold text-xl"> Actualizar correo electrónico</h2>
+      <h2 className="font-semibold text-xl">Documentación</h2>
       {/* dropzone to uploads files */}
       <form
         onDrag={handleDrop}

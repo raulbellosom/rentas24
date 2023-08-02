@@ -62,10 +62,22 @@ const CreateArticle = () => {
   });
   const [available, setAvailable] = useState(true);
 
+  const onBlurHandle = () => {
+
+  }
+
+  const inputClass = ""
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (
+      announcement.price === 0 ||
+      announcement.start_date === "" ||
+      announcement.end_date === ""
+      ) {
+        notifyError("Favor de completar todos los campos");
+        return;
+      }
     setLoading(true);
-
     const idArticle = uuidv4();
     const arrayImages = await handleUploadImages(files, idArticle);
 
@@ -82,13 +94,14 @@ const CreateArticle = () => {
       photos: arrayImages,
       user_id: user.id,
     };
-
+    console.log(body);
     const res = await handleCreateArticle(token, body);
+    console.log(res)
     setLoading(false);
 
     if (res.status !== 200) {
       setLoading(false);
-      notifyError(res.message);
+      notifyError(res?.data?.message);
       return;
     }
     if (res.status === 200) {
@@ -124,6 +137,7 @@ const CreateArticle = () => {
 
   const [step, setStep] = useState(1);
   const [fade, setFade] = useState("fade");
+  const [isValidForm, setIsValidForm] = useState(false);
 
   const handlePrevious = () => {
     setFade("fade-reverse");
@@ -143,7 +157,7 @@ const CreateArticle = () => {
           article.status === "" ||
           article.type_id === ""
         ) {
-          notifyError("Debes llenar todos los campos");
+          notifyError("Favor de completar todos los campos");
           return;
         }
         break;
@@ -182,10 +196,9 @@ const CreateArticle = () => {
           characteristics.maxPeople === "" ||
           characteristics.services.length === 0
         ) {
-          notifyError("Debes llenar todos los campos");
+          notifyError("Favor de completar todos los campos");
           return;
         }
-        break;
       default:
         break;
     }
@@ -229,20 +242,20 @@ const CreateArticle = () => {
                 </h3>
                 <p className="text-gray-500">
                   Escribe un nombre atractivo y breve para tu articulo y agrega
-                  una categoria para que los usuarios puedan encontrarlo
+                  una categoría para que los usuarios puedan encontrarlo
                   facilmente.
                 </p>
               </div>
               <div className="flex flex-col w-full">
                 <label className="font-bold" htmlFor="title">
-                  Titulo
+                  Título
                 </label>
                 <input
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                  className={`border ${article.title !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
                   type="text"
                   name="title"
                   id="title"
-                  placeholder="Titulo del articulo"
+                  placeholder="Título del articulo"
                   value={article.title}
                   onChange={(e) =>
                     setArticle({ ...article, title: e.target.value })
@@ -251,10 +264,10 @@ const CreateArticle = () => {
               </div>
               <div className="flex flex-col w-full">
                 <label className="font-bold" htmlFor="category">
-                  Categoria
+                  Categoría
                 </label>
                 <select
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                  className={`border ${article.type_id !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
                   name="category"
                   id="category"
                   value={article.type_id}
@@ -263,7 +276,7 @@ const CreateArticle = () => {
                   }
                 >
                   <option disabled value="">
-                    Selecciona una categoria
+                    Selecciona una categoría
                   </option>
                   {categories}
                 </select>
@@ -273,7 +286,7 @@ const CreateArticle = () => {
                   Estado
                 </label>
                 <select
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                  className={`border ${article.status !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
                   name="status"
                   id="status"
                   value={article.status}
@@ -306,13 +319,13 @@ const CreateArticle = () => {
               </div>
               <div className="flex flex-col">
                 <label className="font-bold" htmlFor="description">
-                  Descripcion
+                  Descripción
                 </label>
                 <textarea
-                  className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+                  className={`border ${article.description !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
                   name="description"
                   id="description"
-                  placeholder="Descripcion del articulo"
+                  placeholder="Descripción del articulo"
                   value={article.description}
                   maxLength={2000}
                   onChange={(e) =>
@@ -333,7 +346,7 @@ const CreateArticle = () => {
                 </h3>
                 <p className="text-gray-500">
                   Agrega la dirección para que los usuarios puedan saber donde
-                  se encuentra tu articulo y aparezcas en los resultados de
+                  se encuentra tu articulo y aparezca en los resultados de
                   busqueda por ubicación.
                 </p>
               </div>

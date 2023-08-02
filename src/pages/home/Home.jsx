@@ -5,7 +5,7 @@ import Cards from "../../components/cards/Cards";
 import Megafono from "../../resources/img/announce_megafono.png";
 import { useSelector } from "react-redux";
 function Home() {
-  const { articles } = useSelector((state) => state.articles);
+  const { articles } = useSelector((state) => state?.articles !== undefined ? state.articles : {});
 
   return (
     <div className="p-2">
@@ -14,7 +14,7 @@ function Home() {
           <h2 className="text-xl font-bold pt-4 text-primary-600">
             Bienvenido
           </h2>
-          <h2 className="whitespace-nowrap">Todos los articulos</h2>
+          <h2 className="whitespace-nowrap">Todos los artículos</h2>
         </div>
         <div className="flex flex-col md:flex-row items-center p-5 gap-2 md:gap-20 text-white bg-gradient-to-r from-primary-400 to-primary-600 min-h-full w-full rounded-lg">
           <img
@@ -49,7 +49,7 @@ function Home() {
         </div>
       </div>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 justify-items-center lg:grid-cols-3 xl:grid-cols-4 gap-4 p-2 pt-4">
-        {articles.map((article) => (
+        {articles?.length > 0 && articles.map((article) => (
           <Cards key={article.id} article={article} />
         ))}
       </div>

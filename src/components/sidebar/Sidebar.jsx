@@ -64,7 +64,7 @@ export default function Sidebar({ children, user = {} }) {
           <input
             className="bg-transparent border-none w-full"
             type="text"
-            placeholder="Search"
+            placeholder="Buscar"
           />
           <span>
             <ArrowRightCircleIcon className="text-primary-500 w-10 h-10 cursor-pointer" />

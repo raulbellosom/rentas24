@@ -130,7 +130,7 @@ const EditUser = ({ token, user, setIsEditUser }) => {
         <TextInput
           id="city"
           type="city"
-          placeholder="Ciuadad"
+          placeholder="Ciudad"
           value={users.city}
           onChange={(e) => setUser({ ...users, city: e.target.value })}
         />

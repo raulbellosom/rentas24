@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { BsCheck, BsPlus, BsPlusCircleFill } from "react-icons/bs";
+import { BsCheck, BsPlus, BsPlusCircleFill, BsTrash } from "react-icons/bs";
 import { MdOutlineRemoveCircleOutline, MdRemoveCircle } from "react-icons/md";
+import BadgeInput from "../../../components/inputs/BadgeInput";
 
 const House = ({
   characteristics = {
@@ -14,6 +15,7 @@ const House = ({
 }) => {
   const [search, setSearch] = useState("");
   const [showMenu, setShowMenu] = useState(false);
+  const [isServiceHover, setIssServiceHover] = useState(false);
 
   const handleSelectOption = (value) => {
     if (options.some((option) => option.label === value.label)) {
@@ -43,7 +45,9 @@ const House = ({
     setShowMenu(false);
     setSearch("");
   };
-
+  const handleMouseOverService = () => {
+    setIssServiceHover
+  }
   options = options.sort((a, b) => {
     if (a.label > b.label) {
       return 1;
@@ -62,7 +66,7 @@ const House = ({
             Habitantes permitidos
           </label>
           <input
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+            className={`border ${characteristics.maxPeople !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
             type="number"
             name="maxPeople"
             id="maxPeople"
@@ -80,7 +84,7 @@ const House = ({
             Numero de habitaciones
           </label>
           <select
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+            className={`border ${characteristics.rooms !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
             name="rooms"
             id="rooms"
             value={characteristics.rooms}
@@ -122,7 +126,7 @@ const House = ({
             Numero de baños
           </label>
           <select
-            className="border border-gray-300 rounded-lg px-3 py-2 mt-1"
+            className={`border ${characteristics.bathrooms !== "" ? 'border-gray-300' : 'border-red-600'} rounded-lg px-3 py-2 mt-1`}
             name="bathrooms"
             id="bathrooms"
             value={characteristics.bathrooms}
@@ -274,17 +278,17 @@ const House = ({
             </div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-            {characteristics.services.map((service, i) => (
-              <p
-                key={i}
-                onClick={() => handleSelectOption(service)}
-                className="font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer bg-gradient-to-r from-white to-primary-100 hover:from-red-500 hover:to-red-600 hover:text-white"
-              >
-                {service.label}
-                <span className="text-md font-light bg-green-400 rounded-full text-white">
-                  <BsCheck />
-                </span>
-              </p>
+            {characteristics.services.map((service, i) => (<BadgeInput key={i} service={service}/>
+              // <p
+              //   key={i}
+              //   onClick={() => handleSelectOption(service)}
+              //   className="font-normal border border-gray-200 rounded-lg p-2 flex justify-between items-center hover:scale-100 transition ease-in-out duration-200 cursor-pointer bg-gradient-to-r from-white to-primary-100 hover:from-red-500 hover:to-red-600 hover:text-white"
+              // >
+              //   {service.label}
+              //   <span className="text-md font-light bg-green-400 rounded-full text-white">
+              //     <BsCheck />
+              //   </span>
+              // </p>
             ))}
           </div>
         </div>

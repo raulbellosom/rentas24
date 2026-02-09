@@ -208,7 +208,7 @@ function Announce() {
       <div className="mt-4 rounded-2xl border border-brand-200 bg-white p-4">
         <h5 className="py-2 text-lg font-bold tracking-tight text-brand-900">Servicios</h5>
         {article.characteristics.services.length > 0 ? (
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
             {article.characteristics.services.map((service, i) => (
               <p
                 key={i}
@@ -229,7 +229,7 @@ function Announce() {
           {typeLabel} - {article.title}
         </Modal.Header>
         <Modal.Body className="bg-black/10">
-          <div className="h-[65vh] min-h-[420px]">
+          <div className="h-[64dvh] min-h-[280px] sm:min-h-[360px]">
             <Carousel>
               {article.photos.map((photo, i) => (
                 <img

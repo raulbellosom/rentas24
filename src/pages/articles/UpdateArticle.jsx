@@ -248,15 +248,15 @@ const UpdateArticle = () => {
 
   return (
     <>
-      <div className="p-5 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
+      <div className="w-full p-3 sm:p-5">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-200 bg-white p-4 sm:p-5 md:flex-row md:items-center">
           <h2 className="text-2xl font-bold text-blue-500">
             Actualizar articulo
           </h2>
-          <div className="flex gap-4">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
             <button
               onClick={() => setActive(true)}
-              className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 px-3 py-2 text-white transition duration-300 ease-in-out hover:scale-[1.02] hover:bg-red-600 sm:w-auto"
             >
               <MdDelete className="w-6 h-6" />
               Eliminar articulo
@@ -273,16 +273,16 @@ const UpdateArticle = () => {
                     eliminas este articulo los efectos serán irreversibles y no
                     podras recuperarlo despues.
                   </p>
-                  <div className="flex gap-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                     <button
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
+                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 px-3 py-2 text-white transition duration-300 ease-in-out hover:scale-[1.01] hover:bg-red-600 sm:w-auto"
                       onClick={deleteArticle}
                     >
                       <MdDelete className="w-6 h-6" />
                       Eliminar articulo
                     </button>
                     <button
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 transition duration-300 ease-in-out hover:scale-105"
+                      className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition duration-300 ease-in-out hover:scale-[1.01] hover:bg-blue-600 sm:w-auto"
                       onClick={() => setActive(false)}
                     >
                       <MdClose className="w-6 h-6" />
@@ -294,7 +294,7 @@ const UpdateArticle = () => {
             </Modal>
           </div>
         </div>
-        <div className="bg-white my-5 p-5 rounded-lg">
+        <div className="my-4 rounded-2xl border border-brand-200 bg-white p-4 sm:my-5 sm:p-5">
           <Tabs.Group
             aria-label="Tabs with icons"
             style="underline"
@@ -391,7 +391,7 @@ const UpdateArticle = () => {
                       (JPG, PNG, JPEG, WEBP)
                     </span>
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 min-h-max gap-4">
+                  <div className="grid min-h-max grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {files.length <= 4 && (
                       <Dropzone
                         setFiles={setFiles}
@@ -414,15 +414,15 @@ const UpdateArticle = () => {
                     options={options}
                   />
                 </div>
-                <div className="flex justify-center items-center md:justify-end gap-4">
+                <div className="flex flex-col-reverse items-stretch justify-center gap-3 md:flex-row md:items-center md:justify-end md:gap-4">
                   <div
                     onClick={() => navigate("/owner/properties/" + id)}
-                    className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-400 bg-white px-3 py-2 text-red-400 transition duration-300 ease-in-out hover:scale-[1.01] hover:border-red-600 hover:bg-red-600 hover:text-white md:w-auto"
                   >
                     <MdArrowBack className="w-6 h-6" />
                     Cancelar
                   </div>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out">
+                  <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition duration-300 ease-in-out hover:scale-[1.01] hover:bg-blue-600 md:w-auto">
                     <MdSaveAlt className="w-6 h-6" />
                     Guardar
                   </button>
@@ -438,15 +438,15 @@ const UpdateArticle = () => {
                   available={available}
                   recurrencies={recurrencies}
                 />
-                <div className="flex justify-center items-center md:justify-end gap-4">
+                <div className="flex flex-col-reverse items-stretch justify-center gap-3 md:flex-row md:items-center md:justify-end md:gap-4">
                   <div
                     onClick={() => navigate("/owner/properties/" + id)}
-                    className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-400 bg-white px-3 py-2 text-red-400 transition duration-300 ease-in-out hover:scale-[1.01] hover:border-red-600 hover:bg-red-600 hover:text-white md:w-auto"
                   >
                     <MdArrowBack className="w-6 h-6" />
                     Cancelar
                   </div>
-                  <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out">
+                  <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition duration-300 ease-in-out hover:scale-[1.01] hover:bg-blue-600 md:w-auto">
                     <MdSaveAlt className="w-6 h-6" />
                     Guardar
                   </button>

@@ -233,14 +233,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-brand-950 text-brand-50 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(520px,45%)]">
+    <div className="r24-min-h-dvh overflow-x-clip bg-brand-950 text-brand-50 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(520px,45%)]">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.45 }}
-        className="flex items-center px-6 py-8 sm:px-10 lg:px-14 lg:py-10"
+        className="flex items-start px-4 py-6 sm:px-8 lg:items-center lg:px-14 lg:py-10 r24-safe-pt r24-safe-pb"
       >
-        <div className="mx-auto w-full max-w-xl rounded-3xl bg-brand-950/72 p-6 shadow-2xl shadow-brand-950/30 backdrop-blur-sm sm:p-8">
+        <div className="mx-auto w-full max-w-xl rounded-3xl bg-brand-950/72 p-5 shadow-2xl shadow-brand-950/30 backdrop-blur-sm sm:p-8">
           <Link to={routes.home} className="mb-8 inline-block">
             <Brand theme="dark" />
           </Link>
@@ -369,7 +369,7 @@ const Login = () => {
       </motion.div>
 
       <div className="relative hidden lg:block">
-        <div className="sticky top-0 h-screen overflow-hidden border-l border-brand-300/15">
+        <div className="sticky top-0 r24-h-dvh overflow-hidden border-l border-brand-300/15">
           <img
             src={heroImage}
             alt="Rentas24"

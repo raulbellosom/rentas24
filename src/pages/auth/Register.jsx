@@ -195,14 +195,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-brand-950 text-brand-50 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(520px,45%)]">
+    <div className="r24-min-h-dvh overflow-x-clip bg-brand-950 text-brand-50 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(520px,45%)]">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45 }}
-        className="flex min-h-screen items-start px-6 py-8 sm:px-10 lg:px-14 lg:py-10"
+        className="r24-min-h-dvh flex items-start px-4 py-6 sm:px-8 lg:px-14 lg:py-10 r24-safe-pt r24-safe-pb"
       >
-        <div className="mx-auto w-full max-w-2xl rounded-3xl bg-brand-950/72 p-6 shadow-2xl shadow-brand-950/30 backdrop-blur-sm sm:p-8">
+        <div className="mx-auto w-full max-w-2xl rounded-3xl bg-brand-950/72 p-5 shadow-2xl shadow-brand-950/30 backdrop-blur-sm sm:p-8">
           <Link to={routes.home} className="mb-8 inline-block">
             <Brand theme="dark" />
           </Link>
@@ -246,8 +246,8 @@ const Register = () => {
               </label>
             </div>
 
-            <div className="grid grid-cols-5 gap-3">
-              <div className="col-span-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-5">
+              <div className="sm:col-span-2">
                 <span className="text-xs uppercase tracking-wide text-brand-200/70">Codigo</span>
                 <div className="mt-2">
                   <SelectCountryInput
@@ -257,7 +257,7 @@ const Register = () => {
                 </div>
               </div>
 
-              <label className="col-span-3 block">
+              <label className="block sm:col-span-3">
                 <span className="text-xs uppercase tracking-wide text-brand-200/70">Telefono</span>
                 <div className="r24-input-shell r24-input-shell-dark mt-2">
                   <Phone size={16} className="text-brand-300/70" />
@@ -420,7 +420,7 @@ const Register = () => {
       </motion.div>
 
       <div className="relative hidden lg:block">
-        <div className="sticky top-0 h-screen overflow-hidden border-l border-brand-300/15">
+        <div className="sticky top-0 r24-h-dvh overflow-hidden border-l border-brand-300/15">
           <img
             src={heroImage}
             alt="Rentas24"

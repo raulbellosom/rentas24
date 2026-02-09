@@ -64,7 +64,14 @@ const AppRouter = () => {
   }, [dispatch]);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense
+      fallback={
+        <Loading
+          title="Cargando seccion"
+          message="Estamos abriendo el modulo que solicitaste."
+        />
+      }
+    >
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route element={<AuthLayout />}>
@@ -82,6 +89,7 @@ const AppRouter = () => {
 
             <Route element={<PrivateRoute user={hasSession} redirectTo={routes.login} />}>
               <Route path={routes.owner} element={<Home />} />
+              <Route path={routes.ownerActivity} element={<Home />} />
               <Route path={routes.ownerProperties} element={<Articles />} />
               <Route path={routes.ownerPropertyNew} element={<CreateArticle />} />
               <Route path={routes.ownerPropertyEdit()} element={<UpdateArticle />} />

@@ -5,7 +5,7 @@ import { Brand } from "../../shared/ui";
 const Footer = ({ compact = false }) => {
   if (compact) {
     return (
-      <footer className="grid h-14 items-center bg-brand-950 px-4 text-[11px] text-brand-100 md:grid-cols-[auto_1fr_auto] md:px-8">
+      <footer className="grid min-h-14 items-center bg-brand-950 px-4 text-[11px] text-brand-100 md:grid-cols-[auto_1fr_auto] md:px-8 r24-safe-pb">
         <div className="flex items-center gap-3">
           <Brand theme="dark" showSlogan={false} iconClassName="h-6 w-6" />
         </div>
@@ -28,7 +28,7 @@ const Footer = ({ compact = false }) => {
   }
 
   return (
-    <footer className="grid gap-3 border-t border-brand-800/60 bg-brand-950 px-4 py-6 text-xs text-brand-100 md:grid-cols-3 md:px-8">
+    <footer className="grid gap-3 border-t border-brand-800/60 bg-brand-950 px-4 py-6 text-xs text-brand-100 md:grid-cols-3 md:px-8 r24-safe-pb">
       <div className="flex items-center gap-3">
         <Brand theme="dark" iconClassName="h-7 w-7" />
       </div>

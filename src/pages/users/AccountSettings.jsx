@@ -1,8 +1,9 @@
-﻿import { Label, Spinner, TextInput } from "../../shared/ui";
-import { HiEye, HiEyeOff, HiLightBulb, HiLockClosed } from "react-icons/hi";
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { HiEye, HiEyeOff, HiLockClosed } from "react-icons/hi";
+import { AlertTriangle, ShieldAlert } from "lucide-react";
+import { Label, Spinner, TextInput } from "../../shared/ui";
 import { handleDisableUser, handleUpdatePassword } from "../../app/api";
 import Modal from "../../components/modal/Modal";
 import { getSignOut } from "../../features/auth/authSlice";
@@ -21,7 +22,7 @@ const AccountSettings = ({ user, token }) => {
 
   const toggle = () => {
     setConfirm("");
-    setActive(!active);
+    setActive((prev) => !prev);
   };
 
   const notifyError = (text) => toast.error(text);
@@ -31,17 +32,17 @@ const AccountSettings = ({ user, token }) => {
     e.preventDefault();
 
     if (!pass.currentPassword || !pass.newPassword || !pass.repeatPassword) {
-      notifyError("Para actualizar la contraseña debes llenar todos los campos.");
+      notifyError("Para actualizar la contrasena debes llenar todos los campos.");
       return;
     }
 
     if (pass.newPassword.length < 8) {
-      notifyError("La contraseña debe tener al menos 8 caracteres.");
+      notifyError("La contrasena debe tener al menos 8 caracteres.");
       return;
     }
 
     if (pass.newPassword !== pass.repeatPassword) {
-      notifyError("La contraseña nueva no coincide.");
+      notifyError("La contrasena nueva no coincide.");
       return;
     }
 
@@ -53,7 +54,7 @@ const AccountSettings = ({ user, token }) => {
     });
 
     if (res.ok) {
-      notifySuccess("Contraseña actualizada con éxito");
+      notifySuccess("Contrasena actualizada con exito");
       setPass({
         newPassword: "",
         repeatPassword: "",
@@ -70,13 +71,11 @@ const AccountSettings = ({ user, token }) => {
   const handleDisableAccount = async (e) => {
     e.preventDefault();
     if (!confirm) {
-      notifyError(
-        "Para deshabilitar la cuenta debes confirmar la acción escribiendo tu correo electrónico"
-      );
+      notifyError("Para deshabilitar la cuenta debes escribir tu correo");
       return;
     }
     if (confirm !== user.email) {
-      notifyError("El correo electrónico no coincide");
+      notifyError("El correo electronico no coincide");
       return;
     }
 
@@ -85,7 +84,7 @@ const AccountSettings = ({ user, token }) => {
 
     const res = await handleDisableUser(token, user.id, { email: confirm });
     if (res.ok) {
-      notifySuccess("Cuenta deshabilitada con éxito");
+      notifySuccess("Cuenta deshabilitada con exito");
       dispatch(getSignOut());
       setLoading(false);
       return;
@@ -97,132 +96,144 @@ const AccountSettings = ({ user, token }) => {
 
   return (
     <>
-      <div>
-        <h2 className="font-semibold text-xl">Actualizar contraseña</h2>
-        <form
-          onSubmit={handleChangePassword}
-          className="flex flex-col md:w-2/3 lg:w-1/2 gap-4 pb-10 pt-4"
-        >
-          <div>
-            <Label htmlFor="password">Contraseña actual</Label>
-            <div className="relative">
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+        <section className="rounded-2xl border border-brand-200 bg-brand-50 p-4 sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-brand-950">Actualizar contrasena</h2>
+              <p className="mt-1 text-sm text-brand-600">
+                Usa una contrasena fuerte y unica para proteger tu cuenta.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-brand-200 px-3 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-100 sm:w-auto"
+            >
+              {showPassword ? <HiEyeOff size={16} /> : <HiEye size={16} />}
+              {showPassword ? "Ocultar" : "Mostrar"}
+            </button>
+          </div>
+
+          <form onSubmit={handleChangePassword} className="mt-5 space-y-4">
+            <div>
+              <Label htmlFor="password">Contrasena actual</Label>
               <TextInput
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 icon={HiLockClosed}
-                placeholder="Contraseña actual"
+                placeholder="Contrasena actual"
                 value={pass.currentPassword}
-                onChange={(e) =>
-                  setPass({ ...pass, currentPassword: e.target.value })
-                }
+                onChange={(e) => setPass({ ...pass, currentPassword: e.target.value })}
               />
-              {!showPassword ? (
-                <HiEye
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
-                />
-              ) : (
-                <HiEyeOff
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="h-6 w-6 absolute right-7 md:right-3 top-2 text-gray-400 cursor-pointer hover:text-primary-500"
-                />
-              )}
             </div>
+
+            <div>
+              <Label htmlFor="newPassword">Nueva contrasena</Label>
+              <TextInput
+                type={showPassword ? "text" : "password"}
+                id="newPassword"
+                name="newPassword"
+                icon={HiLockClosed}
+                placeholder="Nueva contrasena"
+                value={pass.newPassword}
+                onChange={(e) => setPass({ ...pass, newPassword: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="repeatPassword">Repetir contrasena</Label>
+              <TextInput
+                type={showPassword ? "text" : "password"}
+                id="repeatPassword"
+                name="repeatPassword"
+                icon={HiLockClosed}
+                placeholder="Repetir contrasena"
+                value={pass.repeatPassword}
+                onChange={(e) => setPass({ ...pass, repeatPassword: e.target.value })}
+              />
+            </div>
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-800 sm:w-auto"
+              >
+                <HiLockClosed size={16} />
+                Actualizar contrasena
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section className="rounded-2xl border border-rose-200 bg-rose-50 p-4 sm:p-5">
+          <div className="inline-flex items-center gap-2 rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-rose-700">
+            <ShieldAlert size={13} />
+            Zona sensible
           </div>
-          <div>
-            <Label htmlFor="newPassword">Nueva contraseña</Label>
-            <TextInput
-              type={showPassword ? "text" : "password"}
-              id="newPassword"
-              name="newPassword"
-              icon={HiLockClosed}
-              placeholder="Nueva contraseña"
-              value={pass.newPassword}
-              onChange={(e) => setPass({ ...pass, newPassword: e.target.value })}
-            />
+
+          <h3 className="mt-4 text-lg font-semibold text-rose-800">Desactivar cuenta</h3>
+          <p className="mt-2 text-sm text-rose-700">
+            Tu perfil dejara de aparecer en busquedas y listados. Podras reactivarlo al
+            volver a iniciar sesion.
+          </p>
+
+          <div className="mt-4 rounded-xl border border-rose-200 bg-white p-3 text-sm text-rose-700">
+            <p className="inline-flex items-start gap-2">
+              <AlertTriangle size={16} className="mt-0.5 shrink-0" />
+              Esta accion requiere confirmacion con tu correo electronico.
+            </p>
           </div>
-          <div>
-            <Label htmlFor="repeatPassword">Repetir contraseña</Label>
-            <TextInput
-              type={showPassword ? "text" : "password"}
-              id="repeatPassword"
-              name="repeatPassword"
-              icon={HiLockClosed}
-              placeholder="Repetir contraseña"
-              value={pass.repeatPassword}
-              onChange={(e) =>
-                setPass({ ...pass, repeatPassword: e.target.value })
-              }
-            />
-          </div>
-          <div className="flex justify-end">
-            <button className="hover:text-white border text-primary-600 border-primary-600 text-center px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300">
-              <HiLockClosed size={16} />
-              Actualizar contraseña
-            </button>
-          </div>
-        </form>
-        <hr className="border-gray-300 py-5" />
-        <h2 className="font-semibold text-xl">Desactivar cuenta</h2>
-        <p className="text-red-500 whitespace-normal flex gap-4 items-center py-3">
-          <span>
-            <HiLightBulb size={32} />
-          </span>
-          Al desactivar tu cuenta dejarás de aparecer en búsquedas y listados.
-          Tus datos no se eliminan; puedes reactivar al volver a iniciar sesión.
-        </p>
-        <div className="flex justify-center">
+
           <button
+            type="button"
             onClick={() => setActive(true)}
-            className="hover:text-white border border-red-500 text-red-500 px-4 py-2 rounded-md flex items-center gap-2 hover:bg-red-600 transition ease-in-out duration-300"
+            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-rose-300 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-600 hover:text-white"
           >
             <HiLockClosed size={16} />
             Desactivar cuenta
           </button>
-        </div>
+        </section>
       </div>
-      {active && (
+
+      {active ? (
         <Modal active={active} toggle={toggle}>
           <div className="flex flex-col gap-4">
             <div>
-              <h2 className="font-semibold text-xl">
-                ¿Estás seguro de desactivar tu cuenta?
-              </h2>
-              <p className="text-red-500 whitespace-normal">
-                Escribe tu correo asociado para confirmar.
+              <h2 className="text-xl font-semibold text-brand-950">Confirmar desactivacion</h2>
+              <p className="mt-1 text-sm text-brand-600">
+                Escribe tu correo asociado para confirmar la accion.
               </p>
             </div>
-            <form
-              onSubmit={handleDisableAccount}
-              className="flex justify-center flex-col gap-4"
-            >
+
+            <form onSubmit={handleDisableAccount} className="flex flex-col gap-4">
               <input
                 type="email"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2"
+                className="w-full rounded-xl border border-brand-200 px-4 py-2"
                 placeholder="example@example.com"
               />
               <button
                 type="submit"
-                className="hover:text-white border border-red-500 text-red-500 px-4 py-2 rounded-md flex justify-center items-center gap-2 hover:bg-red-600 transition ease-in-out duration-300"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-rose-400 px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-600 hover:text-white"
               >
                 <HiLockClosed size={16} />
-                Desactivar cuenta
+                Confirmar desactivacion
               </button>
             </form>
           </div>
         </Modal>
-      )}
-      {loading && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center">
+      ) : null}
+
+      {loading ? (
+        <div className="fixed left-0 top-0 flex r24-h-dvh w-screen items-center justify-center bg-black bg-opacity-50">
           <Spinner size="xl" ariaLabel="Loading" />
         </div>
-      )}
+      ) : null}
     </>
   );
 };
 
 export default AccountSettings;
-

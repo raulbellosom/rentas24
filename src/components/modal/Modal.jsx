@@ -23,7 +23,7 @@ const Modal = ({ children, toggle, active }) => {
             exit={{ opacity: 0, y: 14, scale: 0.98 }}
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative max-h-[90vh] w-full max-w-3xl overflow-auto rounded-2xl border border-brand-200 bg-white p-6 shadow-2xl"
+            className="relative max-h-[92dvh] w-full max-w-3xl overflow-auto rounded-2xl border border-brand-200 bg-white p-4 shadow-2xl sm:p-6"
           >
             <button
               type="button"

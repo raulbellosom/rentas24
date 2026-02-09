@@ -148,7 +148,7 @@ const SelectCountryInput = ({ selectedCountry = {}, getPhoneCode }) => {
 
           {showMenu && (
             <div
-              className="absolute left-0 top-[calc(100%+0.45rem)] z-20 w-full min-w-[290px] overflow-hidden rounded-2xl border border-brand-300/30 bg-brand-950/95 shadow-2xl ring-1 ring-accent-400/20 backdrop-blur"
+              className="absolute left-0 top-[calc(100%+0.45rem)] z-20 w-full min-w-0 overflow-hidden rounded-2xl border border-brand-300/30 bg-brand-950/95 shadow-2xl ring-1 ring-accent-400/20 backdrop-blur"
               style={{ height: `${dropdownHeight}px` }}
             >
               <div className="r24-input-shell r24-input-shell-dark sticky top-0 z-10 rounded-none border-x-0 border-t-0 border-b border-brand-300/30 px-3">

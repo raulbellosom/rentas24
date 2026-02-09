@@ -76,7 +76,7 @@ const ShowArticles = () => {
   return (
     <>
       <div className="p-2 md:p-5 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-200 bg-white p-4 sm:p-5 md:flex-row md:items-center">
           <h2 className="text-2xl font-bold text-blue-500 text-center md:text-left">
             {article.title}
             <p className="text-sm font-normal text-gray-500 text-center md:text-left">
@@ -84,24 +84,24 @@ const ShowArticles = () => {
               {" - "} {article.status ? "Activo" : "Inactivo"}
             </p>
           </h2>
-          <div className="text-blue-500 flex gap-3">
+          <div className="flex w-full flex-col gap-3 text-blue-500 sm:w-auto sm:flex-row">
             <Link
               to={`/owner/properties/${id}/edit`}
-              className="text-white bg-blue-500 flex gap-2 items-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800  hover:scale-110 transition ease-in-out duration-200"
+              className="flex items-center justify-center gap-2 rounded-lg bg-blue-500 p-2 text-center text-sm font-medium text-white transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:focus:ring-blue-800 dark:hover:bg-blue-700"
             >
               <PencilSquareIcon className="h-6 w-6" />
               Editar artículo
             </Link>
             <Link
               to={`/owner/properties`}
-              className="text-white flex gap-2 items-center bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:scale-110 transition ease-in-out duration-200"
+              className="flex items-center justify-center gap-2 rounded-lg bg-blue-500 p-2 text-center text-sm font-medium text-white transition duration-200 ease-in-out hover:scale-[1.01] hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:focus:ring-blue-800 dark:hover:bg-blue-700"
             >
               <ListBulletIcon className="h-6 w-6" />
               Ir al listado
             </Link>
           </div>
         </div>
-        <div className="bg-white my-5 md:p-5 rounded-lg">
+        <div className="my-5 rounded-2xl border border-brand-200 bg-white p-3 sm:p-5">
           <Tabs.Group
             aria-label="Tabs with icons"
             style="underline"

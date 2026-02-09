@@ -51,8 +51,8 @@ const Dropzone = ({ file, files, setFiles, filetype = [] }) => {
         isDragActive
           ? "border-2 border-dashed border-primary-400"
           : "border-2 border-dashed border-gray-200"
-      } flex flex-col justify-center items-center h-40 w-40 rounded-md cursor-pointer relative hover:shadow-inner hover:shadow-gray-500/50 transition ease-in-out ${
-        file ? "hover:scale-110 " : ""
+      } relative flex h-36 w-full cursor-pointer flex-col items-center justify-center rounded-md transition ease-in-out hover:shadow-inner hover:shadow-gray-500/50 sm:h-40 sm:w-40 ${
+        file ? "sm:hover:scale-105 " : ""
       } duration-200 `}
     >
       {file && (

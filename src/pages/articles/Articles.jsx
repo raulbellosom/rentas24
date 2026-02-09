@@ -100,13 +100,13 @@ const Articles = () => {
   }, []);
 
   return (
-    <div className="w-full p-5">
-      <div className="flex flex-col items-center justify-between gap-4 rounded-2xl border border-brand-200 bg-white p-5 md:flex-row">
+    <div className="w-full p-3 sm:p-5">
+      <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-200 bg-white p-4 sm:p-5 md:flex-row md:items-center">
         <h2 className="text-2xl font-bold text-brand-950">Mis propiedades</h2>
-        <div className="flex items-center gap-3 text-brand-700">
+        <div className="flex w-full items-center gap-3 text-brand-700 sm:w-auto">
           <Link
             to="/owner/properties/new"
-            className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-2 font-semibold transition hover:scale-105 hover:bg-brand-950 hover:text-white"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-brand-200 bg-white px-4 py-2 font-semibold transition hover:scale-[1.01] hover:bg-brand-950 hover:text-white sm:flex-none"
           >
             <PlusCircle className="h-5 w-5" />
             Crear propiedad
@@ -138,7 +138,7 @@ const Articles = () => {
           />
         </div>
       ) : (
-        <div className="my-5 rounded-2xl border border-brand-200 bg-white p-5">
+        <div className="my-5 rounded-2xl border border-brand-200 bg-white p-4 sm:p-5">
           {viewType ? (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {data.map((article) => (

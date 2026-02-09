@@ -48,7 +48,7 @@ function Cards({
     "Sin categoria";
 
   return (
-    <div className="flex max-w-sm flex-col justify-between rounded-2xl border border-brand-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+    <div className="flex w-full flex-col justify-between rounded-2xl border border-brand-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       <div>
         <div className="h-56 overflow-hidden rounded-t-2xl">
           <Carousel>

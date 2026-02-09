@@ -440,6 +440,21 @@ const deleteCurrentSessionSafe = async () => {
   }
 };
 
+const createEmailPasswordSessionWithRecovery = async (email, password) => {
+  try {
+    return await account.createEmailPasswordSession(email, password);
+  } catch (error) {
+    const status = Number(error?.code || 0);
+    if (status !== 401) {
+      throw error;
+    }
+
+    // Some browsers keep a stale/current session cookie. Clear and retry once.
+    await deleteCurrentSessionSafe();
+    return account.createEmailPasswordSession(email, password);
+  }
+};
+
 const handleAppwriteError = (error) => {
   const status = Number(error?.code) || 500;
   const message = error?.message || "Unexpected Appwrite error";
@@ -485,7 +500,7 @@ export const handleSignUp = async (data) => {
 
 export const handleSignIn = async (data) => {
   try {
-    const session = await account.createEmailPasswordSession(
+    const session = await createEmailPasswordSessionWithRecovery(
       data.email,
       data.password
     );

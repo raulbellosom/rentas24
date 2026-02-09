@@ -1,5 +1,11 @@
-import React from "react";
-import { MdModeEdit } from "react-icons/md";
+﻿import React from "react";
+import { Mail, MapPin, Pencil, Phone, UserRound } from "lucide-react";
+
+const formatValue = (value) => {
+  if (value === null || value === undefined) return "No registrado";
+  const normalized = String(value).trim();
+  return normalized.length > 0 ? normalized : "No registrado";
+};
 
 const ShowUser = ({ user, setIsEditUser }) => {
   const fullAddress = [
@@ -14,50 +20,57 @@ const ShowUser = ({ user, setIsEditUser }) => {
     .filter(Boolean)
     .join(", ");
 
+  const fields = [
+    { label: "Nombre", value: user.firstName, icon: UserRound },
+    { label: "Apellido", value: user.lastName, icon: UserRound },
+    { label: "Correo", value: user.email, icon: Mail },
+    { label: "Telefono", value: user.phone, icon: Phone },
+    { label: "Pais", value: user.address?.country, icon: MapPin },
+    { label: "Estado", value: user.address?.state, icon: MapPin },
+    { label: "Ciudad", value: user.address?.city, icon: MapPin },
+    { label: "Direccion", value: fullAddress, icon: MapPin },
+  ];
+
   return (
-    <div>
-      <div className="flex items-center justify-end">
+    <div className="space-y-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-brand-950">Informacion de contacto</h2>
+          <p className="mt-1 text-sm text-brand-600">
+            Datos visibles en tu perfil de propietario y cuenta.
+          </p>
+        </div>
         <button
-          className="hover:text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300"
+          type="button"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-800 sm:w-auto"
           onClick={() => setIsEditUser(true)}
         >
-          <MdModeEdit size={16} />
-          Editar
+          <Pencil size={15} />
+          Editar perfil
         </button>
       </div>
-      <div className="flex flex-col gap-2 sm:grid grid-cols-2 md:gap-5 text-md pl-3 whitespace-normal">
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Nombre(s):</p>
-          <p className="text-primary-500">{user.firstName}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Apellido(s):</p>
-          <p className="text-primary-500">{user.lastName}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Email:</p>
-          <p className="text-primary-500">{user.email}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Teléfono:</p>
-          <p className="text-primary-500">{user.phone}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">País:</p>
-          <p className="text-primary-500">{user.address?.country || "-"}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Estado:</p>
-          <p className="text-primary-500">{user.address?.state || "-"}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Ciudad:</p>
-          <p className="text-primary-500">{user.address?.city || "-"}</p>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <p className="font-medium">Dirección:</p>
-          <p className="text-primary-500">{fullAddress || "-"}</p>
-        </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {fields.map((field) => {
+          const Icon = field.icon;
+          const value = formatValue(field.value);
+          const mutedValue = value === "No registrado";
+
+          return (
+            <article
+              key={field.label}
+              className="rounded-2xl border border-brand-200 bg-brand-50 p-4"
+            >
+              <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-brand-600">
+                <Icon size={14} className="text-brand-500" />
+                {field.label}
+              </p>
+              <p className={`mt-2 text-sm font-medium ${mutedValue ? "text-brand-500" : "text-brand-900"}`}>
+                {value}
+              </p>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

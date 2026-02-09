@@ -202,17 +202,17 @@ const CreateArticle = () => {
 
   return (
     <>
-      <div className="p-5 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-white p-5 rounded-lg">
+      <div className="w-full p-3 sm:p-5">
+        <div className="flex flex-col items-start justify-between gap-4 rounded-2xl border border-brand-200 bg-white p-4 sm:p-5 md:flex-row md:items-center">
           <h2 className="text-2xl font-bold text-blue-500">Crear articulo</h2>
         </div>
-        <div className="bg-white my-5 p-5 rounded-lg">
+        <div className="my-4 rounded-2xl border border-brand-200 bg-white p-4 sm:my-5 sm:p-5">
           <div className="pb-4">
             <Progress progress={step === 1 ? 10 : step * 15} />
           </div>
           <form
             onSubmit={onSubmit}
-            className="flex flex-col gap-4 overflow-hidden"
+            className="flex min-w-0 flex-col gap-4 overflow-hidden"
           >
             <div
               className={`flex flex-col gap-4 transition-opacity duration-500 opacity-100 ${fade} ${
@@ -358,7 +358,7 @@ const CreateArticle = () => {
                   (JPG, PNG, JPEG, WEBP)
                 </span>
               </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 min-h-max gap-4">
+              <div className="grid min-h-max grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {files.length <= 4 && (
                   <Dropzone
                     setFiles={setFiles}
@@ -419,29 +419,31 @@ const CreateArticle = () => {
               />
             </div>
             <div
-              className={`flex ${
-                step === 1 ? "justify-end" : "justify-between"
-              } items-center`}
+              className={`flex flex-col-reverse gap-3 ${
+                step === 1 ? "sm:justify-end" : "sm:justify-between"
+              } sm:flex-row sm:items-center`}
             >
               {step > 1 && (
-                <div
-                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2"
+                <button
+                  type="button"
+                  className="mt-1 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition hover:bg-blue-600 sm:w-auto"
                   onClick={handlePrevious}
                 >
                   <HiArrowLeft className="w-6 h-6" />
                   Anterior
-                </div>
+                </button>
               )}
               {step < 6 ? (
-                <div
-                  className="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2"
+                <button
+                  type="button"
+                  className="mt-1 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition hover:bg-blue-600 sm:w-auto"
                   onClick={handleStep}
                 >
                   Siguiente
                   <HiArrowRight className="w-6 h-6" />
-                </div>
+                </button>
               ) : (
-                <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 mt-1 flex justify-center items-center gap-2">
+                <button className="mt-1 flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-3 py-2 text-white transition hover:bg-blue-600 sm:w-auto">
                   <HiSave className="w-6 h-6" />
                   Guardar
                 </button>

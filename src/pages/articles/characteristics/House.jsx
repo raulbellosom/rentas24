@@ -59,7 +59,7 @@ const House = ({
   });
 
   return (
-    <div className="flex flex-col gap-4 min-h-[40vh]">
+    <div className="flex min-h-0 flex-col gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="flex flex-col w-full justify-between">
           <label className="font-bold" htmlFor="type">
@@ -175,7 +175,7 @@ const House = ({
           <div className="flex flex-col md:flex-row gap-2 items-center pb-3 w-full">
             <input
               onClick={() => setShowMenu(true)}
-              className="border border-gray-300 rounded-lg px-3 py-2 mt-1 w-full md:w-&#189; capitalize"
+              className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 capitalize"
               type="text"
               placeholder="Buscar"
               value={search}
@@ -191,7 +191,7 @@ const House = ({
               className="relative w-full md:max-w-[350px]"
             >
               {showMenu && (
-                <div className="w-full flex flex-col gap-2 absolute md:-top-20 bg-white h-72 overflow-auto p-4 shadow-lg z-40">
+                <div className="absolute left-0 top-[calc(100%+0.5rem)] z-40 flex max-h-[50dvh] w-full flex-col gap-2 overflow-auto rounded-xl border border-gray-200 bg-white p-3 shadow-lg md:max-w-[350px]">
                   <div className="flex justify-between gap-2">
                     <p className="font-bold">Resultados</p>
                     <span className="cursor-pointer ">
@@ -277,7 +277,7 @@ const House = ({
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {characteristics.services.map((service, i) => (<BadgeInput key={i} service={service}/>
               // <p
               //   key={i}

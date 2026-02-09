@@ -20,7 +20,7 @@ const Header = ({ children, className = "" }) => (
 );
 
 const Body = ({ children, className = "" }) => (
-  <div className={`px-5 py-4 ${className}`}>{children}</div>
+  <div className={`overflow-y-auto px-5 py-4 ${className}`}>{children}</div>
 );
 
 const ModalRoot = ({ show, onClose, size = "lg", children }) => {
@@ -43,7 +43,7 @@ const ModalRoot = ({ show, onClose, size = "lg", children }) => {
             exit={{ opacity: 0, y: 14, scale: 0.98 }}
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-2xl ${sizeMap[size] || sizeMap.lg}`}
+            className={`relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-2xl border border-brand-200 bg-white shadow-2xl ${sizeMap[size] || sizeMap.lg}`}
           >
             <button
               type="button"

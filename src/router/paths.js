@@ -6,6 +6,7 @@ export const routes = {
   register: "/register",
   verifyEmail: "/verify-email",
   owner: "/owner",
+  ownerActivity: "/owner/activity",
   ownerProperties: "/owner/properties",
   ownerPropertyNew: "/owner/properties/new",
   ownerPropertyEdit: (id = ":id") => `/owner/properties/${id}/edit`,

@@ -15,12 +15,12 @@ const ArticleAddress = ({
   setAddress,
 }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex min-w-0 flex-col">
       <label className="font-bold pt-4" htmlFor="address">
         Dirección
       </label>
       <div className="flex flex-col gap-4">
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
           <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="street_1">
               * Calle principal
@@ -54,8 +54,8 @@ const ArticleAddress = ({
             />
           </div>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex flex-col justify-between">
               <label className="text-sm text-gray-500" htmlFor="number_ext">
                 * Numero exterior
@@ -106,7 +106,7 @@ const ArticleAddress = ({
             />
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="flex flex-col justify-between">
             <label className="text-sm text-gray-500" htmlFor="city">
               * Ciudad

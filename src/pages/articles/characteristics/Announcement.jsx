@@ -25,7 +25,7 @@ const Announcement = ({
     }
   }, [announcement.is_recurrent, announcement.isAdvance]);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center">
+    <div className="grid grid-cols-1 items-center justify-center gap-4 md:grid-cols-2">
       <div className="flex flex-col w-full justify-between col-span-2">
         <label className="font-bold" htmlFor="is_available">
           ¿Esta disponible actualmente?
@@ -115,7 +115,7 @@ const Announcement = ({
           <option value="USD">USD</option>
         </select>
       </div>
-      <div className="flex flex-row w-full justify-start gap-4 items-center col-span-2 md:col-span-1">
+      <div className="col-span-2 flex w-full items-center justify-start gap-3 md:col-span-1">
         <label className="font-bold" htmlFor="is_recurrent">
           ¿El pago es recurrente?
         </label>
@@ -158,7 +158,7 @@ const Announcement = ({
         </div>
       )}
 
-      <div className="flex flex-row w-full justify-start gap-4 items-center col-span-2 md:col-span-1">
+      <div className="col-span-2 flex w-full items-center justify-start gap-3 md:col-span-1">
         <label className="font-bold" htmlFor="isAdvance">
           ¿Requiere de un anticipo?
         </label>

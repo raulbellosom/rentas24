@@ -111,7 +111,7 @@ const ShowArticleDetails = ({
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold">Servicios:</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {article.characteristics.services.map((service, i) => (
               <p
                 key={i}
@@ -127,19 +127,19 @@ const ShowArticleDetails = ({
         </div>
         <div className="flex flex-col gap-4">
           <p className="font-bold">Imagenes:</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {article.photos.map((photo, i) => (
               <img
                 onClick={toggleModal}
                 key={i}
-                className="h-44 w-44 object-cover rounded-lg cursor-pointer"
+                className="h-52 w-full cursor-pointer rounded-lg object-cover sm:h-44"
                 src={photo}
                 alt="article"
               />
             ))}
           </div>
         </div>
-        <div className="flex gap-4 py-4">
+        <div className="flex flex-col gap-4 py-4 sm:flex-row">
           <p className="font-bold">
             Fecha de creación: <br />
             <span className="font-normal">
@@ -168,7 +168,7 @@ const ShowArticleDetails = ({
           {article.title}
         </Modal.Header>
         <Modal.Body className="bg-black/20">
-          <div className="min-h-[60vh] h-96 md:min-h-[77vh] md:h-80">
+          <div className="h-[60dvh] min-h-[320px] sm:min-h-[360px]">
             <Carousel>
               {article.photos.map((photo, i) => (
                 <img

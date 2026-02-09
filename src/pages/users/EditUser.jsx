@@ -25,7 +25,7 @@ const EditUser = ({ token, user, setIsEditUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!users.firstName || !users.lastName || !users.email || !users.phone) {
-      notifyError("Todos los campos son obligatorios");
+      notifyError("Todos los campos obligatorios deben estar completos");
       return;
     }
 
@@ -42,129 +42,162 @@ const EditUser = ({ token, user, setIsEditUser }) => {
   };
 
   return (
-    <form
-      className="flex flex-col md:grid md:grid-cols-12 gap-y-2 gap-x-10 mx-5"
-      onSubmit={handleSubmit}
-      method="PUT"
-    >
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="firstName" value="Nombre(s)" />
+    <form onSubmit={handleSubmit} method="PUT" className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-brand-950">Editar perfil</h2>
+          <p className="mt-1 text-sm text-brand-600">
+            Actualiza tus datos de contacto para mantener tu cuenta al dia.
+          </p>
         </div>
-        <TextInput
-          id="firstName"
-          type="text"
-          required
-          placeholder="Nombre(s)"
-          value={users.firstName}
-          onChange={(e) => setUser({ ...users, firstName: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="lastName" value="Apellido(s)" />
-        </div>
-        <TextInput
-          id="lastName"
-          type="text"
-          required
-          placeholder="Apellido(s)"
-          value={users.lastName}
-          onChange={(e) => setUser({ ...users, lastName: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="phone" value="Teléfono" />
-        </div>
-        <TextInput
-          id="phone"
-          type="tel"
-          placeholder="3221234567"
-          required
-          value={users.phone}
-          onChange={(e) => setUser({ ...users, phone: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="email" value="Correo electrónico" />
-        </div>
-        <TextInput
-          id="email"
-          type="email"
-          placeholder="user@example.com"
-          required
-          value={users.email}
-          onChange={(e) => setUser({ ...users, email: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="state" value="Estado" />
-        </div>
-        <Select
-          id="state"
-          required
-          value={users.state}
-          onChange={(e) => setUser({ ...users, state: e.target.value })}
-        >
-          <option value="">Selecciona un estado</option>
-          <option>Jalisco</option>
-          <option>Chihuahua</option>
-          <option>Ciudad de México</option>
-          <option>Nayarit</option>
-        </Select>
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="city" value="Ciudad" />
-        </div>
-        <TextInput
-          id="city"
-          type="text"
-          placeholder="Ciudad"
-          value={users.city}
-          onChange={(e) => setUser({ ...users, city: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="zipCode" value="Código Postal" />
-        </div>
-        <TextInput
-          id="zipCode"
-          type="text"
-          placeholder="12345"
-          value={users.zipCode}
-          onChange={(e) => setUser({ ...users, zipCode: e.target.value })}
-        />
-      </div>
-      <div className="col-span-12 md:col-span-6">
-        <div className="mb-2 block">
-          <Label htmlFor="street" value="Dirección" />
-        </div>
-        <TextInput
-          id="street"
-          type="text"
-          placeholder="Av. Ejemplo #123"
-          value={users.street}
-          onChange={(e) => setUser({ ...users, street: e.target.value })}
-        />
-      </div>
-      <div className="flex justify-center md:justify-end gap-4 col-span-12 py-4">
         <button
-          className="flex items-center justify-center gap-3 bg-white hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm p-2 text-center hover:scale-110 transition ease-in-out duration-200 cursor-pointer border border-gray-300"
           type="button"
           onClick={() => setIsEditUser(false)}
+          className="inline-flex w-full items-center justify-center rounded-xl border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-100 sm:w-auto"
         >
           Cancelar
         </button>
+      </div>
+
+      <section className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-4 sm:p-5">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-brand-700">
+          Informacion principal
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="firstName" value="Nombre" />
+            </div>
+            <TextInput
+              id="firstName"
+              type="text"
+              required
+              placeholder="Nombre"
+              value={users.firstName}
+              onChange={(e) => setUser({ ...users, firstName: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="lastName" value="Apellido" />
+            </div>
+            <TextInput
+              id="lastName"
+              type="text"
+              required
+              placeholder="Apellido"
+              value={users.lastName}
+              onChange={(e) => setUser({ ...users, lastName: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="phone" value="Telefono" />
+            </div>
+            <TextInput
+              id="phone"
+              type="tel"
+              placeholder="3221234567"
+              required
+              value={users.phone}
+              onChange={(e) => setUser({ ...users, phone: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="email" value="Correo" />
+            </div>
+            <TextInput
+              id="email"
+              type="email"
+              placeholder="user@example.com"
+              required
+              value={users.email}
+              onChange={(e) => setUser({ ...users, email: e.target.value })}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-4 rounded-2xl border border-brand-200 bg-brand-50 p-4 sm:p-5">
+        <h3 className="text-sm font-semibold uppercase tracking-wide text-brand-700">
+          Direccion
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="state" value="Estado" />
+            </div>
+            <Select
+              id="state"
+              value={users.state}
+              onChange={(e) => setUser({ ...users, state: e.target.value })}
+            >
+              <option value="">Selecciona un estado</option>
+              <option>Jalisco</option>
+              <option>Chihuahua</option>
+              <option>Ciudad de Mexico</option>
+              <option>Nayarit</option>
+            </Select>
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="city" value="Ciudad" />
+            </div>
+            <TextInput
+              id="city"
+              type="text"
+              placeholder="Ciudad"
+              value={users.city}
+              onChange={(e) => setUser({ ...users, city: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="zipCode" value="Codigo Postal" />
+            </div>
+            <TextInput
+              id="zipCode"
+              type="text"
+              placeholder="12345"
+              value={users.zipCode}
+              onChange={(e) => setUser({ ...users, zipCode: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <div className="mb-2 block">
+              <Label htmlFor="street" value="Calle" />
+            </div>
+            <TextInput
+              id="street"
+              type="text"
+              placeholder="Av. Ejemplo #123"
+              value={users.street}
+              onChange={(e) => setUser({ ...users, street: e.target.value })}
+            />
+          </div>
+        </div>
+      </section>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-3 py-2 flex justify-center items-center gap-2 hover:scale-110 transition ease-in-out duration-200"
-          type="submit"
+          type="button"
+          onClick={() => setIsEditUser(false)}
+          className="inline-flex w-full items-center justify-center rounded-xl border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-100 sm:w-auto"
         >
-          Actualizar
+          Cancelar cambios
+        </button>
+        <button
+          type="submit"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-brand-950 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-800 sm:w-auto"
+        >
+          Guardar perfil
         </button>
       </div>
     </form>
@@ -172,4 +205,3 @@ const EditUser = ({ token, user, setIsEditUser }) => {
 };
 
 export default EditUser;
-

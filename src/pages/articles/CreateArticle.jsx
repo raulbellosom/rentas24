@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { HiArrowLeft, HiArrowRight, HiSave } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import Dropzone from "../../utils/Dropzone";
 import House from "./characteristics/House";
-import { handleCreateArticle, handleGetArticleById } from "../../app/api";
-import { uploadArticleImages } from "../../utils/firebase";
-import { v4 as uuidv4 } from "uuid";
+import { handleCreateArticle } from "../../app/api";
+import { uploadArticleImages } from "../../utils/storage";
 import Loading from "../../utils/Loading";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import ArticleAddress from "./characteristics/ArticleAddress";
 import { options } from "../../utils/Services";
-import { Progress } from "flowbite-react";
+import { Progress } from "../../shared/ui";
 import Announcement from "./characteristics/Announcement";
 
 const CreateArticle = () => {
@@ -62,11 +61,6 @@ const CreateArticle = () => {
   });
   const [available, setAvailable] = useState(true);
 
-  const onBlurHandle = () => {
-
-  }
-
-  const inputClass = ""
   const onSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -78,11 +72,9 @@ const CreateArticle = () => {
         return;
       }
     setLoading(true);
-    const idArticle = uuidv4();
-    const arrayImages = await handleUploadImages(files, idArticle);
+    const arrayImages = await handleUploadImages(files);
 
     const body = {
-      id: idArticle,
       title: article.title,
       description: article.description,
       address,
@@ -94,28 +86,24 @@ const CreateArticle = () => {
       photos: arrayImages,
       user_id: user.id,
     };
-    console.log(body);
-    const res = await handleCreateArticle(token, body);
-    console.log(res)
-    setLoading(false);
 
-    if (res.status !== 200) {
+    const res = await handleCreateArticle(token, body);
+
+    if (!res.ok) {
       setLoading(false);
-      notifyError(res?.data?.message);
+      notifyError(res?.data?.message || res.error);
       return;
     }
-    if (res.status === 200) {
-      notify("Articulo creado correctamente");
-      setLoading(false);
-      navigate("/ver-articulo/" + idArticle);
-    }
+
+    notify("Articulo creado correctamente");
+    navigate("/owner/properties/" + res.data.article.id);
     setLoading(false);
   };
 
-  const handleUploadImages = async (images, idArticle) => {
+  const handleUploadImages = async (images) => {
     const uploads = await Promise.all(
       images.map(async (image) => {
-        const res = await uploadArticleImages(image, user.id, idArticle);
+        const res = await uploadArticleImages(image);
         return res;
       })
     );
@@ -137,7 +125,6 @@ const CreateArticle = () => {
 
   const [step, setStep] = useState(1);
   const [fade, setFade] = useState("fade");
-  const [isValidForm, setIsValidForm] = useState(false);
 
   const handlePrevious = () => {
     setFade("fade-reverse");
@@ -221,11 +208,7 @@ const CreateArticle = () => {
         </div>
         <div className="bg-white my-5 p-5 rounded-lg">
           <div className="pb-4">
-            <Progress
-              progress={step === 1 ? 10 : step * 15}
-              size="lg"
-              color="indigo"
-            />
+            <Progress progress={step === 1 ? 10 : step * 15} />
           </div>
           <form
             onSubmit={onSubmit}
@@ -473,3 +456,4 @@ const CreateArticle = () => {
 };
 
 export default CreateArticle;
+

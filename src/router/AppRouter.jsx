@@ -1,17 +1,26 @@
 import { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+  useParams,
+} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
-import Article from "../pages/articles/Article";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import VerifyEmail from "../pages/auth/VerifyEmail";
 import Loading from "../utils/Loading";
-import { PrivateRoute } from "./RoutesSettings";
+import { PrivateRoute, PublicOnlyRoute } from "./RoutesSettings";
 import { getTypes } from "../features/articleTypes/typesSlice";
 import { handleGetTypes } from "../app/api";
 import { getRecurrencies } from "../features/recurrencies/recurrenciesSlice";
+import { hasPublicAppwriteConfig } from "../env";
+import AppErrorView from "../components/error/AppErrorView";
+import { legacyRoutes, routes } from "./paths";
+import AuthLayout from "../app/layouts/AuthLayout";
+import AppLayout from "../app/layouts/AppLayout";
 
-const Sidebar = lazy(() => import("../components/sidebar/Sidebar"));
 const Home = lazy(() => import("../pages/home/Home"));
 const Announce = lazy(() => import("../pages/announces/Announce"));
 const Articles = lazy(() => import("../pages/articles/Articles"));
@@ -20,70 +29,79 @@ const CreateArticle = lazy(() => import("../pages/articles/CreateArticle"));
 const UpdateArticle = lazy(() => import("../pages/articles/UpdateArticle"));
 const Users = lazy(() => import("../pages/users/Users"));
 
+const LegacyPropertyRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={routes.propertyDetail(id)} replace />;
+};
+
+const LegacyOwnerPropertyEditRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={routes.ownerPropertyEdit(id)} replace />;
+};
+
+const LegacyOwnerPropertyViewRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={routes.ownerPropertyView(id)} replace />;
+};
+
 const AppRouter = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const hasSession = Boolean(
+    token && user?.id && user?.enabled !== false && user?.emailVerified
+  );
 
   useEffect(() => {
-    const types = articleTypesAndRecurrencies();
-    types.then((res) => {
-      dispatch(getTypes(res));
-      dispatch(getRecurrencies(res));
-    });
-  }, []);
+    if (!hasPublicAppwriteConfig) return;
+    const hydrateTaxonomies = async () => {
+      const res = await handleGetTypes();
+      if (res.ok) {
+        dispatch(getTypes(res));
+        dispatch(getRecurrencies(res));
+      }
+    };
+    hydrateTaxonomies();
+  }, [dispatch]);
 
-  const articleTypesAndRecurrencies = async () => {
-    const response = await handleGetTypes();
-    return response;
-  };
-
-  let status = Object.keys(user).length > 0 ? true : false;
   return (
     <Suspense fallback={<Loading />}>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
-          {status ? (
-            <Route element={<PrivateRoute user={status} />}>
-              <Route path="*" element={<SignedRoutes user={user} />} />
+          <Route element={<AuthLayout />}>
+            <Route path={routes.verifyEmail} element={<VerifyEmail />} />
+            <Route element={<PublicOnlyRoute user={hasSession} redirectTo={routes.ownerProperties} />}>
+              <Route path={routes.login} element={<Login />} />
+              <Route path={routes.register} element={<Register />} />
             </Route>
-          ) : (
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="*" element={<UnsignedRoutes />} />
-            </>
-          )}
+          </Route>
+
+          <Route element={<AppLayout user={hasSession ? user : {}} />}>
+            <Route index element={<Home />} />
+            <Route path={routes.properties} element={<Home />} />
+            <Route path={routes.propertyDetail()} element={<Announce />} />
+
+            <Route element={<PrivateRoute user={hasSession} redirectTo={routes.login} />}>
+              <Route path={routes.owner} element={<Home />} />
+              <Route path={routes.ownerProperties} element={<Articles />} />
+              <Route path={routes.ownerPropertyNew} element={<CreateArticle />} />
+              <Route path={routes.ownerPropertyEdit()} element={<UpdateArticle />} />
+              <Route path={routes.ownerPropertyView()} element={<ShowArticles />} />
+              <Route path={routes.ownerProfile} element={<Users />} />
+            </Route>
+
+            <Route path={legacyRoutes.myArticles} element={<Navigate to={routes.ownerProperties} replace />} />
+            <Route path={legacyRoutes.createArticle} element={<Navigate to={routes.ownerPropertyNew} replace />} />
+            <Route path={legacyRoutes.profile} element={<Navigate to={routes.ownerProfile} replace />} />
+            <Route path={legacyRoutes.announce} element={<LegacyPropertyRedirect />} />
+            <Route path={legacyRoutes.article} element={<LegacyPropertyRedirect />} />
+            <Route path={legacyRoutes.editArticle} element={<LegacyOwnerPropertyEditRedirect />} />
+            <Route path={legacyRoutes.viewArticle} element={<LegacyOwnerPropertyViewRedirect />} />
+
+            <Route path="*" element={<AppErrorView code={404} />} />
+          </Route>
         </Routes>
       </Router>
     </Suspense>
-  );
-};
-
-const SignedRoutes = ({ user }) => {
-  return (
-    <Sidebar user={user}>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/mis-articulos" element={<Articles />} />
-        <Route path="/anuncio/:id" element={<Announce />} />
-        <Route path="/crear-articulo" element={<CreateArticle />} />
-        <Route path="/editar-articulo/:id" element={<UpdateArticle />} />
-        <Route path="/ver-articulo/:id" element={<ShowArticles />} />
-        <Route path="/article/:id" element={<Article />} />
-        <Route path="/perfil" element={<Users />} />
-      </Routes>
-    </Sidebar>
-  );
-};
-
-const UnsignedRoutes = () => {
-  return (
-    <Sidebar>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/anuncio/:id" element={<Announce />} />
-      </Routes>
-    </Sidebar>
   );
 };
 

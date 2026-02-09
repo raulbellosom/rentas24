@@ -1,0 +1,17 @@
+{
+  "name": "ensure-profile-on-signup",
+  "version": "1.0.0",
+  "description": "Ensure profiles mirror document on Appwrite Auth signup",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "node-appwrite": "^17.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "RacoonDevs",
+  "license": "ISC"
+}

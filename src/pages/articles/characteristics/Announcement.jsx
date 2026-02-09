@@ -24,8 +24,6 @@ const Announcement = ({
       setAnnouncement({ ...announcement, advanceAmount: "" });
     }
   }, [announcement.is_recurrent, announcement.isAdvance]);
-
-  console.log("test");
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center items-center">
       <div className="flex flex-col w-full justify-between col-span-2">
@@ -37,7 +35,7 @@ const Announcement = ({
           name="is_available"
           id="is_available"
           value={available}
-          onChange={(e) => setAvailable(e.target.value)}
+          onChange={(e) => setAvailable(e.target.value === "true")}
         >
           <option value={true}>Si</option>
           <option value={false}>No</option>

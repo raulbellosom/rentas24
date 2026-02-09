@@ -24,3 +24,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+*.zip
+*.cache
+*.rar
+*.tar
+*.tgz
+*.tar.gz

@@ -1,0 +1,60 @@
+import { Navbar } from "@/shared/ui/organisms/Navbar";
+import { Outlet, useLocation, Link } from "react-router-dom";
+import { Footer } from "@/shared/ui/organisms/Footer";
+import { Logo } from "@/shared/ui/atoms/Logo";
+
+/**
+ * Auth layout for login, register, forgot password pages
+ * Centered card layout with branding, navbar and footer
+ * Optimized with 100dvh for mobile devices
+ */
+export function AuthLayout() {
+  const location = useLocation();
+
+  return (
+    <div className="min-h-[100dvh] bg-[var(--color-bg)] flex flex-col">
+      {/* Navbar */}
+      <Navbar showAuthButtons={true} currentPath={location.pathname} />
+
+      {/* Main content - centered, grows to fill space */}
+      <main className="flex-1 flex items-center justify-center px-4 py-8 pt-24 sm:pt-24 overflow-x-hidden min-h-[calc(100vh-200px)]">
+        <div className="w-full max-w-md">
+          {/* Logo/Brand - visible on mobile */}
+          <div className="flex md:hidden items-center justify-center mb-4">
+            <Logo />
+          </div>
+          {/* Auth card con efecto de vidrio y sombra moderna */}
+          <div className="w-full relative overflow-hidden">
+            {/* Efectos de fondo decorativos - contenidos dentro del card */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-accent)] rounded-2xl blur-sm opacity-15 animate-pulse-slow"></div>
+
+            <div className="relative bg-[var(--color-card)] border border-[var(--color-card-border)] rounded-2xl shadow-lg p-4 sm:p-6 overflow-hidden">
+              <Outlet />
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer - always visible but minimal on mobile */}
+      <div className="flex-shrink-0">
+        <Footer />
+      </div>
+
+      {/* Estilos globales para animaciones */}
+      <style>{`
+        @keyframes pulse-slow {
+          0%, 100% {
+            opacity: 0.1;
+          }
+          50% {
+            opacity: 0.2;
+          }
+        }
+        
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+      `}</style>
+    </div>
+  );
+}

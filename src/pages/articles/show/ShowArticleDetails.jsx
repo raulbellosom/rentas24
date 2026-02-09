@@ -1,7 +1,7 @@
-import { Carousel, Modal } from "flowbite-react";
+﻿import { Carousel, Modal } from "../../../shared/ui";
 import React from "react";
 import { BsCheck } from "react-icons/bs";
-import { FaBed, FaToilet } from "react-icons/fa";
+import { Bath, BedDouble } from "lucide-react";
 import { MdPeopleAlt } from "react-icons/md";
 import { useState } from "react";
 
@@ -66,7 +66,7 @@ const ShowArticleDetails = ({
                 <p className="font-bold">Habitaciones disponibles:</p>
                 <div className="flex flex-row gap-2 items-center">
                   <span className="text-md">
-                    <FaBed className="text-primary-500 text-2xl" />
+                    <BedDouble className="text-primary-500 text-2xl" />
                   </span>
                   <p className="font-normal">{article.characteristics.rooms}</p>
                 </div>
@@ -75,7 +75,7 @@ const ShowArticleDetails = ({
                 <p className="font-bold">Baños disponibles:</p>
                 <div className="flex flex-row gap-2 items-center">
                   <span className="text-md">
-                    <FaToilet className="text-primary-500 text-2xl" />
+                    <Bath className="text-primary-500 text-2xl" />
                   </span>
                   <p className="font-normal">
                     {article.characteristics.bathrooms}
@@ -164,7 +164,7 @@ const ShowArticleDetails = ({
       </div>
       <Modal show={showModal} onClose={toggleModal} size="4xl">
         <Modal.Header>
-          {articleTypes.find((item) => item.id === article.type_id).name} -{" "}
+          {articleTypes.find((item) => item.id === article.type_id)?.name} -{" "}
           {article.title}
         </Modal.Header>
         <Modal.Body className="bg-black/20">
@@ -187,3 +187,4 @@ const ShowArticleDetails = ({
 };
 
 export default ShowArticleDetails;
+

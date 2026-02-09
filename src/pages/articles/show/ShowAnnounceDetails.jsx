@@ -19,34 +19,30 @@ const ShowAnounceDetails = ({
 }) => {
   const { recurrencies } = useSelector((state) => state.recurrencies);
   const getRecurrency = (id) => {
-    const recurrency = recurrencies.find((recurrency) => recurrency.id == id);
+    const recurrency = recurrencies.find((recurrency) => recurrency.id === id);
     return recurrency ? recurrency.name : "";
+  };
+
+  const formatDate = (value) => {
+    if (!value) return "-";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "-";
+    return date.toLocaleDateString("es-MX", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <p className="font-bold">
         Fecha de inicio: <br />
-        <span className="font-normal">
-          {new Date(article.announcement.start_date).toLocaleDateString(
-            "es-MX",
-            {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            }
-          )}
-        </span>
+        <span className="font-normal">{formatDate(article.announcement.start_date)}</span>
       </p>
       <p className="font-bold">
         Fecha de fin: <br />
-        <span className="font-normal">
-          {new Date(article.announcement.end_date).toLocaleDateString("es-MX", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </span>
+        <span className="font-normal">{formatDate(article.announcement.end_date)}</span>
       </p>
       <p className="font-bold">
         Precio: <br />

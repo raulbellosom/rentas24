@@ -1,63 +1,44 @@
-import React, { Component } from "react";
-import Portal from "./Portal";
-import { MdClose } from "react-icons/md";
+﻿import React from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { X } from "lucide-react";
 
-export default class Modal extends Component {
-  render() {
-    const { children, toggle, active } = this.props;
-    return (
-      <Portal>
-        {active && (
-          <div style={styles.back} className={`${active ? "z-50" : ""}`}>
-            <div style={styles.wrapper}>
-              <div style={styles.window}>
-                <MdClose
-                  size={32}
-                  fill="#EA5656"
-                  style={styles.closeBtn}
-                  onClick={toggle}
-                />
-                <div>{children}</div>
-              </div>
-            </div>
-          </div>
-        )}
-      </Portal>
-    );
-  }
-}
+const Modal = ({ children, toggle, active }) => {
+  if (typeof document === "undefined") return null;
+  const host = document.getElementById("portal") || document.body;
 
-const styles = {
-  back: {
-    // background: "rgba(0, 0, 0, 0.7) ",
-    backgroundColor: "rgba(0,0,0,0.4)",
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100vh",
-  },
-  wrapper: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    height: "100vh",
-  },
-  window: {
-    position: "relative",
-    background: "#fff",
-    borderRadius: 15,
-    padding: 30,
-    boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
-    minWidth: 300,
-    minHeight: 300,
-    paddingTop: 40,
-  },
-  closeBtn: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    cursor: "pointer",
-  },
+  return createPortal(
+    <AnimatePresence>
+      {active ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-brand-950/55 p-4"
+          onClick={toggle}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 14, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 14, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-h-[90vh] w-full max-w-3xl overflow-auto rounded-2xl border border-brand-200 bg-white p-6 shadow-2xl"
+          >
+            <button
+              type="button"
+              onClick={toggle}
+              className="absolute right-3 top-3 rounded-lg p-1 text-rose-500 transition hover:bg-rose-50"
+            >
+              <X size={20} />
+            </button>
+            {children}
+          </motion.div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>,
+    host
+  );
 };
+
+export default Modal;

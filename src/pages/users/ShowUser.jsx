@@ -2,11 +2,23 @@ import React from "react";
 import { MdModeEdit } from "react-icons/md";
 
 const ShowUser = ({ user, setIsEditUser }) => {
+  const fullAddress = [
+    user.address?.street_1,
+    user.address?.number_ext,
+    user.address?.colony,
+    user.address?.city,
+    user.address?.state,
+    user.address?.country,
+    user.address?.postal_code,
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <div>
       <div className="flex items-center justify-end">
         <button
-          className=" hover:text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300"
+          className="hover:text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-600 transition ease-in-out duration-300"
           onClick={() => setIsEditUser(true)}
         >
           <MdModeEdit size={16} />
@@ -30,24 +42,21 @@ const ShowUser = ({ user, setIsEditUser }) => {
           <p className="font-medium">Teléfono:</p>
           <p className="text-primary-500">{user.phone}</p>
         </div>
-        {/* Pais, Estado, Codigo Postal, Dirección  */}
         <div className="col-span-1 flex flex-col gap-1">
           <p className="font-medium">País:</p>
-          <p className="text-primary-500">México</p>
+          <p className="text-primary-500">{user.address?.country || "-"}</p>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
           <p className="font-medium">Estado:</p>
-          <p className="text-primary-500">Jalisco</p>
+          <p className="text-primary-500">{user.address?.state || "-"}</p>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
           <p className="font-medium">Ciudad:</p>
-          <p className="text-primary-500">Puerto Vallarta</p>
+          <p className="text-primary-500">{user.address?.city || "-"}</p>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
           <p className="font-medium">Dirección:</p>
-          <p className="text-primary-500">
-            Niños Heroes #654, Santo Domingo, Ixtapa
-          </p>
+          <p className="text-primary-500">{fullAddress || "-"}</p>
         </div>
       </div>
     </div>

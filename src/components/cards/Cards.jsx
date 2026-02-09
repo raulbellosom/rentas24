@@ -1,9 +1,8 @@
-import { Carousel } from "flowbite-react";
-import { BsArrowRightShort } from "react-icons/bs";
-import { FaBed, FaToilet } from "react-icons/fa";
-import { MdPeopleAlt } from "react-icons/md";
+﻿import { Carousel } from "../../shared/ui";
+import { ArrowRight, Bath, BedDouble, Users } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { routes } from "../../router/paths";
 
 function Cards({
   article = {
@@ -44,56 +43,52 @@ function Cards({
   },
 }) {
   const { articleTypes } = useSelector((state) => state.types);
+  const articleTypeName =
+    articleTypes.find((type) => type.id === article.type_id)?.name ||
+    "Sin categoria";
 
   return (
-    <div className="max-w-sm rounded-lg bg-white flex flex-col justify-between">
+    <div className="flex max-w-sm flex-col justify-between rounded-2xl border border-brand-200/70 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
       <div>
-        <div className="h-56">
+        <div className="h-56 overflow-hidden rounded-t-2xl">
           <Carousel>
-            {article.photos.map((photo, i) => {
-              return (
-                <img
-                  className="object-cover w-full h-full"
-                  src={photo}
-                  alt="image"
-                  key={i}
-                />
-              );
-            })}
+            {article.photos.map((photo, i) => (
+              <img className="h-full w-full object-cover" src={photo} alt="image" key={i} />
+            ))}
           </Carousel>
         </div>
         <div className="p-4">
-          <Link to={`/anuncio/${article.id}`}>
-            <h5 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-500 delay-100 ease-in-out">
+          <Link to={routes.propertyDetail(article.id)}>
+            <h5 className="text-lg font-bold tracking-tight text-brand-950 transition hover:text-brand-700">
               {article.title.length > 40
                 ? article.title?.substring(0, 20) + "..."
                 : article.title}
             </h5>
           </Link>
-          <p className="text-sm text-gray-700 dark:text-gray-400 font-semibold">
-            {articleTypes[article.type_id - 1]?.name} - {article.address.city}
+          <p className="text-sm font-semibold text-brand-700">
+            {articleTypeName} - {article.address.city}
           </p>
-          <p className="font-normal text-gray-700 dark:text-gray-400 text-justify">
+          <p className="text-justify font-normal text-brand-700">
             {article.description.length > 99
               ? article.description.substring(0, 99) + "..."
               : article.description}
           </p>
-          <div className="flex items-center justify-around gap-2 mt-4">
+          <div className="mt-4 flex items-center justify-around gap-2">
             <div className="flex gap-2">
-              <FaBed className="w-5 h-5 text-primary-600" />
-              <span className=" text-sm text-primary-600">
+              <BedDouble className="h-5 w-5 text-primary-600" />
+              <span className="text-sm text-primary-600">
                 {article.characteristics.rooms}
               </span>
             </div>
             <div className="flex gap-2">
-              <MdPeopleAlt className="w-5 h-5 text-primary-600" />
-              <span className=" text-sm text-primary-600">
+              <Users className="h-5 w-5 text-primary-600" />
+              <span className="text-sm text-primary-600">
                 {article.characteristics.maxPeople}
               </span>
             </div>
             <div className="flex gap-2">
-              <FaToilet className="w-5 h-5 text-primary-600" />
-              <span className=" text-sm text-primary-600">
+              <Bath className="h-5 w-5 text-primary-600" />
+              <span className="text-sm text-primary-600">
                 {article.characteristics.bathrooms}
               </span>
             </div>
@@ -101,8 +96,8 @@ function Cards({
         </div>
       </div>
       <div className="flex items-center justify-between gap-2 p-4">
-        <span className="text-lg font-bold text-primary-400 dark:text-white">
-          <span className="text-sm font-normal text-gray-900">
+        <span className="text-lg font-bold text-primary-500">
+          <span className="text-sm font-normal text-brand-950">
             {article.announcement.currency}
           </span>
           <br />$
@@ -114,12 +109,12 @@ function Cards({
                 .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
         </span>
         <Link
-          to={`/anuncio/${article.id}`}
-          className="flex items-center gap-2 border border-none text-primary-600 bg-white p-2 rounded-full hover:scale-110 hover:bg-primary-600 hover:text-white transition ease-in-out duration-200"
+          to={routes.propertyDetail(article.id)}
+          className="flex items-center gap-2 rounded-full bg-brand-100 p-2 text-primary-700 transition ease-in-out duration-200 hover:scale-110 hover:bg-primary-600 hover:text-white"
         >
-          Ver más
+          Ver mas
           <span>
-            <BsArrowRightShort className="w-5 h-5" />
+            <ArrowRight className="h-5 w-5" />
           </span>
         </Link>
       </div>
@@ -128,3 +123,4 @@ function Cards({
 }
 
 export default Cards;
+

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import Loading from "../../utils/Loading";
 import { Link, useParams } from "react-router-dom";
 import { handleGetArticleById } from "../../app/api";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import { Tabs } from "flowbite-react";
+import { Tabs } from "../../shared/ui";
 import { BsFillMegaphoneFill } from "react-icons/bs";
 import { MdArticle } from "react-icons/md";
 import ShowArticleDetails from "./show/ShowArticleDetails";
@@ -58,10 +58,10 @@ const ShowArticles = () => {
       setLoading(true);
       try {
         const response = await handleGetArticleById(token, id);
-        if (response.error) {
-          notifyError(response.error);
-        } else {
+        if (response.ok) {
           setArticle(response.data.article);
+        } else {
+          notifyError(response?.data?.message || response.error);
         }
       } catch (error) {
         notifyError(error);
@@ -80,20 +80,20 @@ const ShowArticles = () => {
           <h2 className="text-2xl font-bold text-blue-500 text-center md:text-left">
             {article.title}
             <p className="text-sm font-normal text-gray-500 text-center md:text-left">
-              {articleTypes.find((type) => type.id === article.type_id).name}{" "}
+              {articleTypes.find((type) => type.id === article.type_id)?.name}{" "}
               {" - "} {article.status ? "Activo" : "Inactivo"}
             </p>
           </h2>
           <div className="text-blue-500 flex gap-3">
             <Link
-              to={`/editar-articulo/${id}`}
+              to={`/owner/properties/${id}/edit`}
               className="text-white bg-blue-500 flex gap-2 items-center hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800  hover:scale-110 transition ease-in-out duration-200"
             >
               <PencilSquareIcon className="h-6 w-6" />
               Editar artículo
             </Link>
             <Link
-              to={`/mis-articulos`}
+              to={`/owner/properties`}
               className="text-white flex gap-2 items-center bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center dark:bg-blue-500 dark:hover:bg-blue-700 dark:focus:ring-blue-800 hover:scale-110 transition ease-in-out duration-200"
             >
               <ListBulletIcon className="h-6 w-6" />
@@ -129,3 +129,4 @@ const ShowArticles = () => {
 };
 
 export default ShowArticles;
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Dropzone from "../../utils/Dropzone";
 import House from "./characteristics/House";
@@ -7,7 +7,7 @@ import {
   handleGetArticleById,
   handleUpdateArticle,
 } from "../../app/api";
-import { uploadArticleImages } from "../../utils/firebase";
+import { uploadArticleImages } from "../../utils/storage";
 import Loading from "../../utils/Loading";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -20,7 +20,7 @@ import {
   MdDelete,
   MdSaveAlt,
 } from "react-icons/md";
-import { Modal, Tabs } from "flowbite-react";
+import { Modal, Tabs } from "../../shared/ui";
 import Announcement from "./characteristics/Announcement";
 import { BsFillMegaphoneFill } from "react-icons/bs";
 
@@ -90,7 +90,7 @@ const UpdateArticle = () => {
         setLoading(true);
         try {
           const response = await handleGetArticleById(token, id);
-          if (response.status === 200) {
+          if (response.ok) {
             const article = response.data.article;
             setArticle({
               title: article.title,
@@ -162,11 +162,13 @@ const UpdateArticle = () => {
       return;
     }
     if (
-      (address.street_1 || address.number_ext === "" || address.colony === "",
-      address.city === "",
-      address.state === "",
-      address.country === "",
-      address.postal_code === "")
+      address.street_1 === "" ||
+      address.number_ext === "" ||
+      address.colony === "" ||
+      address.city === "" ||
+      address.state === "" ||
+      address.country === "" ||
+      address.postal_code === ""
     ) {
       notifyError(
         "Debes agregar una dirección, rellenando por lo menos los campos que contienen un *"
@@ -175,7 +177,7 @@ const UpdateArticle = () => {
       return;
     }
 
-    const arrayImages = await handleUploadImages(files, id);
+    const arrayImages = await handleUploadImages(files);
 
     const body = {
       title: article.title,
@@ -192,23 +194,21 @@ const UpdateArticle = () => {
 
     const res = await handleUpdateArticle(token, id, body);
 
-    if (res.status !== 200) {
+    if (!res.ok) {
       setLoading(false);
-      notifyError(res.message);
+      notifyError(res?.data?.message || res.error);
       return;
     }
-    if (res.status === 200) {
-      notify("Articulo actualizado correctamente");
-      setLoading(false);
-      navigate("/ver-articulo/" + id);
-    }
+
+    notify("Articulo actualizado correctamente");
+    navigate("/owner/properties/" + id);
     setLoading(false);
   };
 
-  const handleUploadImages = async (images, idArticle) => {
+  const handleUploadImages = async (images) => {
     const uploads = await Promise.all(
       images.map(async (image) => {
-        const res = await uploadArticleImages(image, user.id, idArticle);
+        const res = await uploadArticleImages(image);
         return res;
       })
     );
@@ -233,9 +233,9 @@ const UpdateArticle = () => {
     setLoading(true);
     const response = await handleDeleteArticle(token, id);
     setLoading(false);
-    if (response.status === 201) {
+    if (response.ok) {
       notify("Articulo eliminado con exitó.");
-      navigate("/mis-articulos");
+      navigate("/owner/properties");
       setActive(false);
     } else {
       notifyError("Error al eliminar el articulo");
@@ -416,7 +416,7 @@ const UpdateArticle = () => {
                 </div>
                 <div className="flex justify-center items-center md:justify-end gap-4">
                   <div
-                    onClick={() => navigate("/ver-articulo/" + id)}
+                    onClick={() => navigate("/owner/properties/" + id)}
                     className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
                   >
                     <MdArrowBack className="w-6 h-6" />
@@ -440,7 +440,7 @@ const UpdateArticle = () => {
                 />
                 <div className="flex justify-center items-center md:justify-end gap-4">
                   <div
-                    onClick={() => navigate("/ver-articulo/" + id)}
+                    onClick={() => navigate("/owner/properties/" + id)}
                     className="bg-white text-red-400 border border-red-400 hover:border-red-600 hover:bg-red-600 hover:text-white px-3 py-2 rounded-lg flex justify-center items-center gap-2 hover:scale-105 transition duration-300 ease-in-out"
                   >
                     <MdArrowBack className="w-6 h-6" />
@@ -462,3 +462,4 @@ const UpdateArticle = () => {
 };
 
 export default UpdateArticle;
+

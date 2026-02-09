@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { MdBed, MdDoNotDisturbAlt, MdPeopleAlt } from "react-icons/md";
-import { BsCheck, BsFillPersonFill } from "react-icons/bs";
-import { FaBath } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
-import Carousel from "../../utils/Carousel";
+﻿import React, { useEffect, useMemo, useState } from "react";
+import {
+  Bath,
+  BedDouble,
+  CheckCircle2,
+  CircleOff,
+  Coins,
+  MapPin,
+  Users,
+} from "lucide-react";
+import { useParams } from "react-router-dom";
 import Loading from "../../utils/Loading";
 import { handleGetAnnounce } from "../../app/api";
 import { useSelector } from "react-redux";
-import { Carousel as FlowCarousel, Modal } from "flowbite-react";
+import { toast } from "react-hot-toast";
+import { Carousel, Modal } from "../../shared/ui";
 
-function Article() {
+function Announce() {
   const { id } = useParams();
   const { articleTypes } = useSelector((state) => state.types);
-  const { user } = useSelector((state) => state.auth);
   const { recurrencies } = useSelector((state) => state.recurrencies);
 
   const [article, setArticle] = useState({
     title: "",
     description: "",
     type_id: "",
-    status: 0,
     photos: [],
     characteristics: {
       rooms: "",
@@ -51,290 +55,196 @@ function Article() {
     available: true,
   });
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => {
-    setShowModal(!showModal);
-  };
+  const [showGallery, setShowGallery] = useState(false);
+
+  const notifyError = (message) => toast.error(message);
 
   useEffect(() => {
-    const getArticle = async (id) => {
+    const getArticle = async () => {
       setLoading(true);
       try {
         const response = await handleGetAnnounce(id);
-        setArticle(response.data.articles);
-        setLoading(false);
+        if (response.ok) {
+          setArticle(response.data.articles);
+        } else {
+          notifyError(response?.data?.message || response.error);
+        }
       } catch (error) {
+        notifyError(error.message);
+      } finally {
         setLoading(false);
-        notifyError(error.response.data.message);
       }
     };
-    getArticle(id);
+    getArticle();
   }, [id]);
+
+  const recurrencyLabel = useMemo(() => {
+    const recurrency = recurrencies.find(
+      (item) => item.id === article.announcement.recurrency_id
+    );
+    return recurrency ? recurrency.name : "Pago único";
+  }, [recurrencies, article.announcement.recurrency_id]);
+
+  const typeLabel = useMemo(() => {
+    return articleTypes.find((type) => type.id === article.type_id)?.name || "Propiedad";
+  }, [articleTypes, article.type_id]);
+
+  const addressLabel = useMemo(() => {
+    const a = article.address;
+    return [
+      `${a.street_1 || ""} ${a.number_ext || ""} ${a.number_int ? `Int ${a.number_int}` : ""}`,
+      a.colony,
+      a.city,
+      a.state,
+      a.country,
+      a.postal_code ? `CP ${a.postal_code}` : "",
+    ]
+      .map((part) => String(part || "").trim())
+      .filter(Boolean)
+      .join(", ");
+  }, [article.address]);
 
   if (loading) return <Loading />;
 
   return (
-    <div className="p-2">
-      <div className="flex flex-col items-center justify-between">
-        <div className="lg:grid lg:grid-cols-2 gap-4 w-full bg-white rounded-lg p-4">
-          <div className="h-80 lg:h-auto">
-            <Carousel images={article.photos} />
-            {/* <FlowCarousel>
-              {article.photos.map((photo, i) => (
-                <img
-                  key={i}
-                  className="w-full h-full object-contain rounded-lg"
-                  src={photo}
-                  alt="article"
-                />
-              ))}
-            </FlowCarousel> */}
+    <div className="p-3 md:p-5">
+      <div className="grid w-full gap-4 rounded-2xl border border-brand-200 bg-white p-4 lg:grid-cols-2">
+        <div className="h-80 lg:h-auto">
+          <Carousel>
+            {article.photos.map((photo, i) => (
+              <img
+                key={i}
+                className="h-full w-full cursor-zoom-in rounded-2xl object-cover"
+                src={photo}
+                alt="property"
+                onClick={() => setShowGallery(true)}
+              />
+            ))}
+          </Carousel>
+        </div>
+
+        <div className="flex flex-col gap-3 pt-2">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <h1 className="text-2xl font-bold tracking-tight text-brand-950">
+              {article.title}
+              <span className="text-base font-normal text-brand-600"> - {typeLabel}</span>
+            </h1>
+            <div
+              className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold text-white ${
+                article.available ? "bg-emerald-600" : "bg-rose-600"
+              }`}
+            >
+              {article.available ? <CheckCircle2 size={16} /> : <CircleOff size={16} />}
+              {article.available ? "Disponible" : "No disponible"}
+            </div>
           </div>
-          <div className="pt-5 flex flex-col gap-2">
-            <div className="flex items-center justify-between flex-col md:flex-row gap-4">
-              <h1 className="text-2xl font-bold tracking-tight text-primary-400 dark:text-white">
-                {article.title}
-                <span className="text-md font-normal text-gray-700 dark:text-gray-400">
-                  {" "}
-                  - {articleTypes[article.type_id - 1].name}
-                </span>
-              </h1>
-              <div
-                className={`flex items-center gap-2 ${
-                  article.available ? "bg-green-500" : "bg-red-500"
-                } text-white p-2 rounded-full`}
-              >
-                <span className="text-xl font-bold">
-                  {article.available ? <BsCheck /> : <MdDoNotDisturbAlt />}
-                </span>
-                <p>{article.available ? "Disponible" : "No disponible"}</p>
-              </div>
-            </div>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              {article.description.split("\n").map((linea, i) => {
-                return (
-                  <React.Fragment key={i}>
-                    {linea}
-                    <br />
-                  </React.Fragment>
-                );
-              })}
+
+          <p className="text-sm leading-relaxed text-brand-700">
+            {article.description.split("\n").map((linea, i) => (
+              <React.Fragment key={i}>
+                {linea}
+                <br />
+              </React.Fragment>
+            ))}
+          </p>
+
+          <div>
+            <h2 className="inline-flex items-center gap-2 text-base font-bold text-brand-900">
+              <MapPin size={17} />
+              Ubicación
+            </h2>
+            <p className="mt-1 text-sm text-brand-700">{addressLabel || "Sin dirección registrada"}</p>
+            {article.address.street_2 ? (
+              <p className="mt-1 text-xs text-brand-600">Referencia: {article.address.street_2}</p>
+            ) : null}
+          </div>
+
+          <div>
+            <h2 className="text-base font-bold text-brand-900">Características</h2>
+            <ul className="mt-2 flex flex-col gap-3 text-sm text-brand-700 md:flex-row md:flex-wrap md:items-center">
+              <li className="inline-flex items-center gap-2">
+                <BedDouble size={18} className="text-primary-600" />
+                {article.characteristics.rooms} habitaciones
+              </li>
+              <li className="inline-flex items-center gap-2">
+                <Bath size={18} className="text-primary-600" />
+                {article.characteristics.bathrooms} baños
+              </li>
+              <li className="inline-flex items-center gap-2">
+                <Users size={18} className="text-primary-600" />
+                {article.characteristics.maxPeople} personas
+              </li>
+            </ul>
+          </div>
+
+          <div className="pt-2">
+            <h2 className="inline-flex items-center gap-2 text-base font-bold text-brand-900">
+              <Coins size={17} />
+              Precio
+            </h2>
+            <p className="mt-1 text-2xl font-bold text-brand-950">
+              $
+              {Number(article.announcement.price || 0).toLocaleString("es-MX", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{" "}
+              {article.announcement.currency}
             </p>
-            <div className="font-normal text-gray-700 dark:text-gray-400">
-              <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Ubicación
-              </h2>
-              {article.address.street_1 && (
-                <p className="font-normal">
-                  <span>
-                    {article.address.street_1}{" "}
-                    {article.address.number_ext && article.address.number_ext}{" "}
-                    {article.address.number_int &&
-                      "Int " + article.address.number_int}
-                    , {article.address.colony}, {article.address.city},{" "}
-                    {article.address.state}, {article.address.country}, CP{" "}
-                    {article.address.postal_code}
-                  </span>
-                  <br />
-                  <span>
-                    {article.address.street_2 &&
-                      "Calle secundaria o referencia: " +
-                        article.address.street_2}
-                  </span>
-                </p>
-              )}
-            </div>
-            <div>
-              <h2 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Características
-              </h2>
-              <ul className="py-2 flex flex-col md:flex-row md:flex-wrap md:items-center gap-6">
-                <li className="flex items-center gap-2">
-                  <MdBed size={24} className="text-primary-600" />
-                  {article.characteristics.rooms} habitaciones
-                </li>
-                <li className="flex items-center gap-2">
-                  <FaBath size={24} className="text-primary-600" />
-                  {article.characteristics.bathrooms} baños
-                </li>
-                <li className="flex items-center gap-2">
-                  <MdPeopleAlt size={24} className="text-primary-600" />
-                  {article.characteristics.maxPeople} personas
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col justify-between pt-4">
-              <div className="flex items-center gap-3">
-                <h2 className="text-2xl whitespace-nowrap font-bold tracking-tight text-gray-900 dark:text-white">
-                  $
-                  {parseFloat(article.announcement.price).toFixed(2) ===
-                  article.announcement.price
-                    ? article.announcement.price.replace(
-                        /\d(?=(\d{3})+\.)/g,
-                        "$&,"
-                      )
-                    : parseFloat(article.announcement.price)
-                        .toFixed(2)
-                        .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-                  {article.announcement.currency}
-                </h2>
-                <span className="text-gray-500 whitespace-nowrap">
-                  /{" "}
-                  {recurrencies.find(
-                    (recurrency) =>
-                      recurrency.id == article.announcement.recurrency_id
-                  ) ? (
-                    recurrencies.find(
-                      (recurrency) =>
-                        recurrency.id == article.announcement.recurrency_id
-                    ).name
-                  ) : (
-                    <>Pago unico</>
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-gray-500 whitespace-nowrap">
-                  {article.announcement.isAdvance && (
-                    <span className="text-gray-500 whitespace-nowrap">
-                      Anticipo:{" "}
-                      {parseFloat(article.announcement.advanceAmount).toFixed(
-                        2
-                      ) === article.announcement.advanceAmount
-                        ? article.announcement.advanceAmount.replace(
-                            /\d(?=(\d{3})+\.)/g,
-                            "$&,"
-                          )
-                        : parseFloat(article.announcement.advanceAmount)
-                            .toFixed(2)
-                            .replace(/\d(?=(\d{3})+\.)/g, "$&,")}{" "}
-                      {article.announcement.currency}
-                    </span>
-                  )}
-                </span>
-              </div>
-            </div>
+            <p className="text-sm text-brand-600">/{recurrencyLabel}</p>
+            {article.announcement.isAdvance ? (
+              <p className="mt-1 text-sm text-brand-700">
+                Anticipo: $
+                {Number(article.announcement.advanceAmount || 0).toLocaleString("es-MX", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}{" "}
+                {article.announcement.currency}
+              </p>
+            ) : null}
           </div>
         </div>
-        <div className="w-full h-full bg-white rounded-lg p-4 pt-0">
-          <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white py-2">
-            Servicios
-          </h5>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-brand-200 bg-white p-4">
+        <h5 className="py-2 text-lg font-bold tracking-tight text-brand-900">Servicios</h5>
+        {article.characteristics.services.length > 0 ? (
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
             {article.characteristics.services.map((service, i) => (
               <p
                 key={i}
-                className="font-normal text-sm border border-gray-400 rounded-lg p-2 flex justify-between items-center hover:scale-105 transition ease-in-out duration-200 cursor-pointer"
+                className="flex items-center justify-between rounded-xl border border-brand-200 p-2 text-sm text-brand-700"
               >
                 {service.label}
-                <span className="text-md font-light bg-primary-400 rounded-full text-white">
-                  <BsCheck />
-                </span>
+                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
               </p>
             ))}
           </div>
-        </div>
-        <Modal show={showModal} onClose={toggleModal} size="4xl">
-          <Modal.Header>
-            {articleTypes.find((item) => item.id === article.type_id).name} -{" "}
-            {article.title}
-          </Modal.Header>
-          <Modal.Body className="bg-black/20">
-            <div className="min-h-[60vh] h-96 md:min-h-[77vh] md:h-80">
-              <FlowCarousel>
-                {article.photos.map((photo, i) => (
-                  <img
-                    key={i}
-                    className="w-full h-full object-contain rounded-lg"
-                    src={photo}
-                    alt="article"
-                  />
-                ))}
-              </FlowCarousel>
-            </div>
-          </Modal.Body>
-        </Modal>
+        ) : (
+          <p className="text-sm text-brand-600">Sin servicios registrados.</p>
+        )}
       </div>
-      {/* content related */}
-      <div className="w-full h-full bg-white rounded-lg p-4 mt-4">
-        <h5 className="py-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-          Artículos relacionados
-        </h5>
-        <div className="grid md:grid-cols-4 gap-5 w-full ">
-          <div className="max-w-sm rounded-lg bg-white border-b-2 border-gray-200">
-            <div className="flex flex-col justify-items-center">
-              <img
-                src="https://flowbite.com/docs/images/blog/image-1.jpg"
-                className="object-cover rounded-t-lg h-32"
-              />
-              <div className="p-4">
-                <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                  Acogedora casa de 3 habitaciones en el corazón de la ciudad
-                </h5>
-                <Link to="/article" className="text-blue-600">
-                  Ver más
-                </Link>
-              </div>
-            </div>
+
+      <Modal show={showGallery} onClose={() => setShowGallery(false)} size="4xl">
+        <Modal.Header>
+          {typeLabel} - {article.title}
+        </Modal.Header>
+        <Modal.Body className="bg-black/10">
+          <div className="h-[65vh] min-h-[420px]">
+            <Carousel>
+              {article.photos.map((photo, i) => (
+                <img
+                  key={i}
+                  className="h-full w-full rounded-xl object-contain"
+                  src={photo}
+                  alt="property"
+                />
+              ))}
+            </Carousel>
           </div>
-          <div className="max-w-sm rounded-lg bg-white border-b-2 border-gray-200">
-            <div className="flex flex-col justify-items-center">
-              <img
-                src="https://flowbite.com/docs/images/blog/image-3.jpg"
-                className="object-cover rounded-t-lg h-32"
-              />
-              <div className="p-4">
-                <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                  Acogedora casa de 3 habitaciones en el corazón de la ciudad
-                </h5>
-                <Link to="/article" className="text-blue-600">
-                  Ver más
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="max-w-sm rounded-lg bg-white border-b-2 border-gray-200">
-            <div className="flex flex-col justify-items-center">
-              <img
-                src="https://flowbite.com/docs/images/blog/image-2.jpg"
-                className="object-cover rounded-t-lg h-32"
-              />
-              <div className="p-4">
-                <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                  Acogedora casa de 3 habitaciones en el corazón de la ciudad
-                </h5>
-                <Link to="/article" className="text-blue-600">
-                  Ver más
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="max-w-sm rounded-lg bg-white border-b-2 border-gray-200">
-            <div className="flex flex-col justify-items-center">
-              <img
-                src="https://flowbite.com/docs/images/blog/image-1.jpg"
-                className="object-cover rounded-t-lg h-32"
-              />
-              <div className="p-4">
-                <h5 className="text-md font-bold tracking-tight text-gray-900 dark:text-white">
-                  Acogedora casa de 3 habitaciones en el corazón de la ciudad
-                </h5>
-                <Link to="/article" className="text-blue-600">
-                  Ver más
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
 
-export default Article;
-
-const images = [
-  "https://flowbite.com/docs/images/blog/image-2.jpg",
-  "https://flowbite.com/docs/images/blog/image-1.jpg",
-  "https://flowbite.com/docs/images/blog/image-3.jpg",
-];
+export default Announce;
